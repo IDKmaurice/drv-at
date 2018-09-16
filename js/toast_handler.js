@@ -1,5 +1,5 @@
 toastReady = true;
-function sendAToast(type,msg,delay = 2000) {
+function sendAToast(type,msg,duration = 2000) {
 
     if(toastReady == true){
 
@@ -22,7 +22,7 @@ function sendAToast(type,msg,delay = 2000) {
         toast.animate({
             bottom: '10px',
             opacity: 1
-        },300).delay(delay).animate({
+        },300).delay(duration).animate({
             bottom: '-110px',
             opacity: 0
         }, 300, function(){
