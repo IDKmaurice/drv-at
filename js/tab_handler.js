@@ -13,12 +13,12 @@ function selectTab(tabID = "main") {
 
 
 
-function openPuppyList(arg) {
+function openPuppyList() {
     animatePuppyListIn();
     app.$forceUpdate();
 }
 
-function openBackupUI(arg) {
+function openBackupUI() {
     animateBackupIn();
     vBackup.$forceUpdate();
 }

@@ -1,5 +1,5 @@
 toastReady = true;
-function sendAToast(type,msg,delay) {
+function sendAToast(type,msg,delay = 2000) {
 
     if(toastReady == true){
 

@@ -192,8 +192,8 @@
                     </div>
                     <div class="backup-footer">
                         <div class="button">Auswahl löschen</div>
-                        <div class="button">Alle löschen</div>
-                        <div class="button">Ignorieren</div>
+                        <div class="button" onclick="deleteBackup()">Alle löschen</div>
+                        <div class="button" onclick="animateBackupOut()">Ignorieren</div>
                     </div>
                 </div>
             </div>
@@ -208,6 +208,7 @@
     <script src="js/toast_handler.js"></script>
     <script src="js/file_handler.js"></script>
     <script src="js/io_handler.js"></script>
+    <script src="js/backup_handler.js"></script>
     <script src="js/input_command_handler.js"></script>
     <script src="js/animations.js"></script>
     <script src="renderer.js"></script>
