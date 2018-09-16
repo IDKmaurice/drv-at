@@ -146,29 +146,27 @@ function openOnStart(filepath) {
 
 
 
-function renameFile(oldFilepath, newFilepath){
-    fs.renameSync(oldFilepath, newFilepath);
+function renameFile(sourcePath, tragetPath){
+    fs.renameSync(sourcePath, tragetPath);
 }
 
 
 
 function readFile(filepath){
-
     return fs.readFileSync(filepath, 'utf-8');
-
 }
 
 
 
 
-function copyFile(source, target, cb) {
+function copyFile(sourcePath, targetPath, callBack) {
     var cbCalled = false;
 
-    var rd = fs.createReadStream(source);
+    var rd = fs.createReadStream(sourcePath);
     rd.on("error", function(err) {
         done(err);
     });
-    var wr = fs.createWriteStream(target);
+    var wr = fs.createWriteStream(targetPath);
     wr.on("error", function(err) {
         done(err);
     });
@@ -179,7 +177,7 @@ function copyFile(source, target, cb) {
 
     function done(err) {
         if (!cbCalled) {
-            cb(err);
+            callBack(err);
             cbCalled = true;
         }
     }
