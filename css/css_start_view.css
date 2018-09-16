@@ -1,0 +1,155 @@
+.start-option-holder{
+    justify-self: center;
+    align-self: center;
+    width: 70%;
+    max-width: 1100px;
+    height: 280px;
+    padding: 10px;
+}
+
+.start-option{
+    border: 1px solid transparent;
+    border-radius: 5px;
+    height: calc(100% - 20px);
+    width: calc(100% / 3 - 20px);
+    margin: 10px;
+    font-size: 23px;
+    color: #555;
+    transition: 100ms;
+    padding: 60px 20px;
+    cursor: pointer;
+    font-weight: 200;
+}
+.start-option:hover{
+    border-color: #0057FF;
+    color: #000;
+    box-shadow: 0 0 0 5px rgba(0, 87, 255, 0.3);
+}
+
+.start-option-icon{
+    font-size: 80px;
+    line-height: 80px;
+    opacity: 0.8;
+}
+
+.start-option-text{
+    height: 40px;
+    width: 100%;
+    line-height: 40px;
+}
+
+
+.backup-bg{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0);
+    display: grid;
+    pointer-events: none;
+}
+
+.backup{
+    justify-self: center;
+    align-self: center;
+    width: 40%;
+    min-width: 500px;
+    height: calc(70% - 130px);
+    max-height: 600px;
+    position: relative;
+    border-radius: 5px;
+    background: white;
+    overflow: hidden;
+    font-size: 0;
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+}
+
+.backup-header{
+    height: 60px;
+    width: 100%;
+    line-height: 60px;
+    background: #F0F0F0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+    color: #0057ff;
+    font-size: 18px;
+    text-transform: uppercase;
+    opacity: 0;
+}
+
+.backup-holder{
+    height: calc(100% - 110px);
+    width: 100%;
+    padding: 10px;
+    position: absolute;
+    left: 0;
+    top: 60px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    opacity: 0;
+}
+
+.bu-item{
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+    line-height: 50px;
+    white-space: nowrap;
+}
+.bu-filename{
+    color: #444;
+    font-size: 16px;
+}
+
+
+.backup-footer{
+    height: 50px;
+    width: 100%;
+    padding: 10px;
+    text-align: right;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #F0F0F0;
+    white-space: nowrap;
+    opacity: 0;
+}
+
+.bu-ui-show{ animation: ui-bg 0.5s forwards; }
+.bu-ui-show .backup{ animation: main-ui 0.4s 0.2s forwards;}
+.bu-ui-show .backup .backup-footer{ animation: ui-footer 0.5s 0.2s forwards;}
+.bu-ui-show .backup .backup-header{ animation: ui-header 0.5s 0.2s forwards;}
+.bu-ui-show .backup .backup-holder{ animation: ui-holder 0.5s 0.4s forwards;}
+
+@keyframes ui-bg {
+    0%{background: rgba(0,0,0,0); pointer-events: none;}
+    100%{background: rgba(0,0,0,0.6); pointer-events: all;}
+}
+
+@keyframes main-ui {
+    0%{transform: translateY(50px); opacity: 0;}
+    100%{transform: translateY(0px); opacity: 1;}
+}
+
+@keyframes ui-footer {
+    0%{transform: translateY(50px); opacity: 1;}
+    100%{transform: translateY(0px); opacity: 1;}
+}
+
+@keyframes ui-header {
+    0%{transform: translateY(-60px); opacity: 1;}
+    100%{transform: translateY(0px); opacity: 1;}
+}
+
+@keyframes ui-holder {
+    0%{width: 0%; opacity: 0;}
+    100%{width: 100%; opacity: 1;}
+}

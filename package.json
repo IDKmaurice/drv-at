@@ -1,0 +1,23 @@
+{
+  "name": "drv-at",
+  "version": "1.0.0",
+  "description": "DRVs Ahnentafel Editor",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/IDKmaurice/drv-at.git",
+  "keywords": [
+    "DRV",
+    "Ahnentafel",
+    "Editor"
+  ],
+  "author": "Maurice Freuwoert",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^2.0.0",
+    "electron-tooltip": "^1.1.5",
+    "jquery": "^3.3.1",
+    "node-json-db": "^0.9.0"
+  }
+}

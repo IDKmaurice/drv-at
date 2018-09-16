@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>DRV Ahnentafel Tool 2018</title>
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vue.min.js"></script>
+        <script>
+            const $ = require('jquery');
+            const tooltip = require('electron-tooltip');
+            const fs = require('fs');
+            const anime = require('animejs');
+        </script>
+    </head>
+    <body>
+
+
+
+
+        <div class="view start-view" data-active=true data-view-page="start">
+            <div class="start-option-holder no-select">
+                <div class="start-option" onclick="changeToEditView()">
+                    <i class="material-icons start-option-icon">note_add</i>
+                    <span class="start-option-text">Erstellen</span>
+                </div>
+                <div class="start-option" onclick="openFile()">
+                    <i class="material-icons start-option-icon">folder_open</i>
+                    <span class="start-option-text">Öffnen</span>
+                </div>
+                <div class="start-option" onclick="changeToDatabaseView()">
+                    <i class="material-icons start-option-icon">storage</i>
+                    <span class="start-option-text">Datenbank</span>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="view" data-active=false data-view-page="edit">
+            <div class="edit-view-holder">
+                <div id="app">
+
+                    <div class="edit-tab-holder no-select">
+                        <div class="tab main-tab tab-active" onclick="selectTab()" data-change-tab="main" data-tooltip="Hauptseite" data-tooltip-position="bottom">
+                            <i class="material-icons tab-icon">assignment</i>
+                        </div>
+                        <div class="puppy-tab-holder">
+                            <transition name="puppy-tab-anim" v-for="(puppy, i) in main.puppy">
+                                <div class="tab puppy-tab puppy-tab-anim-in" :onclick="'selectTab('+(i+1)+')'" :data-change-tab="i+1">{{i+1}}</div>
+                            </transition>
+                        </div>
+                        <div class="tab-btn tab-add-btn icon-tab" data-tooltip="Tab hinzufügen" data-tooltip-position="bottom" onclick="addTabs()">
+                            <i class="material-icons tab-icon">add</i>
+                        </div>
+                    </div>
+
+                    <div class="edit-content-holder">
+
+                        <div class="edit-tab" data-tab-page="main">
+                            <h1>Hauptseite</h1><br>
+                            <input class="input sIn" data-save-name="/name" type="text" placeholder="Züchtername"><br>
+                            <input class="input sIn" data-save-name="/date" type="date" placeholder="Wurftag"><br>
+                            <input class="input sIn" data-save-name="/phone" type="number" placeholder="Telefonnummer"><br>
+                            <select class="input sIn" data-save-name="/race">
+                                <option value="" disabled selected>Rasse auswählen</option>
+                                <option value="Golden Retriever">Golden Retriever</option>
+                                <option value="Langhaar Schäferhund">Langhaar Schäferhund</option>
+                                <option value="Bulldogge">Bulldogge</option>
+                            </select><br>
+                            <select class="input sIn" data-save-name="/hairtype">
+                                <option value="" disabled selected>Haartype auswählen</option>
+                                <option value="Struppig">Struppig</option>
+                                <option value="Glatt">Glatt</option>
+                                <option value="Gelockt">Gelockt</option>
+                            </select>
+                        </div>
+
+                        <div v-for="(puppy, i) in main.puppy" class="edit-tab extra-edit-tab" :data-tab-page="i+1">
+                            <input class="input sIn" :data-save-name="'/puppy['+i+']/name'" type="text" placeholder="Name">
+                            <select class="input sIn" :data-save-name="'/puppy['+i+']/gender'">
+                                <option value="" disabled selected>Geschlecht auswählen</option>
+                                <option value="Rüde">Rüde</option>
+                                <option value="Hündin">Hündin</option>
+                            </select><br>
+                            <select class="input sIn" :data-save-name="'/puppy['+i+']/haircolor'">
+                                <option value="" disabled selected>Haarfarbe auswählen</option>
+                                <option value="Braun">Braun</option>
+                                <option value="Creme">Creme</option>
+                                <option value="Gold">Gold</option>
+                            </select>
+                            <input class="input sIn" data-save-name="/chip" type="text" placeholder="Chip-Nr."><br>
+                            <input class="input sIn" data-save-name="/zbn" type="text" placeholder="Zuchtbuch-Nr.">
+                            <div class="search-input-holder">
+                                <input class="input sIn" data-save-name="" type="text" placeholder="Mutter">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="puppy-list-bg">
+                        <div class="puppy-list">
+                            <div class="puppy-list-header no-select">
+                                Welpenliste
+                                <div class="close-ui" onclick="animatePuppyListOut()"><i class="material-icons">close</i></div>
+                            </div>
+                            <div class="puppy-list-holder">
+
+                                <div v-if="main.puppy != undefined && main.puppy.length > 0" class="pl-table-name no-select">
+                                    <div class="pl-tn-category">Name</div>
+                                    <div class="pl-tn-category">Geschlecht</div>
+                                    <div class="pl-tn-category">Haarfarbe</div>
+                                    <div class="pl-tn-category">Chip Nr.</div>
+                                    <div class="pl-tn-category">Zuchtbuch Nr.</div>
+                                </div>
+                                <div v-else class="pl-no-puppies no-select">
+                                    <i class="material-icons">sentiment_dissatisfied</i>
+                                    Keine Welpen im Wurf gefunden
+                                </div>
+
+                                <div v-for="(puppy, i) in main.puppy" class="puppy-list-item">
+                                    <div class="pl-drag"><i class="material-icons">drag_handle</i></div>
+                                    <div class="pl-category"><i class="material-icons">face</i>{{puppy.name}}</div>
+                                    <div class="pl-category"><i class="material-icons">accessibility</i>{{puppy.gender}}</div>
+                                    <div class="pl-category"><i class="material-icons">color_lens</i>{{puppy.haircolor}}</div>
+                                    <div class="pl-category"><i class="material-icons">sd_card</i>{{puppy.chip}}</div>
+                                    <div class="pl-category"><i class="material-icons">import_contacts</i>{{puppy.zbn}}</div>
+                                    <div class="pl-delete" data-tooltip="Welpe löschen" data-tooltip-position="left" :onclick="'removeTabs('+i+')'"><i class="material-icons">delete</i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="nav-fab nav-fab-1 no-select" data-tooltip="Datei speichern" data-tooltip-position="left" onclick="saveFile()">
+                        <i class="material-icons">save</i>
+                    </div>
+                    <div class="nav-fab nav-fab-2 no-select" data-tooltip="Welpe löschen" data-tooltip-position="left" onclick="removeTabs('active')">
+                        <i class="material-icons">delete</i>
+                    </div>
+                    <div class="nav-fab nav-fab-3 no-select" data-tooltip="Welpenliste öffnen" data-tooltip-position="left" onclick="openPuppyList(true)">
+                        <i class="material-icons">pets</i>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="view" data-active=false data-view-page="database">
+            <div style="font-size: 30px;">
+                <i class="material-icons">storage</i>
+                <div class="nav-btn nav-back" onclick="changeToStartView()">
+                    <i class="material-icons">keyboard_arrow_left</i>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="view settings-view" data-active=false data-view-page="settings">
+            <div style="font-size: 30px;">
+                <i class="material-icons">settings</i>
+                <div class="nav-btn nav-back" onclick="changeToStartView()">
+                    <i class="material-icons">keyboard_arrow_left</i>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="toast">
+            <i class="material-icons toast-icon toast-s"></i>
+            <span class="toast-msg"></span>
+        </div>
+
+
+        <div id="vue-backup">
+            <div class="backup-bg no-select">
+                <div class="backup">
+                    <div class="backup-header">
+                        Backups gefunden
+                        <div class="close-ui" onclick="animateBackupOut()"><i class="material-icons">close</i></div>
+                    </div>
+                    <div class="backup-holder">
+                        <div v-for="file in main" class="bu-item">
+                            <div class="bu-filename">
+                                {{file}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="backup-footer">
+                        <div class="button">Auswahl löschen</div>
+                        <div class="button">Alle löschen</div>
+                        <div class="button">Ignorieren</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </body>
+
+    <script src="js/view_handler.js"></script>
+    <script src="js/tab_handler.js"></script>
+    <script src="js/toast_handler.js"></script>
+    <script src="js/file_handler.js"></script>
+    <script src="js/io_handler.js"></script>
+    <script src="js/input_command_handler.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="renderer.js"></script>
+    <script>
+
+        app = new Vue({
+            el:'#app',
+            data: { main: {} }
+        })
+
+
+
+        var dir = fs.readdirSync(getTempName("temp/backup/",'folder'))
+        vBackup = new Vue({
+            el:'#vue-backup',
+            data: { main:dir }
+        })
+
+        //initialization
+        checkForBackups();
+        setViewVisibility();
+        openBackupUI();
+        changeTab();
+        tooltip({ style: { backgroundColor: '#292828', borderRadius: '4px' } })
+        unsavedProgress = false;
+        savePath = "";
+        ipcRenderer.send('request-mainprocess-action', 'openedWithFile');
+    </script>
+</html>

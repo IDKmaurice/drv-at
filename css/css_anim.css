@@ -1,0 +1,13 @@
+.puppy-tab-anim-leave-active {
+  animation: puppy-tab-out 300ms forwards;
+}
+
+@keyframes puppy-tab-in {
+    0%{transform: scaleX(0); width: 0;}
+    100%{transform: scaleX(1); width: 55px;}
+}
+
+@keyframes puppy-tab-out {
+    0%{transform: scaleX(1); width: 55px; background: #FAD9D9; color: #FF3737;}
+    100%{transform: scaleX(0); width: 0;}
+}
