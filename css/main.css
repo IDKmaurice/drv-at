@@ -3,6 +3,7 @@
 @import 'css_start_view.css';
 @import 'css_edit_view.css';
 @import 'css_anim.css';
+@import 'css_grid.css';
 
 *{
     display: inline-block;

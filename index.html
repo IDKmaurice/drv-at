@@ -58,22 +58,54 @@
                     <div class="edit-content-holder">
 
                         <div class="edit-tab" data-tab-page="main">
-                            <h1>Hauptseite</h1><br>
-                            <input class="input sIn" data-save-name="/name" type="text" placeholder="Züchtername"><br>
-                            <input class="input sIn" data-save-name="/date" type="date" placeholder="Wurftag"><br>
-                            <input class="input sIn" data-save-name="/phone" type="number" placeholder="Telefonnummer"><br>
+                            <input class="input sIn" data-save-name="/name" type="text" placeholder="Züchtername">
+                            <input class="input sIn" data-save-name="/date" type="date" placeholder="Wurftag">
                             <select class="input sIn" data-save-name="/race">
                                 <option value="" disabled selected>Rasse auswählen</option>
                                 <option value="Golden Retriever">Golden Retriever</option>
                                 <option value="Langhaar Schäferhund">Langhaar Schäferhund</option>
                                 <option value="Bulldogge">Bulldogge</option>
-                            </select><br>
+                            </select>
                             <select class="input sIn" data-save-name="/hairtype">
                                 <option value="" disabled selected>Haartype auswählen</option>
                                 <option value="Struppig">Struppig</option>
                                 <option value="Glatt">Glatt</option>
                                 <option value="Gelockt">Gelockt</option>
-                            </select>
+                            </select><br><br>
+                            <div class="family-tree">
+                                <div class="main-grid">
+                                    <div class="gen-div gen-1-1"></div>
+                                    <div class="gen-div gen-1-2"></div>
+                                    <div class="gen-div gen-2-1"></div>
+                                    <div class="gen-div gen-2-2"></div>
+                                    <div class="gen-div gen-2-3"></div>
+                                    <div class="gen-div gen-2-4"></div>
+                                    <div class="gen-div gen-3-1"></div>
+                                    <div class="gen-div gen-3-2"></div>
+                                    <div class="gen-div gen-3-3"></div>
+                                    <div class="gen-div gen-3-4"></div>
+                                    <div class="gen-div gen-3-5"></div>
+                                    <div class="gen-div gen-3-6"></div>
+                                    <div class="gen-div gen-3-7"></div>
+                                    <div class="gen-div gen-3-8"></div>
+                                    <div class="gen-div gen-4-1"></div>
+                                    <div class="gen-div gen-4-2"></div>
+                                    <div class="gen-div gen-4-3"></div>
+                                    <div class="gen-div gen-4-4"></div>
+                                    <div class="gen-div gen-4-5"></div>
+                                    <div class="gen-div gen-4-6"></div>
+                                    <div class="gen-div gen-4-7"></div>
+                                    <div class="gen-div gen-4-8"></div>
+                                    <div class="gen-div gen-4-9"></div>
+                                    <div class="gen-div gen-4-10"></div>
+                                    <div class="gen-div gen-4-11"></div>
+                                    <div class="gen-div gen-4-12"></div>
+                                    <div class="gen-div gen-4-13"></div>
+                                    <div class="gen-div gen-4-14"></div>
+                                    <div class="gen-div gen-4-15"></div>
+                                    <div class="gen-div gen-4-16"></div>
+                                </div>
+                            </div>
                         </div>
 
                         <div v-for="(puppy, i) in main.puppy" class="edit-tab extra-edit-tab" :data-tab-page="i+1">
