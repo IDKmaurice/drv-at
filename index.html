@@ -13,33 +13,31 @@
         </script>
     </head>
     <body>
+        <div id="app">
 
 
 
-
-        <div class="view start-view" data-active=true data-view-page="start">
-            <div class="start-option-holder no-select">
-                <div class="start-option" onclick="changeToEditView()">
-                    <i class="material-icons start-option-icon">note_add</i>
-                    <span class="start-option-text">Erstellen</span>
-                </div>
-                <div class="start-option" onclick="openFile()">
-                    <i class="material-icons start-option-icon">folder_open</i>
-                    <span class="start-option-text">Öffnen</span>
-                </div>
-                <div class="start-option" onclick="changeToDatabaseView()">
-                    <i class="material-icons start-option-icon">storage</i>
-                    <span class="start-option-text">Datenbank</span>
+            <div class="view start-view" data-active=true data-view-page="start">
+                <div class="start-option-holder no-select">
+                    <div class="start-option" onclick="changeToEditView()">
+                        <i class="material-icons start-option-icon">note_add</i>
+                        <span class="start-option-text">Erstellen</span>
+                    </div>
+                    <div class="start-option" onclick="openFile()">
+                        <i class="material-icons start-option-icon">folder_open</i>
+                        <span class="start-option-text">Öffnen</span>
+                    </div>
+                    <div class="start-option" onclick="changeToDatabaseView()">
+                        <i class="material-icons start-option-icon">storage</i>
+                        <span class="start-option-text">Datenbank</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
 
 
-
-        <div class="view" data-active=false data-view-page="edit">
-            <div class="edit-view-holder">
-                <div id="app">
+            <div class="view" data-active=false data-view-page="edit">
+                <div class="edit-view-holder">
 
                     <div class="edit-tab-holder no-select">
                         <div class="tab main-tab tab-active" onclick="selectTab()" data-change-tab="main" data-tooltip="Hauptseite" data-tooltip-position="bottom">
@@ -71,7 +69,7 @@
                                 <option value="Struppig">Struppig</option>
                                 <option value="Glatt">Glatt</option>
                                 <option value="Gelockt">Gelockt</option>
-                            </select><br><br>
+                            </select><br>
                             <div class="family-tree">
                                 <div class="main-grid">
                                     <div class="gen-div gen-1-1"></div>
@@ -174,41 +172,39 @@
                     </div>
 
                 </div>
-
             </div>
-        </div>
 
 
 
-        <div class="view" data-active=false data-view-page="database">
-            <div style="font-size: 30px;">
-                <i class="material-icons">storage</i>
-                <div class="nav-btn nav-back" onclick="changeToStartView()">
-                    <i class="material-icons">keyboard_arrow_left</i>
+            <div class="view" data-active=false data-view-page="database">
+                <div style="font-size: 30px;">
+                    <i class="material-icons">storage</i>
+                    <div class="nav-btn nav-back" onclick="changeToStartView()">
+                        <i class="material-icons">keyboard_arrow_left</i>
+                    </div>
                 </div>
             </div>
-        </div>
 
 
 
-        <div class="view settings-view" data-active=false data-view-page="settings">
-            <div style="font-size: 30px;">
-                <i class="material-icons">settings</i>
-                <div class="nav-btn nav-back" onclick="changeToStartView()">
-                    <i class="material-icons">keyboard_arrow_left</i>
+            <div class="view settings-view" data-active=false data-view-page="settings">
+                <div style="font-size: 30px;">
+                    <i class="material-icons">settings</i>
+                    <div class="nav-btn nav-back" onclick="changeToStartView()">
+                        <i class="material-icons">keyboard_arrow_left</i>
+                    </div>
                 </div>
             </div>
-        </div>
 
 
 
-        <div class="toast">
-            <i class="material-icons toast-icon toast-s"></i>
-            <span class="toast-msg"></span>
-        </div>
+            <div class="toast">
+                <i class="material-icons toast-icon toast-s"></i>
+                <span class="toast-msg"></span>
+            </div>
 
 
-        <div id="vue-backup">
+
             <div class="backup-bg no-select">
                 <div class="backup">
                     <div class="backup-header">
@@ -216,7 +212,7 @@
                         <div class="close-ui" onclick="animateBackupOut()"><i class="material-icons">close</i></div>
                     </div>
                     <div class="backup-holder">
-                        <div v-for="file in main" class="bu-item">
+                        <div v-for="file in backup" class="bu-item">
                             <div class="bu-filename">
                                 {{file}}
                             </div>
@@ -229,10 +225,10 @@
                     </div>
                 </div>
             </div>
+
+
+
         </div>
-
-
-
     </body>
 
     <script src="js/view_handler.js"></script>
@@ -246,17 +242,14 @@
     <script src="renderer.js"></script>
     <script>
 
+        var dir = fs.readdirSync(getTempName("temp/backup/",'folder'))
         app = new Vue({
             el:'#app',
-            data: { main: {} }
-        })
-
-
-
-        var dir = fs.readdirSync(getTempName("temp/backup/",'folder'))
-        vBackup = new Vue({
-            el:'#vue-backup',
-            data: { main:dir }
+            data: {
+                main: {},
+                backup: dir,
+                puppyData: ''
+            }
         })
 
         //initialization
