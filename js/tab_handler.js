@@ -20,7 +20,7 @@ function openPuppyList() {
 
 function openBackupUI() {
     animateBackupIn();
-    vBackup.$forceUpdate();
+    app.$forceUpdate();
 }
 
 
