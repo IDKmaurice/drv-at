@@ -15,8 +15,6 @@
     <body>
         <div id="app">
 
-            
-
             <div class="view start-view" data-active=true data-view-page="start">
                 <div class="start-option-holder no-select">
                     <div class="start-option" onclick="changeToEditView()">
@@ -177,11 +175,24 @@
 
 
             <div class="view" data-active=false data-view-page="database">
-                <div style="font-size: 30px;">
-                    <i class="material-icons">storage</i>
+                <div class="db-header">
+                    <input type="text" class="input" placeholder="Nach Hund suchen">
                     <div class="nav-btn nav-back" onclick="changeToStartView()">
                         <i class="material-icons">keyboard_arrow_left</i>
                     </div>
+                </div>
+                <div class="db-holder">
+                    <div class="db-sidebar">
+                        <span class="db-sidebar-hl">Dateneditor</span>
+                        <input type="text" class="input" placeholder="Name">
+                        <div class="db-sidebar-divider"></div>
+                        <input type="number" class="input" placeholder="Alter">
+                        <select class="input">
+                            <option value="Rüde">Rüde</option>
+                            <option value="Hündin">Hündin</option>
+                        </select>
+                    </div>
+                    <div class="db-content"></div>
                 </div>
             </div>
 
@@ -255,7 +266,7 @@
         //initialization
         checkForBackups();
         setViewVisibility();
-        openBackupUI();
+        //openBackupUI();
         changeTab();
         tooltip({ style: { backgroundColor: '#292828', borderRadius: '4px' } })
         unsavedProgress = false;

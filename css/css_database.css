@@ -1,0 +1,57 @@
+.db-header{
+    height: 50px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: white;
+    z-index: 1000;
+    text-align: right;
+    border-bottom: 1px solid #eee;
+    padding-left: 50px;
+    padding-right: 5px;
+}
+
+.db-holder{
+    height: calc(100% - 50px);
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+
+.db-sidebar{
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 300px;
+    background: #fff;
+    padding: 10px;
+}
+.db-sidebar-divider{
+    width: 100%;
+    margin: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+.db-sidebar-hl{
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #0057ff;
+    width: 100%;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    font-weight: bold;
+}
+
+.db-content{
+    width: calc(100% - 300px);
+    height: 100%;
+    padding: 10px;
+    font-size: 20px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #f7f7f7;
+}

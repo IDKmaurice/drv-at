@@ -4,6 +4,7 @@
 @import 'css_edit_view.css';
 @import 'css_anim.css';
 @import 'css_grid.css';
+@import 'css_database.css';
 
 *{
     display: inline-block;
@@ -81,10 +82,10 @@ h1,h2,h3,h4,h5,h6{
     font-family: 'OpenSans';
     box-sizing: border-box;
     vertical-align: top;
-    margin: 5px;
+    margin: 5px 0;
     transition: 50ms;
-
-    min-width: 300px;
+    max-width: 290px;
+    width: 100%;
 }
 .input:focus{
     color: #000;
@@ -126,6 +127,7 @@ h1,h2,h3,h4,h5,h6{
     cursor: pointer;
     z-index: 5000;
     background: #fff;
+    text-align: center;
 }
 .nav-btn:hover{
     color: #0057FF;
@@ -142,6 +144,7 @@ h1,h2,h3,h4,h5,h6{
     transition: 100ms;
     z-index: 5000;
     position: fixed;
+    background: #fff;
 }
 .nav-fab:hover{
     border-color: #0057FF;
