@@ -2,6 +2,7 @@ const {app, BrowserWindow} = require('electron')
 const {ipcMain} = require('electron')
 const electron = require('electron')
 const Menu = electron.Menu
+quit = false
 
 let mainWindow
 
@@ -10,6 +11,10 @@ function createWindow () {
     mainWindow.loadFile('index.html')
     mainWindow.maximize()
     mainWindow.on('closed', function () { mainWindow = null })
+
+    printWindow = new BrowserWindow({width: 1414, height: 1000, show: true, resizable: false})
+    printWindow.loadFile('print.html')
+    printWindow.setMenu(null)
 }
 
 app.on('ready', function(){
@@ -91,10 +96,19 @@ app.on('ready', function(){
         });
 
         if(choice == 1){
+            quit = false
             e.preventDefault();
         } else {
+            //enable close for printWindow
+            quit = true
+            printWindow.close()
             // TODO: send renderer msg to delete temp file
         }
+    });
+
+    //can only close when mainWindow is closing
+    printWindow.on('close', function(e){
+        if(quit !== true){ e.preventDefault(); }
     });
 
 })
@@ -125,8 +139,5 @@ ipcMain.on('request-main', (event, arg) => {
 })
 
 ipcMain.on('print-info', (event, arg) => {
-    printWin = new BrowserWindow({width: 1414, height: 1000, frame: true, resizable: false})
-    printWin.loadFile('print.html')
-    printWin.setMenu(null)
-    console.log(arg);
+    printWindow.webContents.send('print-info-return', arg);
 })

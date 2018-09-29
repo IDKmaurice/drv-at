@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Druckvorschau</title>
+    </head>
+    <body>
+        <div id="inner"></div>
+    </body>
+    <script>
+        require('electron').ipcRenderer.on ('print-info-return', (event, message) => {
+            document.getElementById('inner').innerHTML = message;
+        });
+    </script>
+</html>

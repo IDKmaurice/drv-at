@@ -25,7 +25,7 @@ require('electron').ipcRenderer.on('msgFromMain', function(event, message) {
             console.log('open')
             break;
         case "print":
-            sendPrintInfo();
+            ipcRenderer.send('print-info', JSON.stringify(db.getData('/')))
             console.log('print')
             break;
         default:
