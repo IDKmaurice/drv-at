@@ -1,6 +1,4 @@
-const {ipcRenderer} = require('electron');
-
-require('electron').ipcRenderer.on('ping', function(event, message) {
+require('electron').ipcRenderer.on('msgFromMain', function(event, message) {
     switch (message[0]) {
         case "save":
             saveFile();
@@ -25,6 +23,10 @@ require('electron').ipcRenderer.on('ping', function(event, message) {
         case "open":
             openFile();
             console.log('open')
+            break;
+        case "print":
+            sendPrintInfo();
+            console.log('print')
             break;
         default:
             changeToStartView();

@@ -48,3 +48,7 @@ function writeToInput() {
     });
 
 }
+
+function sendPrintInfo() {
+    ipcRenderer.send('print-info', db.getData('/'))
+}

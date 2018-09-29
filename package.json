@@ -15,7 +15,9 @@
   "author": "Maurice Freuwoert",
   "license": "MIT",
   "dependencies": {
+    "animejs": "^2.2.0",
     "electron": "^2.0.0",
+    "electron-settings": "^3.2.0",
     "electron-tooltip": "^1.1.5",
     "jquery": "^3.3.1",
     "node-json-db": "^0.9.0"

@@ -6,10 +6,12 @@
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vue.min.js"></script>
         <script>
-            const $ = require('jquery');
-            const tooltip = require('electron-tooltip');
-            const fs = require('fs');
-            const anime = require('animejs');
+            const $ = require('jquery')
+            const tooltip = require('electron-tooltip')
+            const fs = require('fs')
+            const anime = require('animejs')
+            const settings = require('electron-settings')
+            const {ipcRenderer} = require('electron')
         </script>
     </head>
     <body>
@@ -117,11 +119,8 @@
                                 <option value="Creme">Creme</option>
                                 <option value="Gold">Gold</option>
                             </select>
-                            <input class="input sIn" data-save-name="/chip" type="text" placeholder="Chip-Nr."><br>
-                            <input class="input sIn" data-save-name="/zbn" type="text" placeholder="Zuchtbuch-Nr.">
-                            <div class="search-input-holder">
-                                <input class="input sIn" data-save-name="" type="text" placeholder="Mutter">
-                            </div>
+                            <input class="input sIn" :data-save-name="'/puppy['+i+']/chip'" type="text" placeholder="Chip-Nr."><br>
+                            <input class="input sIn" :data-save-name="'/puppy['+i+']/zbn'" type="text" placeholder="Zuchtbuch-Nr.">
                         </div>
 
                     </div>
@@ -268,13 +267,13 @@
         })
 
         //initialization
-        checkForBackups();
-        setViewVisibility();
+        checkForBackups()
+        setViewVisibility()
         //openBackupUI();
-        changeTab();
+        changeTab()
         tooltip({ style: { backgroundColor: '#292828', borderRadius: '4px' } })
-        unsavedProgress = false;
-        savePath = "";
-        ipcRenderer.send('request-mainprocess-action', 'openedWithFile');
+        unsavedProgress = false
+        savePath = ""
+        ipcRenderer.send('request-main', 'openedWithFile') //send a msg to main to let it know renderer has loaded
     </script>
 </html>
