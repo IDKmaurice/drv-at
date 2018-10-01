@@ -2,14 +2,80 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Druckvorschau</title>
+        <script src="js/vue.min.js"></script>
+        <link rel="stylesheet" href="css/print/main.css">
+        <script>
+            const $ = require('jquery')
+            const fs = require('fs')
+            const dialog = require('electron').remote.dialog;
+            const tooltip = require('electron-tooltip')
+            const settings = require('electron-settings')
+            const ipc = require('electron').ipcRenderer;
+        </script>
     </head>
     <body>
-        <div id="inner"></div>
+        <div id="app">
+            <div v-for="puppy in main.puppy" class="page-holder">
+                <div class="page page-front">
+                    <div class="sub-page">{{puppy.name}}</div>
+                    <div class="sub-page"></div>
+                </div>
+                <div class="page page-back"></div>
+            </div>
+            <div class="nav-fab nav-fab-1 no-select no-print" data-tooltip="Drucken" data-tooltip-position="left" onclick="triggerPrint()">
+                <i class="material-icons">print</i>
+            </div>
+            <div class="nav-fab nav-fab-2 no-select no-print" data-tooltip="Druckvorschau schließen" data-tooltip-position="left" onclick="closePrint()">
+                <i class="material-icons">close</i>
+            </div>
+        </div>
     </body>
     <script>
-        require('electron').ipcRenderer.on ('print-info-return', (event, message) => {
-            document.getElementById('inner').innerHTML = message;
+
+        app = new Vue({
+            el:'#app',
+            data: { main: {} }
+        })
+
+        tooltip({ style: { backgroundColor: '#292828', borderRadius: '4px' } })
+
+        ipc.on ('print-info-return', (event, values_raw) => {
+            try {
+                values = JSON.parse(values_raw)
+                app.main = values
+            } catch (err) {
+                console.error(err)
+            }
+        });
+
+
+
+        function closePrint() {
+            ipc.send('print-close')
+        }
+
+
+
+        function triggerPrint() {
+            dialog.showOpenDialog({properties: ['openDirectory']}, (filepath) => {
+
+                $('.page-front').css('display','inline-block')
+                $('.page-back').css('display','none')
+
+                ipc.send('print-to-pdf',[filepath[0],'seite_1.pdf',true])
+
+            })
+        }
+
+
+        ipc.on('print-front-ready', (event, filepath) => {
+
+            $('.page-front').css('display','none')
+            $('.page-back').css('display','inline-block')
+
+            ipc.send('print-to-pdf',[filepath,'seite_2.pdf',false])
+
+            closePrint()
         });
     </script>
 </html>

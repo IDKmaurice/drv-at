@@ -1,7 +1,10 @@
 const {app, BrowserWindow} = require('electron')
 const {ipcMain} = require('electron')
 const electron = require('electron')
+const path = require('path')
+const fs = require('fs')
 const Menu = electron.Menu
+const subFolderName = 'DRV-PDF'
 quit = false
 
 let mainWindow
@@ -12,9 +15,11 @@ function createWindow () {
     mainWindow.maximize()
     mainWindow.on('closed', function () { mainWindow = null })
 
-    printWindow = new BrowserWindow({width: 1414, height: 1000, show: true, resizable: false})
+    printWindow = new BrowserWindow({width: 1414, height: 1000, show: false, resizable: false})
     printWindow.loadFile('print.html')
     printWindow.setMenu(null)
+    printWindow.hide();
+    //printWindow.webContents.openDevTools()
 }
 
 app.on('ready', function(){
@@ -140,4 +145,33 @@ ipcMain.on('request-main', (event, arg) => {
 
 ipcMain.on('print-info', (event, arg) => {
     printWindow.webContents.send('print-info-return', arg);
+    printWindow.show();
+})
+
+ipcMain.on('print-close', () => {
+    printWindow.hide();
+    mainWindow.webContents.focus()
+})
+
+ipcMain.on('print-to-pdf', function(event, args) {
+
+    let filepath = args[0];
+    let filename = args[1];
+
+    
+    if (!fs.existsSync(filepath+'/'+subFolderName)) {
+        fs.mkdirSync(filepath+'/'+subFolderName)
+    }
+
+    let pdfPath = path.join(filepath,subFolderName,filename)
+
+    printWindow.webContents.printToPDF({printBackground: true, marginsType: 1, landscape: true}, function(error, data){
+        if(error) return console.error(error.message);
+        fs.writeFile(pdfPath, data, function(err) {
+            if(err) return console.error(err.message);
+            if(args[2]){
+                event.sender.send('print-front-ready', filepath);
+            }
+        })
+    })
 })
