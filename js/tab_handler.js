@@ -14,12 +14,12 @@ function selectTab(tabID = "main") {
 
 
 function openPuppyList() {
-    animatePuppyListIn();
+    animPopup('pl','in');
     app.$forceUpdate();
 }
 
 function openBackupUI() {
-    animateBackupIn();
+    animPopup('bu','in');
     app.$forceUpdate();
 }
 

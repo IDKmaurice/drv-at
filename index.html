@@ -125,13 +125,13 @@
 
                     </div>
 
-                    <div class="puppy-list-bg">
-                        <div class="puppy-list">
-                            <div class="puppy-list-header no-select">
+                    <div class="popup-bg pl-bg">
+                        <div class="popup-holder pl-holder">
+                            <div class="popup-header pl-header no-select">
                                 Welpenliste
-                                <div class="close-ui" onclick="animatePuppyListOut()"><i class="material-icons">close</i></div>
+                                <div class="close-ui" onclick="animPopup('pl','out')"><i class="material-icons">close</i></div>
                             </div>
-                            <div class="puppy-list-holder">
+                            <div class="popup-content pl-content">
 
                                 <div v-if="main.puppy != undefined && main.puppy.length > 0" class="pl-table-name no-select">
                                     <div class="pl-tn-category">Name</div>
@@ -201,13 +201,63 @@
 
 
 
-            <div class="view settings-view" data-active=false data-view-page="settings">
-                <div style="font-size: 30px;">
-                    <i class="material-icons">settings</i>
-                    <div class="nav-btn nav-back" onclick="changeToStartView()">
-                        <i class="material-icons">keyboard_arrow_left</i>
+            <div class="popup-bg settings-bg no-select">
+                <div class="popup-holder settings-holder">
+                    <div class="popup-header settings-header">
+                        Einstellungen
+                        <div class="close-ui" onclick="animPopup('settings','out')"><i class="material-icons">close</i></div>
+                    </div>
+                    <div class="popup-content settings-content">
+                        <div class="settings-divider">
+                            <div class="settings-label">Lizenz:</div>
+                            <input class="settings-input input" data-option-name="license" type="text" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX">
+                        </div>
+                        <div class="settings-divider">
+                            <div class="settings-label">Farbschema auswählen:</div>
+                            <select class="settings-input input" data-option-name="theme">
+                                <option value="default">Standard</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="popup-footer settings-footer">
+                        <div class="button" onclick="applySettings()">Übernehmen</div>
                     </div>
                 </div>
+            </div>
+
+
+
+            <div class="popup-bg bu-bg no-select">
+                <div class="popup-holder bu-holder">
+                    <div class="popup-header bu-header">
+                        Backups gefunden
+                        <div class="close-ui" onclick="animPopup('bu','out')"><i class="material-icons">close</i></div>
+                    </div>
+                    <div class="popup-content bu-content">
+                        <div v-for="file in backup" class="bu-item">
+                            <div class="bu-filename">
+                                {{file}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="popup-footer bu-footer">
+                        <div class="button">Auswahl löschen</div>
+                        <div class="button" onclick="deleteBackup()">Alle löschen</div>
+                        <div class="button" onclick="animPopup('bu','out')">Ignorieren</div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="input-popup-bg license-ip-bg">
+                <input type="text" class="input" id="license-ip-value" placeholder="Lizenz eingeben">
+                <div class="input-popup-btn" onclick="ipLicenseNext()">Weiter</div>
+            </div>
+
+            <div class="input-popup-bg pass-ip-bg">
+                <input type="text" class="input" id="pass-ip-value" placeholder="Passwort eingeben">
+                <div class="input-popup-btn" onclick="ipPassNext()">Weiter</div>
             </div>
 
 
@@ -216,31 +266,6 @@
                 <i class="material-icons toast-icon toast-s"></i>
                 <span class="toast-msg"></span>
             </div>
-
-
-
-            <div class="backup-bg no-select">
-                <div class="backup">
-                    <div class="backup-header">
-                        Backups gefunden
-                        <div class="close-ui" onclick="animateBackupOut()"><i class="material-icons">close</i></div>
-                    </div>
-                    <div class="backup-holder">
-                        <div v-for="file in backup" class="bu-item">
-                            <div class="bu-filename">
-                                {{file}}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="backup-footer">
-                        <div class="button">Auswahl löschen</div>
-                        <div class="button" onclick="deleteBackup()">Alle löschen</div>
-                        <div class="button" onclick="animateBackupOut()">Ignorieren</div>
-                    </div>
-                </div>
-            </div>
-
-
 
         </div>
     </body>
@@ -252,7 +277,9 @@
     <script src="js/io_handler.js"></script>
     <script src="js/backup_handler.js"></script>
     <script src="js/input_command_handler.js"></script>
+    <script src="js/settings_handler.js"></script>
     <script src="js/animations.js"></script>
+    <script src="js/misc.js"></script>
     <script src="renderer.js"></script>
     <script>
 
@@ -266,9 +293,15 @@
             }
         })
 
+
+
+
         //initialization
+        if(settings.get('license') == "" || settings.has('license') !== true) { animInputPopup('license-ip-bg', 'in') } else { animInputPopup('pass-ip-bg', 'in') }
+        
         checkForBackups()
         setViewVisibility()
+        initSettings()
         //openBackupUI();
         changeTab()
         tooltip({ style: { backgroundColor: '#292828', borderRadius: '4px' } })

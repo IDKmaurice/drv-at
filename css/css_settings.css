@@ -1,0 +1,23 @@
+.settings-content{
+    padding: 10px 0 !important;
+}
+
+.settings-divider{
+    width: 100%;
+    min-height: 50px;
+    padding: 10px;
+    text-align: left;
+}
+
+.settings-divider:nth-child(2n) {
+    background: #f6f6f6;
+}
+
+.settings-label{
+    width: 100%;
+    line-height: 26px;
+    color: #222;
+    font-size: 15px;
+    vertical-align: top;
+    text-align: left;
+}

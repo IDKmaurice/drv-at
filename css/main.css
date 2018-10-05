@@ -5,6 +5,7 @@
 @import 'css_anim.css';
 @import 'css_grid.css';
 @import 'css_database.css';
+@import 'css_settings.css';
 
 *{
     display: inline-block;
@@ -247,6 +248,110 @@ h1,h2,h3,h4,h5,h6{
 
 
 
+
+.popup-bg{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0);
+    pointer-events: none;
+}
+
+.popup-holder{
+    width: 80%;
+    height: calc(100% - 180px);
+    position: absolute;
+    top: 90px;
+    left: 10%;
+    border-radius: 5px;
+    background: white;
+    overflow: hidden;
+    font-size: 0;
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+}
+
+.popup-header{
+    height: 60px;
+    width: 100%;
+    line-height: 60px;
+    background: #F0F0F0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+    color: #0057ff;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.popup-content{
+    height: calc(100% - 60px);
+    width: 100%;
+    padding: 10px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.popup-footer{
+    height: 50px;
+    width: 100%;
+    padding: 10px;
+    text-align: right;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #F0F0F0;
+    white-space: nowrap;
+    opacity: 0;
+}
+
+
+.input-popup-bg{
+    width: 70%;
+    height: 100px;
+    background: white;
+    border-left: 7px solid #46CF35;
+    border-radius: 5px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    z-index: 6000;
+    top: -140px;
+    left: 15%;
+    padding: 28px 10px;
+}
+
+.input-popup-bg .input{
+    max-width: initial;
+    width: calc(100% - 160px);
+    margin: 0;
+}
+
+.input-popup-btn{
+    height: 40px;
+    width: 150px;
+    border-radius: 4px;
+    line-height: 40px;
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 100ms;
+    background: #0057ff;
+    margin-left: 10px;
+}
+.input-popup-btn:hover{
+    box-shadow: 0 0 0 5px rgba(0, 87, 255, 0.4);
+}
 
 
 

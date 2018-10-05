@@ -72,7 +72,11 @@ app.on('ready', function(){
                 {label: 'Einfügen', role: 'paste'},
                 {label: 'Ausschneiden', role: 'cut'},
                 {type: 'separator'},
-                {label: 'Einstellungen'}
+                {
+                    label: 'Einstellungen',
+                    accelerator: 'CmdOrCtrl+Shift+E',
+                    click (){toRenderer(['openSettings'])}
+                }
             ]
         },{
             label:'Fenster',

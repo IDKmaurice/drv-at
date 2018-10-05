@@ -104,8 +104,6 @@ function saveFile(arg) {
         });
     } else {
 
-        console.info(filepathOLD + " : " + savePath)
-
         copyFile(filepathOLD, savePath, function(err) {
             if (err) {
                 console.error(err);
@@ -139,7 +137,6 @@ function openFile() {
                 return;
             } else {
                 //file is an array but we only need one string
-                console.log("Opening : " + file[0]);
                 savePath = file[0];
                 convertToTempFile(file[0]);
                 writeToInput();
