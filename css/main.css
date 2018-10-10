@@ -7,6 +7,35 @@
 @import 'css_database.css';
 @import 'css_settings.css';
 
+:root{
+    --accent-color: #0057ff;
+
+    --background1: #fff;
+    --background2: #f9f9f9;
+    --header-color: #F0F0F0;
+
+    --button-color1: #fff;
+    --button-color2: #444;
+    --button-border: #bbb;
+
+    --input-bg: #fff;
+    --input-color: #555;
+    --input-border: #ccc;
+
+    --table-border: #ddd;
+
+    --text-color0: #000;
+    --text-color1: #111;
+    --text-color2: #222;
+    --text-color3: #333;
+    --text-color4: #444;
+    --text-color5: #555;
+    --text-color6: #666;
+
+    --hover-shadow1: 0 0 0 5px rgba(0, 87, 255, 0.4);
+    --hover-shadow2: 0 0 0 3px rgba(0, 87, 255, 0.3);
+}
+
 *{
     display: inline-block;
     box-sizing: border-box;
@@ -20,7 +49,7 @@ body{
     font-family: "OpenSans";
     font-size: 0;
     text-align: center;
-    background: #fff;
+    background: var(--background1);
     color: #888;
     margin: 0;
     display: block;
@@ -33,7 +62,7 @@ style, script, head{ display: none; }
 h1,h2,h3,h4,h5,h6{
     font-size: 20px;
     font-weight: 500;
-    color: #0057FF;
+    color: var(--accent-color);
 }
 
 .non{ text-decoration: line-through; }
@@ -61,7 +90,7 @@ h1,h2,h3,h4,h5,h6{
 
 
 .view{
-    background: white;
+    background: var(--background1);
     position: fixed;
     top: 0;
     left: 0;
@@ -71,14 +100,14 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .input{
-    border: 1px solid #ccc;
+    border: 1px solid var(--input-border);
     padding: 5px;
     border-radius: 5px;
-    background: white;
+    background: var(--input-bg);
     line-height: 30px;
     font-size: 13px;
     letter-spacing: 1px;
-    color: #555;
+    color: var(--input-color);
     height: 40px !important;
     font-family: 'OpenSans';
     box-sizing: border-box;
@@ -89,9 +118,8 @@ h1,h2,h3,h4,h5,h6{
     width: 100%;
 }
 .input:focus{
-    color: #000;
-    border-color: #0057FF;
-    box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.3);
+    border-color: var(--accent-color);
+    box-shadow: var(--hover-shadow2);
 }
 
 
@@ -99,10 +127,11 @@ h1,h2,h3,h4,h5,h6{
     height: 30px;
     border-radius: 4px;
     line-height: 30px;
-    border: 1px solid #bbb;
+    border: 1px solid var(--accent-color);
+    background: var(--accent-color);
     font-weight: 600;
     margin: 0 7px;
-    color: #444;
+    color: var(--button-color1);
     text-align: center;
     font-size: 14px;
     cursor: pointer;
@@ -110,46 +139,64 @@ h1,h2,h3,h4,h5,h6{
     padding: 0 15px;
     text-transform: uppercase;
 }
-.button:hover{
-    border-color: #0057FF;
-    color: #0057FF;
-    box-shadow: 0 0 0 5px rgba(0, 87, 255, 0.4);
+.button:hover{ box-shadow: var(--hover-shadow1); }
+
+.ghost-button{
+    height: 30px;
+    border-radius: 4px;
+    line-height: 30px;
+    border: 1px solid var(--button-border);
+    font-weight: 600;
+    margin: 0 7px;
+    color: var(--button-color2);
+    background: transparent;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 100ms;
+    padding: 0 15px;
+    text-transform: uppercase;
+}
+.ghost-button:hover{
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    box-shadow: var(--hover-shadow1);
 }
 
 
 .nav-btn{
-    height: 50px;
-    width: 50px;
-    line-height: 50px;
-    font-size: 28px;
-    color: #555;
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    font-size: 23px;
+    color: var(--button-color1);
     border-radius: 5px;
     position: fixed;
     cursor: pointer;
     z-index: 5000;
-    background: #fff;
+    background: var(--accent-color);
     text-align: center;
+    transition: 100ms;
 }
 .nav-btn:hover{
-    color: #0057FF;
-    background: rgb(236, 242, 252);
+    box-shadow: var(--hover-shadow1);
 }
 
 .nav-fab{
     border-radius: 100%;
     line-height: 40px;
-    border: 1px solid #ccc;
-    color: #0057FF;
+    border: 1px solid var(--button-border);
+    color: var(--accent-color);
     text-align: center;
     cursor: pointer;
     transition: 100ms;
     z-index: 5000;
     position: fixed;
-    background: #fff;
+    background: var(--background2);
 }
 .nav-fab:hover{
-    border-color: #0057FF;
-    box-shadow: 0 0 0 5px rgba(0, 87, 255, 0.4);
+    border-color: var(--accent-color);
+    box-shadow: var(--hover-shadow1);
 }
 
 .nav-fab-1{
@@ -180,9 +227,9 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .nav-back{
-    left: 0;
-    top: 0;
-    border-radius: 0 5px 5px 5px;
+    left: 5px;
+    top: 5px;
+    border-radius: 30px;
 }
 
 
@@ -196,17 +243,16 @@ h1,h2,h3,h4,h5,h6{
     width: 40px;
     border-radius: 100%;
     line-height: 40px;
-    border: 1px solid transparent;
-    color: #222;
+    border: 1px solid var(--accent-color);
+    background: var(--accent-color);
+    color: var(--button-color1);
     text-align: center;
     font-size: 23px;
     cursor: pointer;
     transition: 100ms;
 }
 .close-ui:hover{
-    border-color: #0057FF;
-    color: #0057FF;
-    box-shadow: 0 0 0 5px rgba(0, 87, 255, 0.4);
+    box-shadow: var(--hover-shadow1);
 }
 
 
@@ -215,7 +261,7 @@ h1,h2,h3,h4,h5,h6{
 .toast{
     width: calc(100% - 20px);
     max-width: 500px;
-    background: rgba(0, 0, 0, 0.75);
+    background: #262626;
     border-radius: 5px;
     font-size: 15px;
     color: #fff;
@@ -267,7 +313,7 @@ h1,h2,h3,h4,h5,h6{
     top: 90px;
     left: 10%;
     border-radius: 5px;
-    background: white;
+    background: var(--background1);
     overflow: hidden;
     font-size: 0;
     box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.3);
@@ -278,12 +324,12 @@ h1,h2,h3,h4,h5,h6{
     height: 60px;
     width: 100%;
     line-height: 60px;
-    background: #F0F0F0;
+    background: var(--header-color);
     position: absolute;
     top: 0;
     left: 0;
     text-align: center;
-    color: #0057ff;
+    color: var(--accent-color);
     font-size: 18px;
     text-transform: uppercase;
 }
@@ -309,7 +355,7 @@ h1,h2,h3,h4,h5,h6{
     bottom: 0;
     overflow-x: hidden;
     overflow-y: auto;
-    background: #F0F0F0;
+    background: var(--header-color);
     white-space: nowrap;
     opacity: 0;
 }
@@ -318,7 +364,7 @@ h1,h2,h3,h4,h5,h6{
 .input-popup-bg{
     width: 70%;
     height: 100px;
-    background: white;
+    background: var(--background1);
     border-left: 7px solid #46CF35;
     border-radius: 5px;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
@@ -330,8 +376,7 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .input-popup-bg .input{
-    max-width: initial;
-    width: calc(100% - 160px);
+    max-width: calc(100% - 160px);
     margin: 0;
 }
 
@@ -340,17 +385,18 @@ h1,h2,h3,h4,h5,h6{
     width: 150px;
     border-radius: 4px;
     line-height: 40px;
-    color: #fff;
+    color: var(--button-color1);
     text-align: center;
     font-size: 14px;
     text-transform: uppercase;
     cursor: pointer;
     transition: 100ms;
-    background: #0057ff;
+    background: var(--accent-color);
     margin-left: 10px;
+    border: none;
 }
 .input-popup-btn:hover{
-    box-shadow: 0 0 0 5px rgba(0, 87, 255, 0.4);
+    box-shadow: var(--hover-shadow1);
 }
 
 

@@ -4,7 +4,7 @@ const electron = require('electron')
 const path = require('path')
 const fs = require('fs')
 const Menu = electron.Menu
-const subFolderName = 'DRV-PDF'
+const subFolderName = 'PDF'
 quit = false
 
 let mainWindow

@@ -1,13 +1,13 @@
 require('electron').ipcRenderer.on('msgFromMain', function(event, message) {
     switch (message[0]) {
         case "save":
-            saveFile();
+            app.settings.logged ? saveFile() : initLogin();
             break;
         case "saveas":
-            saveFile('saveas');
+            app.settings.logged ? saveFile('saveas') : initLogin();
             break;
         case "new":
-            changeToEditView();
+            app.settings.logged ? changeToEditView() : initLogin();
             break;
         case "home":
             changeToStartView();
@@ -16,10 +16,10 @@ require('electron').ipcRenderer.on('msgFromMain', function(event, message) {
             openOnStart(message[1]);
             break;
         case "open":
-            openFile();
+            app.settings.logged ? openFile() : initLogin();
             break;
         case "print":
-            ipcRenderer.send('print-info', JSON.stringify(db.getData('/')))
+            app.settings.logged ? ipcRenderer.send('print-info', JSON.stringify(db.getData('/'))) : initLogin()
             break;
         case "openSettings":
             animPopup('settings','in');

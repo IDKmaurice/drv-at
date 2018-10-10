@@ -9,14 +9,18 @@
     text-align: left;
 }
 
+.settings-divider .input{
+    max-width: 70%;
+}
+
 .settings-divider:nth-child(2n) {
-    background: #f6f6f6;
+    background: var(--background2);
 }
 
 .settings-label{
     width: 100%;
     line-height: 26px;
-    color: #222;
+    color: var(--text-color2);
     font-size: 15px;
     vertical-align: top;
     text-align: left;

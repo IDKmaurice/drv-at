@@ -35,6 +35,19 @@ function changeToDatabaseView() {
     if(dismissProgress()){
         changeView("database");
         clearInputs();
+        $.post("https://maurice-freuwoert.com/drvserverapi/readDB.php", { license: settings.get('license'), sessionKey: app.settings.sessionKey, filtervalue: '' }, function (data) {
+            try {
+                let returnValue = JSON.parse(data)
+                if(returnValue.success){
+                    app.dogData = returnValue.data;
+                } else {
+                    console.warn(returnValue.error);
+                }
+                
+            } catch (error) {
+                console.warn(error);
+            }
+        });
     }
 }
 
