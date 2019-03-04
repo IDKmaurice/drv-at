@@ -1,3 +1,5 @@
 temp/
 php/
-temp/temp-current.json
+temp/
+_ignore/
+*.ini
