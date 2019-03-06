@@ -1,7 +1,3 @@
-// Just in this file are tons of spider-web-like references
-// for example:   resetSettings() -> initSettings() -> settingsToInput()
-// TODO: This has to change
-
 function resetSettings(){
     for (const option in app.i.settings) {
         app.i.settings[option] = ''
@@ -20,19 +16,14 @@ function initSettings(){
         }
     }
 
-    settingsToInput()
-    setTheme(settings.get('theme'))
-    app.settings.hairtypes = settings.get('hairtypes').split(',')
-}
-
-
-
-function settingsToInput(){
     for (const option in app.i.settings) {
         if(settings.has(option)){
             app.i.settings[option] = settings.get(option)
         }
     }
+    
+    setTheme(settings.get('theme'))
+    app.settings.hairtypes = settings.get('hairtypes').split(',')
 }
 
 function applySettings(){
@@ -42,6 +33,5 @@ function applySettings(){
 }
 
 settings.watch('hairtypes', (val) => {
-    let hairArr = val.split(',');
-    app.settings.hairtypes = hairArr;
+    app.settings.hairtypes = val.split(',')
 });

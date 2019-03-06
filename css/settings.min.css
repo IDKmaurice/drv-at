@@ -1,0 +1,31 @@
+.settings-content {
+  padding: 10px 0 !important;
+}
+
+.settings-divider {
+  width: 100%;
+  min-height: 50px;
+  padding: 10px 20px;
+  padding-bottom: 25px;
+  text-align: left;
+}
+
+.settings-divider .input {
+  max-width: 70%;
+}
+
+.settings-divider .settings-label {
+  width: 100%;
+  line-height: 26px;
+  color: var(--accent-color);
+  font-size: 15px;
+  vertical-align: top;
+  text-align: left;
+}
+
+.settings-divider .settings-label .icon {
+  font-size: 24px;
+  vertical-align: middle;
+  font-family: 'Material Icons';
+  margin-right: 5px;
+}

@@ -235,10 +235,9 @@ function enterSearchedDogData(obj){
                         let father = returnValue.data.father;
 
                         if(returnValue.data.firstname != '' && returnValue.data.chipnumber != ''){
-                            $(`.gen-${column}-${row}`).children('.gen-name').val(returnValue.data.firstname)
-                            $(`.gen-${column}-${row}`).children('.gen-chip').val(returnValue.data.chipnumber)
+                            app.doc.tree[column-1][row-1].name = returnValue.data.firstname
+                            app.doc.tree[column-1][row-1].chip = returnValue.data.chipnumber
                         }
-                        //console.log(returnValue.data.firstname + ' ' + column + ' ' + row)
 
                         if (father != undefined && father != "") {
                             enterDogDataRec(father, column+1, (row*2)-1)
@@ -254,13 +253,13 @@ function enterSearchedDogData(obj){
 
 
                     } else {
-                        console.warn(returnValue.error);
+                        console.warn(returnValue.error)
                     }
 
                 } catch (error) {
-                    console.warn(error);
+                    console.warn(error)
                 }
-            });
+            })
         }
 
     }

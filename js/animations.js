@@ -15,30 +15,26 @@ function animPopup(id, opt) {
             translateY: [50, 0],
             easing: 'easeInOutCubic',
             opacity: [0,1],
-            duration: 300,
-            offset: 100
-        }).add({
+            duration: 300
+        }, 100).add({
             targets: `.${id}-header`,
             translateY: [-60, 0],
             easing: 'easeInOutCubic',
             opacity: 1,
-            duration: 400,
-            offset: 100
-        }).add({
+            duration: 400
+        }, 100).add({
             targets: `.${id}-footer`,
             translateY: [50, 0],
             easing: 'easeInOutCubic',
             opacity: 1,
-            duration: 400,
-            offset: 100
-        }).add({
+            duration: 400
+        }, 100).add({
             targets: `.${id}-content`,
             translateX: [50,0],
             easing: 'easeInOutCubic',
             opacity: [0,1],
-            duration: 400,
-            offset: 300
-        });
+            duration: 400
+        }, 300);
 
     } else if(opt == 'out'){
 
@@ -52,31 +48,28 @@ function animPopup(id, opt) {
             targets: `.${id}-footer`,
             translateY: 50,
             easing: 'easeInOutCubic',
-            duration: 400,
-            offset: 100
-        }).add({
+            duration: 400
+        }, 100).add({
             targets: `.${id}-header`,
             translateY: -60,
             easing: 'easeInOutCubic',
-            duration: 400,
-            offset: 100
-        }).add({
+            duration: 400
+        }, 100).add({
             targets: `.${id}-holder`,
             translateY: 50,
             opacity: [1,0],
             easing: 'easeInOutCubic',
             duration: 300,
-            offset: 100,
             begin: function(){
                 $(`.${id}-bg`).css('pointer-events','none')
             }
-        }).add({
+        }, 100).add({
             targets: `.${id}-bg`,
             backgroundColor: 'rgba(0,0,0,0)',
             easing: 'easeInOutCubic',
             duration: 400,
             offset: 300
-        });
+        }, 300);
     }
 }
 

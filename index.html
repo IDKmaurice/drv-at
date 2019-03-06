@@ -42,22 +42,22 @@
             <div class="view" v-show="settings.activeView == 'edit'">
                 <div class="edit-view-holder">
 
-                    <div class="edit-tab-holder no-select">
+                    <div class="edit-sidebar no-select">
                         <div class="nav-btn nav-back" onclick="changeToStartView()">&#61761;</div>
 
-                        <div class="tab" :class="{'tab-active' : settings.activeTab == 0}" onclick="selectTab()">
-                            <div class="tab-text">
+                        <div class="tab" :class="{'tab-active' : settings.activeTab == 0}">
+                            <div class="tab-text" @click="setTab(0)">
                                 <div class="tab-icon">&#62634;</div> Hauptseite
                             </div>
-                            <div class="tab-btn" onclick="addTabs()" data-tooltip="Tab hinzufügen" data-tooltip-position="right">&#62485;</div>
+                            <div class="tab-btn" @click="addTab()" data-tooltip="Tab hinzufügen" data-tooltip-position="right">&#62485;</div>
                         </div>
 
-                        <div class="puppy-tab-holder">
-                            <div class="tab" v-for="(puppy, i) in main.puppy" :class="{'tab-active' : settings.activeTab == (i+1)}">
-                                <div class="tab-text" :onclick="'selectTab('+(i+1)+')'">
-                                    <div class="tab-count">{{i+1}}</div> Tab
+                        <div class="tab-holder">
+                            <div class="tab" v-for="(entry, i) in doc.entries" :class="{'tab-active' : settings.activeTab == (i+1)}">
+                                <div class="tab-text" @click="setTab(i+1)">
+                                    <div class="tab-count">{{i+1}}</div> {{entry.firstname}}
                                 </div>
-                                <div class="tab-btn delete" :onclick="'removeTabs('+(i+1)+')'" data-tooltip="Tab löschen" data-tooltip-position="right">&#64121;</div>
+                                <div class="tab-btn delete" @click="removeTab(i+1)" data-tooltip="Tab löschen" data-tooltip-position="right">&#64121;</div>
                             </div>
                         </div>
                     </div>
@@ -65,10 +65,10 @@
                     <div class="edit-content-holder">
 
                         <div class="edit-tab" v-show="settings.activeTab == 0">
-                            <input class="input sIn" data-save-name="/name" type="text" placeholder="Züchtername">
-                            <input class="input sIn" data-save-name="/date" type="date" placeholder="Wurftag">
-                            <input class="input sIn" data-save-name="/race" type="text" placeholder="Rasse">
-                            <select class="input sIn" data-save-name="/hairtype">
+                            <input class="input" v-model="doc.name" type="text" placeholder="Züchtername">
+                            <input class="input" v-model="doc.date" type="date" placeholder="Wurftag">
+                            <input class="input" v-model="doc.race" type="text" placeholder="Rasse">
+                            <select class="input" v-model="doc.hairtype">
                                 <option value="" disabled selected>Haartype auswählen</option>
                                 <option value="Struppig">Struppig</option>
                                 <option value="Glatt">Glatt</option>
@@ -78,141 +78,141 @@
                             <div class="family-tree">
                                 <div class="main-grid">
                                     <div class="gen-div gen-1-1">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/1/1/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/1/1/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[0][0].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[0][0].name">
                                         <div class="button" onclick="openACpopup(1,1,'male')">Vater hinzufügen</div>
                                     </div>
                                     <div class="gen-div gen-1-2">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/1/2/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/1/2/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[0][1].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[0][1].name">
                                         <div class="button" onclick="openACpopup(1,2,'female')">Mutter hinzufügen</div>
                                     </div>
                                     <div class="gen-div gen-2-1">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/2/1/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/2/1/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[1][0].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[1][0].name">
                                     </div>
                                     <div class="gen-div gen-2-2">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/2/2/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/2/2/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[1][1].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[1][1].name">
                                     </div>
                                     <div class="gen-div gen-2-3">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/2/3/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/2/3/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[1][2].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[1][2].name">
                                     </div>
                                     <div class="gen-div gen-2-4">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/2/4/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/2/4/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[1][3].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[1][3].name">
                                     </div>
                                     <div class="gen-div gen-3-1">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/3/1/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/3/1/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[2][0].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[2][0].name">
                                     </div>
                                     <div class="gen-div gen-3-2">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/3/2/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/3/2/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[2][1].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[2][1].name">
                                     </div>
                                     <div class="gen-div gen-3-3">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/3/3/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/3/3/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[2][2].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[2][2].name">
                                     </div>
                                     <div class="gen-div gen-3-4">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/3/4/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/3/4/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[2][3].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[2][3].name">
                                     </div>
                                     <div class="gen-div gen-3-5">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/3/5/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/3/5/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[2][4].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[2][4].name">
                                     </div>
                                     <div class="gen-div gen-3-6">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/3/6/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/3/6/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[2][5].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[2][5].name">
                                     </div>
                                     <div class="gen-div gen-3-7">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/3/7/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/3/7/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[2][6].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[2][6].name">
                                     </div>
                                     <div class="gen-div gen-3-8">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/3/8/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/3/8/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[2][7].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[2][7].name">
                                     </div>
                                     <div class="gen-div gen-4-1">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/4/1/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/4/1/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[3][0].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[3][0].name">
                                     </div>
                                     <div class="gen-div gen-4-2">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/4/2/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/4/2/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[3][1].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[3][1].name">
                                     </div>
                                     <div class="gen-div gen-4-3">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/4/3/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/4/3/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[3][2].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[3][2].name">
                                     </div>
                                     <div class="gen-div gen-4-4">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/4/4/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/4/4/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[3][3].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[3][3].name">
                                     </div>
                                     <div class="gen-div gen-4-5">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/4/5/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/4/5/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[3][4].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[3][4].name">
                                     </div>
                                     <div class="gen-div gen-4-6">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/4/6/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/4/6/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[3][5].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[3][5].name">
                                     </div>
                                     <div class="gen-div gen-4-7">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/4/7/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/4/7/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[3][6].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[3][6].name">
                                     </div>
                                     <div class="gen-div gen-4-8">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/4/8/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/4/8/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[3][7].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[3][7].name">
                                     </div>
                                     <div class="gen-div gen-4-9">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/4/9/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/4/9/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[3][8].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[3][8].name">
                                     </div>
                                     <div class="gen-div gen-4-10">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/4/10/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/4/10/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[3][9].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[3][9].name">
                                     </div>
                                     <div class="gen-div gen-4-11">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/4/11/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/4/11/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[3][10].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[3][10].name">
                                     </div>
                                     <div class="gen-div gen-4-12">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/4/12/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/4/12/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[3][11].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[3][11].name">
                                     </div>
                                     <div class="gen-div gen-4-13">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/4/13/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/4/13/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[3][12].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[3][12].name">
                                     </div>
                                     <div class="gen-div gen-4-14">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/4/14/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/4/14/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[3][13].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[3][13].name">
                                     </div>
                                     <div class="gen-div gen-4-15">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/4/15/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/4/15/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[3][14].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[3][14].name">
                                     </div>
                                     <div class="gen-div gen-4-16">
-                                        <input type="hidden" class="gen-chip sIn" data-save-name="/tree/4/16/chip" name="chip">
-                                        <input type="text" class="gen-name sIn" data-save-name="/tree/4/16/name" name="name">
+                                        <input type="hidden" class="gen-chip" v-model="doc.tree[3][15].chip">
+                                        <input type="text" class="gen-name" v-model="doc.tree[3][15].name">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div v-for="(puppy, i) in main.puppy" class="edit-tab extra-edit-tab" v-show="settings.activeTab == i+1">
-                            <input class="input sIn" :data-save-name="'/puppy['+i+']/firstname'" type="text" placeholder="Name">
-                            <select class="input sIn" :data-save-name="'/puppy['+i+']/gender'">
+                        <div v-for="(entry, i) in doc.entries" class="edit-tab extra-edit-tab" v-show="settings.activeTab == i+1">
+                            <input class="input" v-model="doc.entries[i].firstname" type="text" placeholder="Name">
+                            <select class="input" v-model="doc.entries[i].gender">
                                 <option value="" disabled selected>Geschlecht auswählen</option>
                                 <option value="male">Rüde</option>
                                 <option value="female">Hündin</option>
                             </select><br>
-                            <input type="text" class="input sIn" :data-save-name="'/puppy['+i+']/haircolor'" placeholder="Haarfarbe">
-                            <input class="input sIn" :data-save-name="'/puppy['+i+']/chip'" type="text" placeholder="Chip-Nr."><br>
-                            <input class="input sIn" :data-save-name="'/puppy['+i+']/zbn'" type="text" placeholder="Zuchtbuch-Nr.">
+                            <input type="text" class="input" v-model="doc.entries[i].haircolor" placeholder="Haarfarbe">
+                            <input class="input" v-model="doc.entries[i].chip" type="text" placeholder="Chip-Nr."><br>
+                            <input class="input" v-model="doc.entries[i].zbn" type="text" placeholder="Zuchtbuch-Nr.">
                         </div>
 
                     </div>
@@ -246,7 +246,7 @@
                     <div class="popup-bg pl-bg">
                         <div class="popup-holder pl-holder">
                             <div class="popup-header pl-header no-select">
-                                Welpenliste
+                                Übersicht
                                 <div class="close-ui" onclick="animPopup('pl','out')">&#61782;</div>
                             </div>
                             <div class="popup-content pl-content">
@@ -259,8 +259,8 @@
                                     <div class="pl-tn-column">Zuchtbuch-Nr.</div>
                                 </div>
                                 <div v-else class="pl-no-puppies no-select">
-                                    <div class="icon">&#61944;</div>
-                                    Keine Welpen im Wurf gefunden
+                                    <div class="icon">&#64597;</div>
+                                    Huh! Ganz schön leer.
                                 </div>
 
                                 <div v-for="(puppy, i) in main.puppy" class="puppy-list-row">
@@ -277,7 +277,7 @@
                     </div>
 
                     <div class="nav-fab nav-fab-1 no-select" data-tooltip="Datei speichern" data-tooltip-position="left" onclick="saveFile()">&#61843;</div>
-                    <div class="nav-fab nav-fab-2 no-select" data-tooltip="Übersicht öffnen" data-tooltip-position="left" onclick="openPuppyList(true)">&#63849;</div>
+                    <div class="nav-fab nav-fab-2 no-select" data-tooltip="Übersicht öffnen" data-tooltip-position="left" onclick="animPopup('pl','in')">&#63849;</div>
 
                 </div>
             </div>
@@ -289,40 +289,9 @@
                     <input type="text" class="input" id="dog-data-search" onchange="searchDogData()" placeholder="Nach Hund suchen">
                     <div class="nav-btn nav-back" onclick="changeToStartView()">&#61761;</div>
                 </div>
-                <div class="db-holder">
-                    <form id="dog-data-editor" onsubmit="updateDogData(event)" class="db-sidebar">
-                        <span class="db-sidebar-hl">Dateneditor</span>
-                        <input name="chipnumber" type="hidden" class="input db-hidden-chip">
-                        <input name="chipnumber-new" type="text" class="input db-edit-chip" placeholder="Chip-Nr.">
-                        <input name="zbn" type="text" class="input db-edit-zbn" placeholder="Zuchtbuch-Nr.">
-                        <div class="db-sidebar-divider"></div>
-                        <input name="firstname" type="text" class="input db-edit-firstname" placeholder="Hunde-Name">
-                        <input name="lastname" type="text" class="input db-edit-lastname" placeholder="Zwinger-Name">
-                        <input name="birthdate" type="date" class="input db-edit-birthdate" placeholder="Wurftag">
-                        <select name="gender" class="input db-edit-gender">
-                            <option value="male">Rüde</option>
-                            <option value="female">Hündin</option>
-                        </select>
-                        <input name="race" type="text" class="input db-edit-race" placeholder="Rasse">
-                        <select name="hairtype" class="input db-edit-hairtype">
-                            <option value="" disabled selected>Haartype auswählen</option>
-                            <option value="Struppig">Struppig</option>
-                            <option value="Glatt">Glatt</option>
-                            <option value="Gelockt">Gelockt</option>
-                            <option v-for="type in settings.hairtypes" :value="type">{{type}}</option>
-                        </select>
-                        <input name="haircolor" type="text" class="input db-edit-haircolor" placeholder="Haarfarbe">
-                        <div class="db-sidebar-divider"></div>
-                        <input name="father" type="text" class="input db-edit-father" placeholder="Vater">
-                        <input name="mother" type="text" class="input db-edit-mother" placeholder="Mutter">
-                        <div class="db-sidebar-divider"></div>
-                        <input name="breeder" type="text" class="input db-edit-breeder" placeholder="Züchter">
-                        <input name="membernumber" type="text" class="input db-edit-membernumber" placeholder="Mitglieds-Nr.">
-                        <button type="submit" class="button">Übernehmen</button>
-                        <div onclick="deleteDogData()" class="button ghost-button">Hund löschen</div>
-                    </form>
-                    <div class="db-content">
-                        <div class="db-row db-row-head no-select">
+                <div class="db-table">
+                    <div class="db-table-holder">
+                        <div class="db-row db-table-head no-select">
                             <div class="db-column dbc-chip-head">Chip-Nr.</div>
                             <div class="db-column dbc-zbn-head">Zuchtbuch-Nr.</div>
                             <div class="db-column dbc-firstname-head">Hunde-Name</div>
@@ -337,26 +306,24 @@
                             <div class="db-column dbc-breeder-head">Züchter</div>
                             <div class="db-column dbc-breeder-head">Mitglieds-Nr.</div>
                         </div>
-                        <div class="db-content-holder">
-                            <div v-for="dog in dogData" class="db-row" onclick="editDogData(this)">
-                                <div class="db-column dbc-chip">{{dog.chipnumber}}</div>
-                                <div class="db-column dbc-zbn">{{dog.zbn}}</div>
-                                <div class="db-column dbc-firstname">{{dog.firstname}}</div>
-                                <div class="db-column dbc-lastname">{{dog.lastname}}</div>
-                                <div class="db-column dbc-birthdate">{{dog.birthdate}}</div>
-                                <div class="db-column dbc-gender">{{dog.gender}}</div>
-                                <div class="db-column dbc-race">{{dog.race}}</div>
-                                <div class="db-column dbc-hairtype">{{dog.hairtype}}</div>
-                                <div class="db-column dbc-haircolor">{{dog.haircolor}}</div>
-                                <div class="db-column dbc-mother">{{dog.mother}}</div>
-                                <div class="db-column dbc-father">{{dog.father}}</div>
-                                <div class="db-column dbc-breeder">{{dog.breeder}}</div>
-                                <div class="db-column dbc-membernumber">{{dog.membernumber}}</div>
-                            </div>
+                        <div v-for="dog in dogData" class="db-row" onclick="editDogData(this)">
+                            <div class="db-column dbc-chip" :title="dog.chipnumber">{{dog.chipnumber}}</div>
+                            <div class="db-column dbc-zbn" :title="dog.zbn">{{dog.zbn}}</div>
+                            <div class="db-column dbc-firstname" :title="dog.firstname">{{dog.firstname}}</div>
+                            <div class="db-column dbc-lastname" :title="dog.lastname">{{dog.lastname}}</div>
+                            <div class="db-column dbc-birthdate" :title="formatDate(dog.birthdate)">{{formatDate(dog.birthdate)}}</div>
+                            <div class="db-column dbc-gender" :title="dog.gender">{{dog.gender}}</div>
+                            <div class="db-column dbc-race" :title="dog.race">{{dog.race}}</div>
+                            <div class="db-column dbc-hairtype" :title="dog.hairtype">{{dog.hairtype}}</div>
+                            <div class="db-column dbc-haircolor" :title="dog.haircolor">{{dog.haircolor}}</div>
+                            <div class="db-column dbc-mother" :title="dog.mother">{{dog.mother}}</div>
+                            <div class="db-column dbc-father" :title="dog.father">{{dog.father}}</div>
+                            <div class="db-column dbc-breeder" :title="dog.breeder">{{dog.breeder}}</div>
+                            <div class="db-column dbc-membernumber" :title="dog.membernumber">{{dog.membernumber}}</div>
                         </div>
                     </div>
                 </div>
-                <div class="nav-fab nav-fab-1 no-select" data-tooltip="Neuen Hund hinzufügen" data-tooltip-position="left" onclick="animPopup('add-dog','in')">&#62485;</div>
+                <div class="nav-fab nav-fab-1 no-select" data-tooltip="Eintrag hinzufügen" data-tooltip-position="left" onclick="animPopup('add-dog','in')">&#62485;</div>
             </div>
 
 
@@ -364,7 +331,7 @@
             <div class="popup-bg add-dog-bg no-select">
                 <div class="popup-holder add-dog-holder">
                     <div class="popup-header add-dog-header">
-                        Hund hinzufügen
+                        Eintrag hinzufügen
                         <div class="close-ui" onclick="animPopup('add-dog','out')">&#61782;</div>
                     </div>
                     <form id="dog-data-creator" onsubmit="createDogData(event)" class="popup-content add-dog-content">
@@ -404,18 +371,44 @@
                         <div class="close-ui" onclick="animPopup('settings','out')">&#61782;</div>
                     </div>
                     <div class="popup-content settings-content">
+
+                        <!-- OPTION LICENSE -->
                         <div class="settings-divider">
-                            <div class="settings-label">Lizenz:</div>
+                            <div class="settings-label"><div class="icon">&#61732;</div>Lizenz:</div>
                             <input class="settings-input input" v-model="i.settings.license" type="text" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX">
                         </div>
+
+                        <!-- OPTION DATEFORMAT -->
                         <div v-show="settings.logged" class="settings-divider">
-                            <div class="settings-label">Farbschema auswählen:</div>
+                            <div class="settings-label"><div class="icon">&#61678;</div>Datumsformatierung:</div>
+                            <select class="settings-input input" v-model="i.settings.dateFormat">
+                                <option value="DMY">Tag Monat Jahr</option>
+                                <option value="MDY">Monat Tag Jahr</option>
+                                <option value="YDM">Jahr Tag Monat</option>
+                            </select>
+                        </div>
+
+                        <!-- OPTION DATEDIVIDER -->
+                        <div v-show="settings.logged" class="settings-divider">
+                            <div class="settings-label"><div class="icon">&#63096;</div>Datumstrenner:</div>
+                            <select class="settings-input input" v-model="i.settings.dateDivider">
+                                <option value=".">. (Punkt)</option>
+                                <option value="/">/ (Schrägstrich)</option>
+                                <option value="-">- (Trennstrich)</option>
+                            </select>
+                        </div>
+
+                        <!-- OPTION THEME -->
+                        <div v-show="settings.logged" class="settings-divider">
+                            <div class="settings-label"><div class="icon">&#62424;</div>Farbschema:</div>
                             <select class="settings-input input" v-model="i.settings.theme">
                                 <option v-for="(theme, themeKey) in themes" :value="themeKey">{{theme.name}}</option>
                             </select>
                         </div>
+
+                        <!-- OPTION HAIRTYPE -->
                         <div v-show="settings.logged" class="settings-divider">
-                            <div class="settings-label">Felltypen:</div>
+                            <div class="settings-label"><div class="icon">&#63107;</div>Felltypen:</div>
                             <input class="settings-input input" v-model="i.settings.hairtypes" type="text" placeholder="z.B. Langhaar, Stoppelig, Lockig">
                         </div>
                     </div>
@@ -465,17 +458,18 @@
         </div>
     </body>
 
-    <script src="js/view_handler.js"></script>
-    <script src="js/tab_handler.js"></script>
-    <script src="js/toast_handler.js"></script>
-    <script src="js/file_handler.js"></script>
-    <script src="js/io_handler.js"></script>
+    <script src="js/view.js"></script>
+    <script src="js/tab.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/filemanagement.js"></script>
     <script src="js/backup_handler.js"></script>
-    <script src="js/input_command_handler.js"></script>
-    <script src="js/settings_handler.js"></script>
+    <script src="js/appmenuReceiver.js"></script>
+    <script src="js/settings.js"></script>
     <script src="js/animations.js"></script>
     <script src="js/theme.js"></script>
     <script src="js/misc.js"></script>
+
+    <!-- Just here to let me F5 the program -> delete when production -->
     <script src="renderer.js"></script>
 
     <script src="js/INIT.js"></script>

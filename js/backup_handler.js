@@ -1,10 +1,9 @@
 function openBackup(filepath){
-    if (dismissProgress()) {
-        savePath = '';
-        convertToTempFile(getTempName('temp/backup/','folder')+filepath);
-        writeToInput();
-        animateBackupOut();
-        unsavedProgress = true;
+    if (canProceed()) {
+        app.settings.savePath = ''
+        app.settings.unsavedProgress = true
+        convertToTempFile(getTempName('temp/backup/','folder')+filepath)
+        animateBackupOut()
     }
 }
 
