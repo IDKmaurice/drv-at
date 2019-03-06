@@ -1,11 +1,11 @@
 @import 'css_open_sans_font.css';
-@import 'css_material_icons_font.css';
 @import 'css_start_view.css';
 @import 'css_edit_view.css';
 @import 'css_anim.css';
 @import 'css_grid.css';
 @import 'css_database.css';
 @import 'css_settings.css';
+@import 'mdi.min.css';
 
 :root{
     --accent-color: #0057ff;
@@ -32,6 +32,8 @@
     --text-color5: #555;
     --text-color6: #666;
 
+    --so: 0.2;
+
     --hover-shadow1: 0 0 0 5px rgba(0, 87, 255, 0.4);
     --hover-shadow2: 0 0 0 3px rgba(0, 87, 255, 0.3);
 }
@@ -39,6 +41,18 @@
 *{
     display: inline-block;
     box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: #eee;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 10px;
 }
 
 html{ height: 100%; }
@@ -117,9 +131,11 @@ h1,h2,h3,h4,h5,h6{
     max-width: 290px;
     width: 100%;
 }
+.input:hover{
+    border-color: var(--text-color3);
+}
 .input:focus{
     border-color: var(--accent-color);
-    box-shadow: var(--hover-shadow2);
 }
 
 
@@ -165,38 +181,42 @@ h1,h2,h3,h4,h5,h6{
 
 
 .nav-btn{
-    height: 40px;
-    width: 40px;
-    line-height: 40px;
-    font-size: 23px;
-    color: var(--button-color1);
-    border-radius: 5px;
+    width: 50px;
+    height: 50px;
+    background: var(--background1);
+    border-radius: 7px;
+    color: var(--text-color6);
+    font-family: 'Material Icons';
     position: fixed;
-    cursor: pointer;
-    z-index: 5000;
-    background: var(--accent-color);
+    top: 10px;
+    left: 10px;
+    font-size: 30px;
     text-align: center;
+    line-height: 50px;
+    cursor: pointer;
     transition: 100ms;
 }
 .nav-btn:hover{
-    box-shadow: var(--hover-shadow1);
+    color: var(--accent-color);
+    filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)));
 }
 
 .nav-fab{
     border-radius: 100%;
     line-height: 40px;
-    border: 1px solid var(--button-border);
     color: var(--accent-color);
     text-align: center;
     cursor: pointer;
     transition: 100ms;
     z-index: 5000;
     position: fixed;
-    background: var(--background2);
+    font-family: 'Material Icons';
+    background: var(--background1);
+    filter: drop-shadow(0 6px 5px rgba(0,0,0,var(--so)));
 }
 .nav-fab:hover{
-    border-color: var(--accent-color);
-    box-shadow: var(--hover-shadow1);
+    color: var(--button-color1);
+    background: var(--accent-color);
 }
 
 .nav-fab-1{
@@ -226,12 +246,6 @@ h1,h2,h3,h4,h5,h6{
     line-height: 50px;
 }
 
-.nav-back{
-    left: 5px;
-    top: 5px;
-    border-radius: 30px;
-}
-
 
 
 
@@ -250,6 +264,7 @@ h1,h2,h3,h4,h5,h6{
     font-size: 23px;
     cursor: pointer;
     transition: 100ms;
+    font-family: 'Material Icons';
 }
 .close-ui:hover{
     box-shadow: var(--hover-shadow1);
@@ -258,24 +273,37 @@ h1,h2,h3,h4,h5,h6{
 
 
 
-.toast{
-    width: calc(100% - 20px);
+.toast-holder{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     max-width: 500px;
-    background: #262626;
+    padding: 10px;
+    padding-bottom: 0;
+    z-index: 5000;
+}
+
+.toast{
+    width: 100%;
+    background: #eee;
     border-radius: 5px;
     font-size: 15px;
-    color: #fff;
+    color: #333;
     font-weight: 500;
-    position: fixed;
-    bottom: -110px;
-    opacity: 0;
-    left: 10px;
     padding: 10px;
+    padding-bottom: 14px;
     text-align: left;
     max-height: 100px;
     overflow: hidden;
-    z-index: 5000;
+    margin-bottom: 10px;
+    position: relative;
+    transform: translateX(-100%);
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
 }
+.toast-error{background: #FF5959; color: white}
+.toast-warning{background: #FFDD2A; color: #222}
+.toast-success{background: #00CC33; color: white}
 
 .toast-msg{ vertical-align: middle; max-width: calc(100% - 55px)}
 
@@ -285,11 +313,23 @@ h1,h2,h3,h4,h5,h6{
     font-size: 28px;
     vertical-align: middle;
     margin-right: 5px;
+    color: inherit;
+    font-family: 'Material Icons';
 }
 
-.toast-error .toast-icon{color: #FF5959}
-.toast-warning .toast-icon{color: #FFDD2A}
-.toast-success .toast-icon{color: #46CF35}
+.toast-time-bar, .toast-time-left{
+    height: 4px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: currentColor;
+    opacity: 0.3;
+}
+.toast-time-left{
+    opacity: 1;
+    width: 100%;
+}
 
 
 

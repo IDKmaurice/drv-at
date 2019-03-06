@@ -1,0 +1,22 @@
+{"name": "DRV (hell)", "props":[
+    {"prop": "accent-color", "value":"#2268d8" },
+    {"prop": "background1", "value":"#dbe9f1" },
+    {"prop": "background2", "value":"#b7d5e8" },
+    {"prop": "header-color", "value":"#a0cce8" },
+    {"prop": "button-color1", "value":"#fff" },
+    {"prop": "button-color2", "value":"#444" },
+    {"prop": "button-border", "value":"#bbb" },
+    {"prop": "input-bg", "value":"#fff" },
+    {"prop": "input-color", "value":"#000" },
+    {"prop": "input-border", "value":"#aaa" },
+    {"prop": "table-border", "value":"#fff" },
+    {"prop": "text-color0", "value":"#161616" },
+    {"prop": "text-color1", "value":"#181818" },
+    {"prop": "text-color2", "value":"#191919" },
+    {"prop": "text-color3", "value":"#202020" },
+    {"prop": "text-color4", "value":"#212121" },
+    {"prop": "text-color5", "value":"#222" },
+    {"prop": "text-color6", "value":"#282828" },
+    {"prop": "hover-shadow1", "value":"0 0 0 5px rgba(0, 87, 255, 0.4)" },
+    {"prop": "hover-shadow2", "value":"0 0 0 3px rgba(0, 87, 255, 0.3)" }
+]}

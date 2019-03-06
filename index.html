@@ -9,6 +9,8 @@
             const $ = require('jquery')
             const tooltip = require('electron-tooltip')
             const fs = require('fs')
+            const pn = require('path')
+            const glob = require('glob')
             const anime = require('animejs')
             const settings = require('electron-settings')
             const {ipcRenderer} = require('electron')
@@ -17,49 +19,52 @@
     <body>
         <div id="app">
 
-            <div class="view start-view" data-active=true data-view-page="start">
+            <div class="view start-view" v-show="settings.activeView == 'start'">
                 <div class="start-option-holder no-select">
                     <div class="start-option" onclick="app.settings.logged ? changeToEditView() : initLogin()">
-                        <i class="material-icons start-option-icon">note_add</i>
+                        <div class="start-option-icon">&#61988;</div>
                         <span class="start-option-text">Erstellen</span>
                     </div>
                     <div class="start-option" onclick="app.settings.logged ? openFile() : initLogin()">
-                        <i class="material-icons start-option-icon">folder_open</i>
+                        <div class="start-option-icon">&#63343;</div>
                         <span class="start-option-text">Öffnen</span>
                     </div>
                     <div class="start-option" onclick="app.settings.logged ? changeToDatabaseView() : initLogin()">
-                        <i class="material-icons start-option-icon">storage</i>
+                        <div class="start-option-icon">&#64169;</div>
                         <span class="start-option-text">Datenbank</span>
                     </div>
                 </div>
-                <i class="material-icons start-open-settings" onclick="animPopup('settings','in')">settings</i>
+                <div class="start-open-settings" onclick="animPopup('settings','in')">&#62611;</div>
             </div>
 
 
 
-            <div class="view" data-active=false data-view-page="edit">
+            <div class="view" v-show="settings.activeView == 'edit'">
                 <div class="edit-view-holder">
 
                     <div class="edit-tab-holder no-select">
-                        <div class="nav-btn nav-back" onclick="changeToStartView()">
-                            <i class="material-icons">keyboard_arrow_left</i>
+                        <div class="nav-btn nav-back" onclick="changeToStartView()">&#61761;</div>
+
+                        <div class="tab" :class="{'tab-active' : settings.activeTab == 0}" onclick="selectTab()">
+                            <div class="tab-text">
+                                <div class="tab-icon">&#62634;</div> Hauptseite
+                            </div>
+                            <div class="tab-btn" onclick="addTabs()" data-tooltip="Tab hinzufügen" data-tooltip-position="right">&#62485;</div>
                         </div>
-                        <div class="tab main-tab tab-active" onclick="selectTab()" data-change-tab="main" data-tooltip="Hauptseite" data-tooltip-position="bottom">
-                            <i class="material-icons tab-icon">assignment</i>
-                        </div>
+
                         <div class="puppy-tab-holder">
-                            <transition name="puppy-tab-anim" v-for="(puppy, i) in main.puppy">
-                                <div class="tab puppy-tab puppy-tab-anim-in" :onclick="'selectTab('+(i+1)+')'" :data-change-tab="i+1">{{i+1}}</div>
-                            </transition>
-                        </div>
-                        <div class="tab-btn tab-add-btn icon-tab" data-tooltip="Tab hinzufügen" data-tooltip-position="bottom" onclick="addTabs()">
-                            <i class="material-icons tab-icon">add</i>
+                            <div class="tab" v-for="(puppy, i) in main.puppy" :class="{'tab-active' : settings.activeTab == (i+1)}">
+                                <div class="tab-text" :onclick="'selectTab('+(i+1)+')'">
+                                    <div class="tab-count">{{i+1}}</div> Tab
+                                </div>
+                                <div class="tab-btn delete" :onclick="'removeTabs('+(i+1)+')'" data-tooltip="Tab löschen" data-tooltip-position="right">&#64121;</div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="edit-content-holder">
 
-                        <div class="edit-tab" data-tab-page="main">
+                        <div class="edit-tab" v-show="settings.activeTab == 0">
                             <input class="input sIn" data-save-name="/name" type="text" placeholder="Züchtername">
                             <input class="input sIn" data-save-name="/date" type="date" placeholder="Wurftag">
                             <input class="input sIn" data-save-name="/race" type="text" placeholder="Rasse">
@@ -198,7 +203,7 @@
                             </div>
                         </div>
 
-                        <div v-for="(puppy, i) in main.puppy" class="edit-tab extra-edit-tab" :data-tab-page="i+1">
+                        <div v-for="(puppy, i) in main.puppy" class="edit-tab extra-edit-tab" v-show="settings.activeTab == i+1">
                             <input class="input sIn" :data-save-name="'/puppy['+i+']/firstname'" type="text" placeholder="Name">
                             <select class="input sIn" :data-save-name="'/puppy['+i+']/gender'">
                                 <option value="" disabled selected>Geschlecht auswählen</option>
@@ -216,7 +221,7 @@
                         <div class="ac-holder">
                             <div class="ac-header">
                                 Eltern Hinzufügen
-                                <div class="close-ui" onclick="closeACpopup()"><i class="material-icons">close</i></div>
+                                <div class="close-ui" onclick="closeACpopup()">&#61782;</div>
                             </div>
                             <div class="ac-content">
                                 <input type="hidden" class="ac-gen-column-input" value="1">
@@ -242,7 +247,7 @@
                         <div class="popup-holder pl-holder">
                             <div class="popup-header pl-header no-select">
                                 Welpenliste
-                                <div class="close-ui" onclick="animPopup('pl','out')"><i class="material-icons">close</i></div>
+                                <div class="close-ui" onclick="animPopup('pl','out')">&#61782;</div>
                             </div>
                             <div class="popup-content pl-content">
 
@@ -254,44 +259,35 @@
                                     <div class="pl-tn-column">Zuchtbuch-Nr.</div>
                                 </div>
                                 <div v-else class="pl-no-puppies no-select">
-                                    <i class="material-icons">sentiment_dissatisfied</i>
+                                    <div class="icon">&#61944;</div>
                                     Keine Welpen im Wurf gefunden
                                 </div>
 
                                 <div v-for="(puppy, i) in main.puppy" class="puppy-list-row">
-                                    <div class="pl-drag"><i class="material-icons">drag_handle</i></div>
+                                    <div class="pl-drag">&#61917;</div>
                                     <div class="pl-column">{{puppy.firstname}}</div>
                                     <div class="pl-column">{{puppy.gender}}</div>
                                     <div class="pl-column">{{puppy.haircolor}}</div>
                                     <div class="pl-column">{{puppy.chip}}</div>
                                     <div class="pl-column">{{puppy.zbn}}</div>
-                                    <div class="pl-delete" data-tooltip="Welpe löschen" data-tooltip-position="left" :onclick="'removeTabs('+i+')'"><i class="material-icons">delete</i></div>
+                                    <div class="pl-delete" data-tooltip="Welpe löschen" data-tooltip-position="left" :onclick="'removeTabs('+i+')'">&#61888;</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="nav-fab nav-fab-1 no-select" data-tooltip="Datei speichern" data-tooltip-position="left" onclick="saveFile()">
-                        <i class="material-icons">save</i>
-                    </div>
-                    <div class="nav-fab nav-fab-2 no-select" data-tooltip="Welpe löschen" data-tooltip-position="left" onclick="removeTabs('active')">
-                        <i class="material-icons">delete</i>
-                    </div>
-                    <div class="nav-fab nav-fab-3 no-select" data-tooltip="Welpenliste öffnen" data-tooltip-position="left" onclick="openPuppyList(true)">
-                        <i class="material-icons">pets</i>
-                    </div>
+                    <div class="nav-fab nav-fab-1 no-select" data-tooltip="Datei speichern" data-tooltip-position="left" onclick="saveFile()">&#61843;</div>
+                    <div class="nav-fab nav-fab-2 no-select" data-tooltip="Übersicht öffnen" data-tooltip-position="left" onclick="openPuppyList(true)">&#63849;</div>
 
                 </div>
             </div>
 
 
 
-            <div class="view" data-active=false data-view-page="database">
+            <div class="view" v-show="settings.activeView == 'database'">
                 <div class="db-header">
                     <input type="text" class="input" id="dog-data-search" onchange="searchDogData()" placeholder="Nach Hund suchen">
-                    <div class="nav-btn nav-back" onclick="changeToStartView()">
-                        <i class="material-icons">keyboard_arrow_left</i>
-                    </div>
+                    <div class="nav-btn nav-back" onclick="changeToStartView()">&#61761;</div>
                 </div>
                 <div class="db-holder">
                     <form id="dog-data-editor" onsubmit="updateDogData(event)" class="db-sidebar">
@@ -360,9 +356,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="nav-fab nav-fab-1 no-select" data-tooltip="Neuen Hund hinzufügen" data-tooltip-position="left" onclick="animPopup('add-dog','in')">
-                    <i class="material-icons">add</i>
-                </div>
+                <div class="nav-fab nav-fab-1 no-select" data-tooltip="Neuen Hund hinzufügen" data-tooltip-position="left" onclick="animPopup('add-dog','in')">&#62485;</div>
             </div>
 
 
@@ -371,7 +365,7 @@
                 <div class="popup-holder add-dog-holder">
                     <div class="popup-header add-dog-header">
                         Hund hinzufügen
-                        <div class="close-ui" onclick="animPopup('add-dog','out')"><i class="material-icons">close</i></div>
+                        <div class="close-ui" onclick="animPopup('add-dog','out')">&#61782;</div>
                     </div>
                     <form id="dog-data-creator" onsubmit="createDogData(event)" class="popup-content add-dog-content">
                         <input name="chipnumber" type="text" class="input" placeholder="Chip-Nr.">
@@ -407,22 +401,22 @@
                 <div class="popup-holder settings-holder">
                     <div class="popup-header settings-header">
                         Einstellungen
-                        <div class="close-ui" onclick="animPopup('settings','out')"><i class="material-icons">close</i></div>
+                        <div class="close-ui" onclick="animPopup('settings','out')">&#61782;</div>
                     </div>
                     <div class="popup-content settings-content">
                         <div class="settings-divider">
                             <div class="settings-label">Lizenz:</div>
-                            <input class="settings-input input" data-option-name="license" type="text" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX">
+                            <input class="settings-input input" v-model="i.settings.license" type="text" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX">
                         </div>
                         <div v-show="settings.logged" class="settings-divider">
                             <div class="settings-label">Farbschema auswählen:</div>
-                            <select class="settings-input input" data-option-name="theme">
+                            <select class="settings-input input" v-model="i.settings.theme">
                                 <option v-for="(theme, themeKey) in themes" :value="themeKey">{{theme.name}}</option>
                             </select>
                         </div>
                         <div v-show="settings.logged" class="settings-divider">
                             <div class="settings-label">Felltypen:</div>
-                            <input class="settings-input input" data-option-name="hairtypes" type="text" placeholder="z.B. Langhaar, Stoppelig, Lockig">
+                            <input class="settings-input input" v-model="i.settings.hairtypes" type="text" placeholder="z.B. Langhaar, Stoppelig, Lockig">
                         </div>
                     </div>
                     <div class="popup-footer settings-footer">
@@ -438,7 +432,7 @@
                 <div class="popup-holder bu-holder">
                     <div class="popup-header bu-header">
                         Backups gefunden
-                        <div class="close-ui" onclick="animPopup('bu','out')"><i class="material-icons">close</i></div>
+                        <div class="close-ui" onclick="animPopup('bu','out')">&#61782;</div>
                     </div>
                     <div class="popup-content bu-content">
                         <div v-for="file in backup" class="bu-item">
@@ -465,12 +459,8 @@
                 <button type="submit" class="input-popup-btn">Weiter</button>
             </form>
 
-
-
-            <div class="toast">
-                <i class="material-icons toast-icon toast-s"></i>
-                <span class="toast-msg"></span>
-            </div>
+            <!-- HOLDER FOR ALL TOAST NOTIFICATIONS -->
+            <div class="toast-holder"></div>
 
         </div>
     </body>
@@ -487,127 +477,6 @@
     <script src="js/theme.js"></script>
     <script src="js/misc.js"></script>
     <script src="renderer.js"></script>
-    <script>
 
-        var dir = fs.readdirSync(getTempName("temp/backup/",'folder'))
-        app = new Vue({
-            el:'#app',
-            data: {
-                main: {},
-                backup: dir,
-                dogData: null,
-                acDogData: null,
-                settings: {
-                    sessionKey: null,
-                    logged: false,
-                    hairtypes: [],
-                },
-                themes: {
-                    default: {name: 'Standard', props:[
-                        {prop: 'accent-color', value:'#0057ff' },
-                        {prop: 'background1', value:'#fff' },
-                        {prop: 'background2', value:'#f9f9f9' },
-                        {prop: 'header-color', value:'#f0f0f0' },
-                        {prop: 'button-color1', value:'#fff' },
-                        {prop: 'button-color2', value:'#444' },
-                        {prop: 'button-border', value:'#bbb' },
-                        {prop: 'input-bg', value:'#fff' },
-                        {prop: 'input-color', value:'#555' },
-                        {prop: 'input-border', value:'#ccc' },
-                        {prop: 'table-border', value:'#ddd' },
-                        {prop: 'text-color0', value:'#000' },
-                        {prop: 'text-color1', value:'#111' },
-                        {prop: 'text-color2', value:'#222' },
-                        {prop: 'text-color3', value:'#333' },
-                        {prop: 'text-color4', value:'#444' },
-                        {prop: 'text-color5', value:'#555' },
-                        {prop: 'text-color6', value:'#666' },
-                        {prop: 'hover-shadow1', value:'0 0 0 5px rgba(0, 87, 255, 0.4)' },
-                        {prop: 'hover-shadow2', value:'0 0 0 3px rgba(0, 87, 255, 0.3)' },
-                    ]},
-                    defaultDark: {name: 'Standard (dunkel)', props:[
-                        {prop: 'accent-color', value:'#FF5E17' },
-                        {prop: 'background1', value:'#151515' },
-                        {prop: 'background2', value:'#191919' },
-                        {prop: 'header-color', value:'#232323' },
-                        {prop: 'button-color1', value:'#fff' },
-                        {prop: 'button-color2', value:'#eee' },
-                        {prop: 'button-border', value:'#bbb' },
-                        {prop: 'input-bg', value:'#333' },
-                        {prop: 'input-color', value:'#eee' },
-                        {prop: 'input-border', value:'#101010' },
-                        {prop: 'table-border', value:'#090909' },
-                        {prop: 'text-color0', value:'#aaa' },
-                        {prop: 'text-color1', value:'#959595' },
-                        {prop: 'text-color2', value:'#888' },
-                        {prop: 'text-color3', value:'#848484' },
-                        {prop: 'text-color4', value:'#777' },
-                        {prop: 'text-color5', value:'#727272' },
-                        {prop: 'text-color6', value:'#666' },
-                        {prop: 'hover-shadow1', value:'0 0 0 5px rgba(255, 94, 23, 0.4)' },
-                        {prop: 'hover-shadow2', value:'0 0 0 3px rgba(255, 94, 23, 0.3)' },
-                    ]},
-                    drvLight: {name: 'DRV (hell)', props:[
-                        {prop: 'accent-color', value:'#2268d8' },
-                        {prop: 'background1', value:'#dbe9f1' },
-                        {prop: 'background2', value:'#b7d5e8' },
-                        {prop: 'header-color', value:'#a0cce8' },
-                        {prop: 'button-color1', value:'#fff' },
-                        {prop: 'button-color2', value:'#444' },
-                        {prop: 'button-border', value:'#bbb' },
-                        {prop: 'input-bg', value:'#fff' },
-                        {prop: 'input-color', value:'#000' },
-                        {prop: 'input-border', value:'#aaa' },
-                        {prop: 'table-border', value:'#fff' },
-                        {prop: 'text-color0', value:'#161616' },
-                        {prop: 'text-color1', value:'#181818' },
-                        {prop: 'text-color2', value:'#191919' },
-                        {prop: 'text-color3', value:'#202020' },
-                        {prop: 'text-color4', value:'#212121' },
-                        {prop: 'text-color5', value:'#222' },
-                        {prop: 'text-color6', value:'#282828' },
-                        {prop: 'hover-shadow1', value:'0 0 0 5px rgba(0, 87, 255, 0.4)' },
-                        {prop: 'hover-shadow2', value:'0 0 0 3px rgba(0, 87, 255, 0.3)' },
-                    ]},
-                    drvDark: {name: 'DRV (dunkel)', props:[
-                        {prop: 'accent-color', value:'#2268d8' },
-                        {prop: 'background1', value:'#333' },
-                        {prop: 'background2', value:'#282828' },
-                        {prop: 'header-color', value:'#222' },
-                        {prop: 'button-color1', value:'#fff' },
-                        {prop: 'button-color2', value:'#999' },
-                        {prop: 'button-border', value:'#151515' },
-                        {prop: 'input-bg', value:'#555' },
-                        {prop: 'input-color', value:'#fff' },
-                        {prop: 'input-border', value:'#111' },
-                        {prop: 'table-border', value:'#151515' },
-                        {prop: 'text-color0', value:'#eee' },
-                        {prop: 'text-color1', value:'#eee' },
-                        {prop: 'text-color2', value:'#e7e7e7' },
-                        {prop: 'text-color3', value:'#ddd' },
-                        {prop: 'text-color4', value:'#ccc' },
-                        {prop: 'text-color5', value:'#c6c6c6' },
-                        {prop: 'text-color6', value:'#bfbfbf' },
-                        {prop: 'hover-shadow1', value:'0 0 0 5px rgba(0, 87, 255, 0.4)' },
-                        {prop: 'hover-shadow2', value:'0 0 0 3px rgba(0, 87, 255, 0.3)' },
-                    ]},
-                }
-            }
-        })
-
-
-
-
-        //initialization    
-        checkForBackups()
-        setViewVisibility()
-        initSettings()
-        initLogin()
-        //openBackupUI();
-        changeTab()
-        tooltip({ style: { backgroundColor: '#292828', borderRadius: '4px' } })
-        unsavedProgress = false
-        savePath = ""
-        ipcRenderer.send('request-main', 'openedWithFile') //send a msg to main to let it know renderer has loaded
-    </script>
+    <script src="js/INIT.js"></script>
 </html>

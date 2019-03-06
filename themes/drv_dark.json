@@ -1,0 +1,22 @@
+{"name": "DRV (dunkel)", "props":[
+    {"prop": "accent-color", "value":"#2268d8" },
+    {"prop": "background1", "value":"#333" },
+    {"prop": "background2", "value":"#282828" },
+    {"prop": "header-color", "value":"#222" },
+    {"prop": "button-color1", "value":"#fff" },
+    {"prop": "button-color2", "value":"#999" },
+    {"prop": "button-border", "value":"#151515" },
+    {"prop": "input-bg", "value":"#555" },
+    {"prop": "input-color", "value":"#fff" },
+    {"prop": "input-border", "value":"#111" },
+    {"prop": "table-border", "value":"#151515" },
+    {"prop": "text-color0", "value":"#eee" },
+    {"prop": "text-color1", "value":"#eee" },
+    {"prop": "text-color2", "value":"#e7e7e7" },
+    {"prop": "text-color3", "value":"#ddd" },
+    {"prop": "text-color4", "value":"#ccc" },
+    {"prop": "text-color5", "value":"#c6c6c6" },
+    {"prop": "text-color6", "value":"#bfbfbf" },
+    {"prop": "hover-shadow1", "value":"0 0 0 5px rgba(0, 87, 255, 0.4)" },
+    {"prop": "hover-shadow2", "value":"0 0 0 3px rgba(0, 87, 255, 0.3)" }
+]}

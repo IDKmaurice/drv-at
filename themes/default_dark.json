@@ -1,0 +1,22 @@
+{"name": "Standard (dunkel)", "props":[
+    {"prop": "accent-color", "value":"#FF5E17" },
+    {"prop": "background1", "value":"#151515" },
+    {"prop": "background2", "value":"#191919" },
+    {"prop": "header-color", "value":"#232323" },
+    {"prop": "button-color1", "value":"#fff" },
+    {"prop": "button-color2", "value":"#eee" },
+    {"prop": "button-border", "value":"#bbb" },
+    {"prop": "input-bg", "value":"#333" },
+    {"prop": "input-color", "value":"#eee" },
+    {"prop": "input-border", "value":"#101010" },
+    {"prop": "table-border", "value":"#090909" },
+    {"prop": "text-color0", "value":"#aaa" },
+    {"prop": "text-color1", "value":"#959595" },
+    {"prop": "text-color2", "value":"#888" },
+    {"prop": "text-color3", "value":"#848484" },
+    {"prop": "text-color4", "value":"#777" },
+    {"prop": "text-color5", "value":"#727272" },
+    {"prop": "text-color6", "value":"#666" },
+    {"prop": "hover-shadow1", "value":"0 0 0 5px rgba(255, 94, 23, 0.4)" },
+    {"prop": "hover-shadow2", "value":"0 0 0 3px rgba(255, 94, 23, 0.3)" }
+]}

@@ -1,5 +1,5 @@
 .db-header{
-    height: 50px;
+    height: 70px;
     width: 100%;
     position: fixed;
     top: 0;
@@ -8,12 +8,13 @@
     z-index: 1000;
     text-align: right;
     border-bottom: 1px solid var(--table-border);
+    padding: 10px;
     padding-left: 50px;
-    padding-right: 5px;
+    padding-right: 15px;
 }
 
 .db-holder{
-    height: calc(100% - 50px);
+    height: calc(100% - 70px);
     width: 100%;
     position: fixed;
     left: 0;

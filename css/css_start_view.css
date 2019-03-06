@@ -8,8 +8,7 @@
 }
 
 .start-option{
-    border: 1px solid transparent;
-    border-radius: 5px;
+    border-radius: 10px;
     height: calc(100% - 20px);
     width: calc(100% / 3 - 20px);
     margin: 10px;
@@ -19,17 +18,18 @@
     padding: 60px 20px;
     cursor: pointer;
     font-weight: 200;
+    background: var(--background1);
 }
 .start-option:hover{
-    border-color: var(--accent-color);
-    color: var(--text-color0);
-    box-shadow: var(--hover-shadow1);
+    filter: drop-shadow(0 10px 12px rgba(0,0,0,var(--so)));
+    color: var(--accent-color);
 }
 
 .start-option-icon{
     font-size: 80px;
     line-height: 80px;
     opacity: 0.8;
+    font-family: 'Material Icons';
 }
 
 .start-option-text{
@@ -39,19 +39,24 @@
 }
 
 .start-open-settings{
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
+    background: var(--background1);
+    border-radius: 7px;
     color: var(--text-color6);
+    font-family: 'Material Icons';
     position: fixed;
-    top: 0;
-    right: 0;
+    top: 10px;
+    right: 10px;
     font-size: 27px;
     text-align: center;
-    line-height: 60px;
+    line-height: 50px;
     cursor: pointer;
+    transition: 100ms;
 }
 .start-open-settings:hover{
-    color: var(--text-color2);
+    color: var(--accent-color);
+    filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)));
 }
 
 

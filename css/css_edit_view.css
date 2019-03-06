@@ -4,76 +4,108 @@
 }
 
 .edit-tab-holder{
-    height: 50px;
-    width: 100%;
-    margin-bottom: 30px;
-    padding: 5px;
-    overflow: hidden;
-    white-space: nowrap;
+    height: 100%;
+    width: 300px;
+    padding-top: 70px;
     position: fixed;
     top: 0;
     left: 0;
-    background: var(--background2);
+    z-index: 1;
+    text-align: left;
+    background: var(--background1);
+    filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)));
 }
 
 .puppy-tab-holder{
-    border-left: 1px solid var(--table-border);
-    border-right: 1px solid var(--table-border);
-    padding-left: 8px;
-    margin: 0 8px;
+    width: 100%;
+    height: calc(100% - 60px);
+    overflow-y: auto;
 }
 
-.tab,.tab-btn{
+.tab{
+    height: 60px;
+    width: 100%;
+    padding: 5px;
+    position: relative;
+}
+.tab-text{
+    height: 50px;
+    width: calc(100% - 50px);
+    line-height: 50px;
+    font-size: 16px;
+    vertical-align: top;
+    cursor: pointer;
+    color: var(--text-color2);
+}
+.tab-icon, .tab-count{
     height: 40px;
-    width: 55px;
+    width: 40px;
+    font-size: 21px;
     line-height: 40px;
-    color: var(--button-color1);
-    font-size: 23px;
+    margin: 5px;
+    text-align: center;
+    color: var(--text-color6);
+    font-family: 'Material Icons';
+    vertical-align: top;
+    border-radius: 7px;
+    margin-right: 5px;
+    background: var(--background1);
+}
+.tab-count{
+    font-family: 'OpenSans';
+}
+
+.tab-text:hover .tab-icon, .tab-text:hover .tab-count{
+    color: var(--accent-color);
+    filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)));
+}
+
+.tab-active .tab-icon, .tab-active .tab-count{
+    color: var(--button-color1) !important;
+    background: var(--accent-color);
+}
+
+.tab-btn{
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    color: var(--button-color2);
+    font-size: 25px;
     text-align: center;
     cursor: pointer;
-    background: var(--accent-color);
+    background: var(--background1);
     vertical-align: top;
     transition: 100ms;
-    font-weight: 500;
     overflow: hidden;
-    border-radius: 5px;
+    border-radius: 7px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
     border: 1px solid transparent;
+    font-family: 'Material Icons';
 }
 
-.tab:hover,.tab-btn:hover{
-    box-shadow: var(--hover-shadow2);
-}
-
-.puppy-tab{
-    margin-right: 8px;
-}
-
-.tab-icon{ font-size: 28px;}
-
-.puppy-tab-anim-in{ animation: puppy-tab-in 200ms forwards; }
-
-.tab-active{
+.tab-btn:hover{
     color: var(--accent-color);
-    border-color: var(--accent-color);
-    background: transparent;
+    filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)));
 }
+.tab-btn.delete:hover{
+    color: #FF3030;
+}
+
+
 
 .edit-content-holder{
-    width: 100%;
-    height: calc(100% - 50px);
+    width: calc(100% - 300px);
+    height: 100%;
     position: fixed;
-    top: 50px;
-    left: 0;
+    top: 0px;
+    left: 300px;
     padding: 20px;
 }
 
 .edit-tab{
     width: 100%;
-    display: none;
-}
-
-.edit-tab-active{
-    display: inline-block;
 }
 
 .template-obj{
@@ -219,12 +251,13 @@
     text-align: center;
     margin: 100px 0;
 }
-.pl-no-puppies .material-icons{
+.pl-no-puppies .icon{
     width: 100%;
     font-size: 120px;
     height: 120px;
     line-height: 120px;
     opacity: 0.7;
+    font-family: 'Material Icons';
 }
 
 .puppy-list-row,.pl-table-name{
@@ -248,11 +281,12 @@
     vertical-align: top;
     border-left: 1px solid var(--table-border);
 }
-.pl-column .material-icons{
+.pl-column .icons{
     font-size: 24px;
     color: var(--text-color6);
     margin: 0 10px;
     vertical-align: middle;
+    font-family: 'Material Icons';
 }
 
 .pl-tn-column{
@@ -277,6 +311,7 @@
     cursor: pointer;
     transition: 100ms;
     margin: 10px 0;
+    font-family: 'Material Icons';
 }
 .pl-delete:hover{
     background: #FF3030;

@@ -1,17 +1,15 @@
 function setViewVisibility() {
-    $('.view').each(function(){
-        if($(this).data('active') === true){
-            $(this).css('display','grid')
-        } else {
-            $(this).css('display','none')
-        }
-    })
+    // $('.view').each(function(){
+    //     if($(this).data('active') === true){
+    //         $(this).css('display','grid')
+    //     } else {
+    //         $(this).css('display','none')
+    //     }
+    // })
 }
 
 function changeView(view) {
-    $('.view').data('active',false);
-    $('.view[data-view-page="'+view+'"]').data('active',true);
-    setViewVisibility();
+    app.settings.activeView = view
 }
 
 function changeToEditView() {
