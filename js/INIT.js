@@ -6,6 +6,9 @@ app = new Vue({
         backup: dir,
         dogData: null,
         acDogData: null,
+        doc: {
+            savePath: ''
+        },
         settings: {
             activeView: 'start',
             activeTab: 0,
