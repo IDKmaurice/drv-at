@@ -16,6 +16,7 @@ app = new Vue({
             sessionKey: null,
             logged: false,
             hairtypes: [],
+            devMode: true,
         },
         settingDefaults: [
             {option: 'theme', default: 'default_light'},

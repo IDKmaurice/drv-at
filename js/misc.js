@@ -19,25 +19,34 @@ function ipPassNext(event){
     let license = settings.get('license');
     animInputPopup('pass-ip-bg','out');
 
-    $.post("https://maurice-freuwoert.com/drvserverapi/login.php", { license: license, password: pass }, function (data) {
+    if (app.settings.devMode) {
 
-        let returnValues = JSON.parse(data);
+        app.settings.sessionKey = 'DEVMODE'
+        app.settings.logged = true
+        sendAToast('success', 'DevMode: Sie haben sich in den DevMode eingeloggt!<br>Das heißt es steht ihnen nur ein begrentzter Teil der Software zur Verfügung', 5000)
 
-        if (returnValues.success) {
+    } else {
 
-            app.settings.sessionKey = returnValues.key;
-            app.settings.logged = true;
-            sendAToast('success','Erfolgreich eingeloggt!');
+        $.post("https://maurice-freuwoert.com/drvserverapi/login.php", { license: license, password: pass }, function (data) {
 
-        } else {
+            let returnValues = JSON.parse(data);
 
-            app.settings.sessionKey = null;
-            app.settings.logged = false;
-            sendAToast('warning',returnValues.error);
-            initLogin();
+            if (returnValues.success && app.settings.devMode == false) {
 
-        }
-    });
+                app.settings.sessionKey = returnValues.key
+                app.settings.logged = true
+                sendAToast('success','Erfolgreich eingeloggt!')
+
+            } else {
+
+                app.settings.sessionKey = null
+                app.settings.logged = false
+                sendAToast('warning',returnValues.error)
+                initLogin()
+
+            }
+        })
+    }
 }
 
 
