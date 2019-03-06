@@ -197,7 +197,9 @@ function editDogData(obj){
 }
 
 
-function openACpopup(column,row,gender){
+function openACpopup(column,row){
+
+    let gender = (row%2 == 0) ? 'female' : 'male'
 
     $('.ac-bg').addClass('active');
     $('.ac-gen-column-input').val(column)
