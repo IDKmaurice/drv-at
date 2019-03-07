@@ -13,6 +13,7 @@ app = new Vue({
             reset: false,
             justLoaded: false,
             activeView: 'start',
+            activeSetting: 'GENERAL',
             activeTab: 0,
             popups: {
                 login: false,
@@ -25,7 +26,7 @@ app = new Vue({
             sessionKey: null,
             logged: false,
             hairtypes: [],
-            devMode: false
+            devMode: true
         },
         settingDefaults: [
             {option: 'theme', default: 'default_light'},
@@ -33,6 +34,11 @@ app = new Vue({
             {option: 'hairtypes', default: ''},
             {option: 'dateFormat', default: 'DMY'},
             {option: 'dateDivider', default: '.'},
+            {option: 'proxyType', default: 'NONE'},
+            {option: 'proxyIP', default: ''},
+            {option: 'proxyPort', default: ''},
+            {option: 'proxyUser', default: ''},
+            {option: 'proxyPass', default: ''},
         ],
         themes: {},
         i:{
@@ -42,6 +48,11 @@ app = new Vue({
                 hairtypes: '',
                 dateFormat: '',
                 dateDivider: '',
+                proxyType: '',
+                proxyIP: '',
+                proxyPort: '',
+                proxyUser: '',
+                proxyPass: '',
             }
         }
     },
