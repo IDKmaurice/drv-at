@@ -145,9 +145,8 @@ h1,h2,h3,h4,h5,h6{
 .checkbox{
     -webkit-appearance: none;
     appearance: none;
-
-    background: #ccc;
-    color: #0057ff;
+    background: var(--input-bg);
+    color: var(--accent-color);
     margin: 5px;
     width: 20px;
     height: 20px;
@@ -157,27 +156,25 @@ h1,h2,h3,h4,h5,h6{
     vertical-align: middle;
 }
 
-input.checkbox::before {
-    content: 'F12C';
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    text-align: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    color: inherit;
-    font-size: 0;
-    font-family: 'Material Icons';
-    transition: 80ms;
-}
 .checkbox:checked::before{
-    font-size: 18px;
+    content: '';
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: inherit;
+    font-size: 18px;
+    font-family: 'Material Icons';
+    transition: all 80ms;
 }
+
 .checkbox:disabled{
-    color: #aaa;
-    background: #ddd;
-    cursor: default;
+    color: var(--input-color);
+    cursor: default;
+    opacity: 0.7;
 }
 
 .button{
