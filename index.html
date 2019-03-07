@@ -259,7 +259,11 @@
                         <div class="settings-category" @click="settings.activeSetting = 'GENERAL'"><div class="icon">&#63022;</div> Allgemein</div>
                         <div class="settings-category" @click="settings.activeSetting = 'EDITOR'"><div class="icon">&#63476;</div> Editor</div>
                         <div class="settings-category" @click="settings.activeSetting = 'PROXY'"><div class="icon">&#62605;</div> Proxy</div>
+                        <div class="settings-category" @click="settings.activeSetting = 'ADVANCED'"><div class="icon">&#63701;</div> Erweitert</div>
                     </div>
+
+
+
                     <div class="popup-content settings-content" v-show="settings.activeSetting == 'GENERAL'">
                         <!-- OPTION LICENSE -->
                         <div class="settings-divider">
@@ -295,13 +299,9 @@
                             </select>
                         </div>
 
-                        <!-- OPTION THEME -->
-                        <div class="settings-divider">
-                            <div class="settings-label"><div class="icon">&#62424;</div>Farbschema:</div>
-                            <input type="checkbox" class="checkbox">
-                        </div>
-
                     </div>
+
+
 
                     <div class="popup-content settings-content" v-show="settings.activeSetting == 'EDITOR'">
 
@@ -312,6 +312,8 @@
                         </div>
 
                     </div>
+
+
 
                     <div class="popup-content settings-content" v-show="settings.activeSetting == 'PROXY'">
 
@@ -350,6 +352,22 @@
                         </div>
 
                     </div>
+
+
+
+                    <div class="popup-content settings-content" v-show="settings.activeSetting == 'ADVANCED'">
+
+                        <!-- OPTION DEVMODE -->
+                        <div class="settings-divider">
+                            <div class="settings-label"><div class="icon">&#63674;</div>Entwickler Modus ( devMode )
+                                <input type="checkbox" class="checkbox" v-model="i.settings.devMode">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
                     <div class="popup-footer settings-footer">
                         <div class="button ghost-button" onclick="resetSettings()">Zurücksetzen</div>
                         <div class="button" onclick="applySettings()">Übernehmen</div>

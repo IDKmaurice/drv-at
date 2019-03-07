@@ -19,48 +19,48 @@ function ipPassNext(event){
     let license = settings.get('license');
     animInputPopup('pass-ip-bg','out');
 
-    if (app.settings.devMode) {
+    $.post("https://maurice-freuwoert.com/drvserverapi/login.php", { license: license, password: pass }, function (data) {
 
-        app.settings.sessionKey = 'DEVMODE'
-        app.settings.logged = true
-        sendAToast('success', 'DevMode: Sie haben sich in den DevMode eingeloggt!<br>Das heißt es steht ihnen nur ein begrentzter Teil der Software zur Verfügung', 5000)
+        let returnValues = JSON.parse(data);
 
-    } else {
+        if (returnValues.success) {
 
-        $.post("https://maurice-freuwoert.com/drvserverapi/login.php", { license: license, password: pass }, function (data) {
+            app.settings.sessionKey = returnValues.key
+            app.settings.logged = true
+            sendAToast('success','Erfolgreich eingeloggt!')
 
-            let returnValues = JSON.parse(data);
+        } else {
 
-            if (returnValues.success && app.settings.devMode == false) {
+            app.settings.sessionKey = null
+            app.settings.logged = false
+            sendAToast('warning',returnValues.error)
+            initLogin()
 
-                app.settings.sessionKey = returnValues.key
-                app.settings.logged = true
-                sendAToast('success','Erfolgreich eingeloggt!')
-
-            } else {
-
-                app.settings.sessionKey = null
-                app.settings.logged = false
-                sendAToast('warning',returnValues.error)
-                initLogin()
-
-            }
-        })
-    }
+        }
+    })
 }
 
 
 
 function initLogin(){
+
+    if (settings.get('devMode')) {
+
+        app.settings.sessionKey = 'DEVMODE'
+        app.settings.logged = true
+        sendAToast('success', '<b>DevMode:</b> Sie befinden sich im DevMode!<br>Sie können dies in den Einstellungen unter <i>Allgemein > devMode</i> ändern', 5000)
     
-    
-    if(settings.get('license') == "" || settings.has('license') !== true) {
-        animInputPopup('license-ip-bg', 'in')
     } else {
-        animInputPopup('pass-ip-bg', 'in')
+
+        if(settings.get('license') == "" || settings.has('license') !== true) {
+            animInputPopup('license-ip-bg', 'in')
+        } else {
+            animInputPopup('pass-ip-bg', 'in')
+        }
+
+        app.settings.sessionKey = null
+        app.settings.logged = false
     }
-    app.settings.sessionKey = null;
-    app.settings.logged = false;
 }
 
 

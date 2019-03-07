@@ -25,8 +25,7 @@ app = new Vue({
             tabLimit: 30,
             sessionKey: null,
             logged: false,
-            hairtypes: [],
-            devMode: true
+            hairtypes: []
         },
         settingDefaults: [
             {option: 'theme', default: 'default_light'},
@@ -45,6 +44,7 @@ app = new Vue({
             settings:{
                 license: '',
                 theme: '',
+                devMode: false,
                 hairtypes: '',
                 dateFormat: '',
                 dateDivider: '',
