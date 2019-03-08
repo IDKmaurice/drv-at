@@ -12,7 +12,7 @@
   left: 0;
   bottom: 50px;
   width: 300px;
-  overflow-y: scroll;
+  overflow-y: auto;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -20,13 +20,20 @@
 }
 
 .settings-categories .settings-category {
+  background: var(--background1);
   height: 50px;
   line-height: 50px;
   padding: 0 10px;
+  margin: 10px 5px;
+  margin-bottom: 0;
   text-align: left;
+  -webkit-transition: all 100ms;
+  transition: all 100ms;
   font-size: 17px;
-  width: 100%;
+  width: calc(100% - 10px);
+  border-radius: 7px;
   cursor: pointer;
+  color: var(--button-color2);
 }
 
 .settings-categories .settings-category .icon {
@@ -35,7 +42,25 @@
   vertical-align: top;
   margin-right: 10px;
   margin-left: 6px;
+  color: inherit;
+}
+
+.settings-categories .settings-category:hover {
+  -webkit-filter: drop-shadow(0 4px 7px rgba(0, 0, 0, var(--so)));
+          filter: drop-shadow(0 4px 7px rgba(0, 0, 0, var(--so)));
+}
+
+.settings-categories .settings-category:hover .icon {
   color: var(--accent-color);
+}
+
+.settings-categories .settings-category.active {
+  background: var(--accent-color) !important;
+  color: var(--button-color1) !important;
+}
+
+.settings-categories .settings-category.active .icon {
+  color: inherit !important;
 }
 
 .settings-divider {

@@ -11,17 +11,23 @@
     left: 0
     bottom: 50px
     width: 300px
-    overflow-y: scroll
+    overflow-y: auto
     user-select: none
 
     .settings-category
+        background: var(--background1)
         height: 50px
         line-height: 50px
         padding: 0 10px
+        margin: 10px 5px
+        margin-bottom: 0
         text-align: left
+        transition: all 100ms
         font-size: 17px
-        width: 100%
+        width: calc(100% - 10px)
+        border-radius: 7px
         cursor: pointer
+        color: var(--button-color2)
 
         .icon
             font-size: 25px
@@ -29,7 +35,20 @@
             vertical-align: top
             margin-right: 10px
             margin-left: 6px
+            color: inherit
+
+    .settings-category:hover
+        filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)))
+
+        .icon
             color: var(--accent-color)
+
+    .settings-category.active
+        background: var(--accent-color) !important
+        color: var(--button-color1) !important
+
+        .icon
+            color: inherit !important
 
 .settings-divider
     width: 100%

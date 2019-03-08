@@ -136,8 +136,8 @@
                             </div>
                             <div class="popup-content pl-content">
 
-                                <div v-if="main.puppy != undefined && main.puppy.length > 0" class="pl-table-name no-select">
-                                    <div class="pl-tn-column">Hunde-Name</div>
+                                <div v-if="doc.entries != undefined && doc.entries.length > 0" class="pl-table-name no-select">
+                                    <div class="pl-tn-column">Name</div>
                                     <div class="pl-tn-column">Geschlecht</div>
                                     <div class="pl-tn-column">Haarfarbe</div>
                                     <div class="pl-tn-column">Chip-Nr.</div>
@@ -148,14 +148,14 @@
                                     Huh! Ganz schön leer.
                                 </div>
 
-                                <div v-for="(puppy, i) in main.puppy" class="puppy-list-row">
+                                <div v-for="(entry, i) in doc.entries" class="puppy-list-row">
                                     <div class="pl-drag">&#61917;</div>
-                                    <div class="pl-column">{{puppy.firstname}}</div>
-                                    <div class="pl-column">{{puppy.gender}}</div>
-                                    <div class="pl-column">{{puppy.haircolor}}</div>
-                                    <div class="pl-column">{{puppy.chip}}</div>
-                                    <div class="pl-column">{{puppy.zbn}}</div>
-                                    <div class="pl-delete" data-tooltip="Welpe löschen" data-tooltip-position="left" :onclick="'removeTabs('+i+')'">&#61888;</div>
+                                    <div class="pl-column">{{entry.firstname}}</div>
+                                    <div class="pl-column">{{entry.gender}}</div>
+                                    <div class="pl-column">{{entry.haircolor}}</div>
+                                    <div class="pl-column">{{entry.chip}}</div>
+                                    <div class="pl-column">{{entry.zbn}}</div>
+                                    <div class="pl-delete" data-tooltip="Welpe löschen" data-tooltip-position="left" @click="removeTab(i+1)">&#64121;</div>
                                 </div>
                             </div>
                         </div>
@@ -256,10 +256,10 @@
                         <div class="close-ui" onclick="animPopup('settings','out')">&#61782;</div>
                     </div>
                     <div class="settings-categories">
-                        <div class="settings-category" @click="settings.activeSetting = 'GENERAL'"><div class="icon">&#63022;</div> Allgemein</div>
-                        <div class="settings-category" @click="settings.activeSetting = 'EDITOR'"><div class="icon">&#63476;</div> Editor</div>
-                        <div class="settings-category" @click="settings.activeSetting = 'PROXY'"><div class="icon">&#62605;</div> Proxy</div>
-                        <div class="settings-category" @click="settings.activeSetting = 'ADVANCED'"><div class="icon">&#63701;</div> Erweitert</div>
+                        <div class="settings-category" :class="{'active' : settings.activeSetting == 'GENERAL'}" @click="settings.activeSetting = 'GENERAL'"><div class="icon">&#63022;</div> Allgemein</div>
+                        <div class="settings-category" :class="{'active' : settings.activeSetting == 'EDITOR'}" @click="settings.activeSetting = 'EDITOR'"><div class="icon">&#63476;</div> Editor</div>
+                        <div class="settings-category" :class="{'active' : settings.activeSetting == 'PROXY'}" @click="settings.activeSetting = 'PROXY'"><div class="icon">&#62605;</div> Proxy</div>
+                        <div class="settings-category" :class="{'active' : settings.activeSetting == 'ADVANCED'}" @click="settings.activeSetting = 'ADVANCED'"><div class="icon">&#63701;</div> Erweitert</div>
                     </div>
 
 
@@ -359,7 +359,7 @@
 
                         <!-- OPTION DEVMODE -->
                         <div class="settings-divider">
-                            <div class="settings-label"><div class="icon">&#63674;</div>Entwickler Modus ( devMode )
+                            <div class="settings-label"><div class="icon">&#61478;</div>Entwickler Modus ( devMode )
                                 <input type="checkbox" class="checkbox" v-model="i.settings.devMode">
                             </div>
                         </div>

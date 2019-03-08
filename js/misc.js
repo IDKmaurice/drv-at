@@ -48,7 +48,7 @@ function initLogin(){
 
         app.settings.sessionKey = 'DEVMODE'
         app.settings.logged = true
-        sendAToast('success', '<b>DevMode:</b> Sie befinden sich im DevMode!<br>Sie können dies in den Einstellungen unter <i>Allgemein > devMode</i> ändern', 5000)
+        sendAToast('success', '<b>DevMode:</b> Sie befinden sich im DevMode!<br>Sie können dies in den Einstellungen unter <i>Erweitert > devMode</i> ändern.', 8000)
     
     } else {
 
