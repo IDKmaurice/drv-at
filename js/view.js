@@ -17,19 +17,15 @@ function changeToDatabaseView() {
         app.settings.activeView = 'database'
         app.resetDocument()
 
-        $.post("https://maurice-freuwoert.com/drvserverapi/readDB.php", { license: settings.get('license'), sessionKey: app.settings.sessionKey, filtervalue: '' }, function (data) {
-            try {
-                let returnValue = JSON.parse(data)
-                if(returnValue.success){
-                    app.dogData = returnValue.data
-                } else {
-                    console.warn(returnValue.error)
-                }
-                
-            } catch (error) {
-                console.warn(error)
+        $.post(app.API.read_animal_data_multiple.url, { jwt: app.settings.jwt, searchString: '' }, function (data) {
+            if(data.response == 'OK'){
+                app.dogData = data.data
+                console.log(data.data)    
+                app.settings.jwt = data.jwt
+            } else {
+                sendAToast('warning',data.response)
             }
-        });
+        }, 'json')
     }
 }
 

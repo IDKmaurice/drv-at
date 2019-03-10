@@ -4,8 +4,8 @@ app = new Vue({
     data: {
         main: {},
         backup: dir,
-        dogData: null,
-        acDogData: null,
+        animal_data: null,
+        animal_data_autocomplete: null,
         doc: {},
         settings: {
             savePath: '',
@@ -23,9 +23,18 @@ app = new Vue({
                 addToDatabase: false,
             },
             tabLimit: 30,
-            sessionKey: null,
+            jwt: '',
             logged: false,
             hairtypes: []
+        },
+        API: {
+            auth: {url:'https://api.nttc.it/clients/drv/auth.php', param: ['user','pass']},
+            read_animal_data_single: {url:'https://api.nttc.it/clients/drv/read/animal_data_single.php', param: ['id']},
+            read_animal_data_multiple: {url:'https://api.nttc.it/clients/drv/read/animal_data_multiple.php', param: ['searchString']},
+            read_animal_data_autocomplete: {url:'https://api.nttc.it/clients/drv/read/animal_data_autocomplete.php', param: ['searchString','searchGender']},
+            create_animal_data_single: {url:'https://api.nttc.it/clients/drv/create/animal_data_single.php', param: []},
+            update_animal_data_single: {url:'https://api.nttc.it/clients/drv/update/animal_data_single.php', param: []},
+            delete_animal_data_single: {url:'https://api.nttc.it/clients/drv/delete/animal_data_single.php', param: []},
         },
         settingDefaults: [
             {option: 'theme', default: 'default_light'},
@@ -38,11 +47,22 @@ app = new Vue({
             {option: 'proxyPort', default: ''},
             {option: 'proxyUser', default: ''},
             {option: 'proxyPass', default: ''},
+            {option: 'user', default: ''},
+            {option: 'devMode', default: false},
         ],
         themes: {},
         i:{
+            ac_animal_data: {
+                currentColumn: 1,
+                currentRow: 1,
+                currentGender: 'male',
+                currentSearch: ''
+            },
+            create_animal_data: {
+
+            },
             settings:{
-                license: '',
+                user: '',
                 theme: '',
                 devMode: false,
                 hairtypes: '',
@@ -79,10 +99,10 @@ app = new Vue({
                 race: '',
                 hairtype: '',
                 tree: [
-                    [{chip: null, name: null},{chip: null, name: null}],
-                    [{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null}],
-                    [{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null}],
-                    [{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null},{chip: null, name: null}],
+                    [{id: null, name: null},{id: null, name: null}],
+                    [{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null}],
+                    [{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null}],
+                    [{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null}],
                 ],
                 entries: []
             }
@@ -91,6 +111,36 @@ app = new Vue({
             this.settings.savePath = ''
             this.settings.activeTab = 0
             this.settings.reset = true
+        },
+        request: function(script,param,callback) {
+            if(this.API.hasOwnProperty(script)){
+
+                if(this.API[script].param.length <= param.length){
+
+                    let params = {jwt: this.settings.jwt}
+
+                    for (let i = 0; i < param.length; i++) {
+                        params[this.API[script].param[i]] = param[i]
+                    }
+    
+                    $.post(this.API[script].url, params, function (data) {
+            
+                        if(data.response == 'OK'){
+                            app.settings.jwt = data.jwt
+                            callback(data.data, null)
+                        } else {
+                            callback(null, data.response)
+                        }
+                
+                    }, 'json')
+
+                } else {
+                    callback(null, 'parameters missing')
+                }
+
+            } else {
+                callback(null, 'script missing')
+            }
         }
     },
     created: function(){

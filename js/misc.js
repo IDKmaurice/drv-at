@@ -16,28 +16,28 @@ function ipPassNext(event){
     event.preventDefault()
 
     let pass = $('#pass-ip-value').val();
-    let license = settings.get('license');
+    let user = settings.get('user');
     animInputPopup('pass-ip-bg','out');
 
-    $.post("https://maurice-freuwoert.com/drvserverapi/login.php", { license: license, password: pass }, function (data) {
+    $.post(app.API.auth.url, { user: user, pass: pass }, function (data) {
 
-        let returnValues = JSON.parse(data);
+        if (data.response == 'OK') {
 
-        if (returnValues.success) {
-
-            app.settings.sessionKey = returnValues.key
+            app.settings.jwt = data.jwt
             app.settings.logged = true
             sendAToast('success','Erfolgreich eingeloggt!')
 
         } else {
 
-            app.settings.sessionKey = null
+            app.settings.jwt = null
             app.settings.logged = false
-            sendAToast('warning',returnValues.error)
+            // TODO: the response is just an error-code it need another api to be interpreted
+            sendAToast('warning',data.response)
             initLogin()
 
         }
-    })
+
+    }, 'json')
 }
 
 
@@ -46,7 +46,7 @@ function initLogin(){
 
     if (settings.get('devMode')) {
 
-        app.settings.sessionKey = 'DEVMODE'
+        app.settings.jwt = 'DEVMODE'
         app.settings.logged = true
         sendAToast('success', '<b>DevMode:</b> Sie befinden sich im DevMode!<br>Sie können dies in den Einstellungen unter <i>Erweitert > devMode</i> ändern.', 8000)
     
@@ -58,7 +58,7 @@ function initLogin(){
             animInputPopup('pass-ip-bg', 'in')
         }
 
-        app.settings.sessionKey = null
+        app.settings.jwt = null
         app.settings.logged = false
     }
 }
@@ -67,62 +67,60 @@ function initLogin(){
 
 
 function searchDogData() {
-    $.post("https://maurice-freuwoert.com/drvserverapi/readDB.php", { license: settings.get('license'), sessionKey: app.settings.sessionKey, filtervalue: $('#dog-data-search').val() }, function (data) {
-            try {
-                let returnValue = JSON.parse(data)
-                if(returnValue.success){
-                    app.dogData = returnValue.data;
-                    app.$forceUpdate();
-                } else {
-                    sendAToast('warning',returnValue.error);
-                }
-            } catch (error) {
-                console.warn(error);
-            }
-    });
+    app.request('read_animal_data_multiple', [$('#dog-data-search').val()], (data,err)=>{
+        app.animal_data = data
+        app.$forceUpdate()
+        if(err) sendAToast('warning',err)
+    })
 }
 
 function searchAutoComplete() {
-    $.post("https://maurice-freuwoert.com/drvserverapi/ACreadDB.php", { license: settings.get('license'), sessionKey: app.settings.sessionKey, filtervalue: $('.ac-name-input').val(), filtergender: $('.ac-gender-input').val() }, function (data) {
-            try {
-                let returnValue = JSON.parse(data)
-                if(returnValue.success){
-                    app.acDogData = returnValue.data;
-                } else {
-                    sendAToast('warning',returnValue.error);
-                }
-            } catch (error) {
-                console.warn(error);
-            }
-    });
+    app.request('read_animal_data_autocomplete', [app.i.ac_animal_data.currentSearch, app.i.ac_animal_data.currentGender], (data,err)=>{
+        app.animal_data_autocomplete = data
+        if(err) sendAToast('warning',err)
+    })
 }
+
+
+function openACpopup(column,row){
+
+    let gender = (row%2 == 0) ? 'female' : 'male'
+
+    $('.add-parent-holder').addClass('active')
+    app.i.ac_animal_data.currentColumn = column
+    app.i.ac_animal_data.currentRow = row
+    app.i.ac_animal_data.currentGender = gender
+    app.i.ac_animal_data.currentSearch = ''
+
+}
+
+function closeACpopup(){
+
+    $('.add-parent-holder').removeClass('active')
+
+}
+
 
 function updateDogData(event) {
 
     
     event.preventDefault()
     let formData = $('#dog-data-editor').serializeArray()
-    formData.push({name: 'license', value: settings.get('license')})
-    formData.push({name: 'sessionKey', value: app.settings.sessionKey})
+    formData.push({name: 'jwt', value: app.settings.jwt})
     
     
     $.post("https://maurice-freuwoert.com/drvserverapi/updateDB.php", formData, function (data) {
-        try {
-            let returnValue = JSON.parse(data)
-            if(returnValue.success){
-                sendAToast('success','Hund erfolgreich geändert')
-            } else {
-                sendAToast('warning',returnValue.error);
-            }
-            
-            
-            app.settings.sessionKey = returnValue.sessionKey;
-            searchDogData();
-            app.$forceUpdate();
-        } catch (error) {
-            console.warn(error);
+
+        if(data.response == 'OK'){
+            sendAToast('success','Hund erfolgreich geändert')
+            app.settings.jwt = data.jwt
+            searchDogData()
+            app.$forceUpdate()
+        } else {
+            sendAToast('warning',data.response)
         }
-    });
+        
+    }, 'json')
 }
 
 function createDogData(event) {
@@ -130,49 +128,40 @@ function createDogData(event) {
     
     event.preventDefault()
     let formData = $('#dog-data-creator').serializeArray()
-    formData.push({name: 'license', value: settings.get('license')})
-    formData.push({name: 'sessionKey', value: app.settings.sessionKey})
+    formData.push({name: 'jwt', value: app.settings.jwt})
     
     
-    $.post("https://maurice-freuwoert.com/drvserverapi/createDB.php", formData, function (data) {
-        try {
-            let returnValue = JSON.parse(data)
-            if(returnValue.success){
-                sendAToast('success','Hund erfolgreich hinzugefügt')
-                animPopup('add-dog','out')
-            } else {
-                sendAToast('warning',returnValue.error);
-            }
-            
-            
-            app.settings.sessionKey = returnValue.sessionKey;
-            searchDogData();
-            app.$forceUpdate();
-        } catch (error) {
-            console.warn(error);
+    $.post(app.API.create_animal_data_single.url, formData, function (data) {
+
+        if(data.response == 'OK'){
+            sendAToast('success','Erfolgreich hinzugefügt')
+            animPopup('add-dog','out')
+            app.settings.jwt = data.jwt
+            searchDogData()
+            app.$forceUpdate()
+        } else {
+            sendAToast('warning',data.response)
         }
-    });
+        
+    }, 'json')
 }
 
 function deleteDogData() {
-    let chip = $('.db-hidden-chip').val()
-    $.post("https://maurice-freuwoert.com/drvserverapi/deleteDB.php", {license: settings.get('license'), sessionKey: app.settings.sessionKey, chipnumber: chip}, function (data) {
-        try {
-            let returnValue = JSON.parse(data)
-            if(returnValue.success){
-                sendAToast('success','Hund erfolgreich gelöscht')
-            } else {
-                sendAToast('warning',returnValue.error);
-            }
-            
-            
-            app.settings.sessionKey = returnValue.sessionKey;
-            searchDogData();
-            app.$forceUpdate();
-        } catch (error) {
-            console.warn(error);
+    let id = $('.db-hidden-id').val()
+
+    $.post("https://maurice-freuwoert.com/drvserverapi/deleteDB.php", {jwt: app.settings.jwt, id: id}, function (data) {
+        
+        if(data.response == 'OK'){
+            sendAToast('success','Hund erfolgreich gelöscht')
+            app.settings.jwt = data.jwt
+            searchDogData()
+            app.$forceUpdate()
+        } else {
+            sendAToast('warning',data.response)
         }
-    });
+        
+    })
+
     $('#dog-data-editor').trigger('reset')
 }
 
@@ -180,7 +169,7 @@ function editDogData(obj){
 
     //im not proud of this section :(
 
-    $('.db-hidden-chip').val($(obj).children('.dbc-chip').html())
+    $('.db-hidden-id').val($(obj).children('.dbc-id').html())
     $('.db-edit-chip').val($(obj).children('.dbc-chip').html())
     $('.db-edit-zbn').val($(obj).children('.dbc-zbn').html())
     $('.db-edit-firstname').val($(obj).children('.dbc-firstname').html())
@@ -196,77 +185,49 @@ function editDogData(obj){
     $('.db-edit-membernumber').val($(obj).children('.dbc-membernumber').html())
 }
 
-
-function openACpopup(column,row){
-
-    let gender = (row%2 == 0) ? 'female' : 'male'
-
-    $('.ac-bg').addClass('active');
-    $('.ac-gen-column-input').val(column)
-    $('.ac-gen-row-input').val(row)
-    $('.ac-gender-input').val(gender)
-    $('.ac-name-input').val('')
-
-}
-
-function closeACpopup(){
-
-    $('.ac-bg').removeClass('active');
-    $('.ac-gen-column-input').val(1)
-    $('.ac-gen-row-input').val(1)
-    $('.ac-gender-input').val('female')
-    $('.ac-name-input').val('')
-
-}
-
-function enterSearchedDogData(obj){
-    let chip = $(obj).attr('chip')
-    let column = parseInt($('.ac-gen-column-input').val())
-    let row = parseInt($('.ac-gen-row-input').val())
-
-    function enterDogDataRec(chip, column, row){
-        
-        if(column <= 4){
-
-            $.post("https://maurice-freuwoert.com/drvserverapi/readDBsingle.php", { license: settings.get('license'), sessionKey: app.settings.sessionKey, chipnumber: chip }, function (data) {
-                try {
-                    let returnValue = JSON.parse(data)
-                    if (returnValue.success) {
-
-                        let mother = returnValue.data.mother;
-                        let father = returnValue.data.father;
-
-                        if(returnValue.data.firstname != '' && returnValue.data.chipnumber != ''){
-                            app.doc.tree[column-1][row-1].name = returnValue.data.firstname
-                            app.doc.tree[column-1][row-1].chip = returnValue.data.chipnumber
-                        }
-
-                        if (father != undefined && father != "") {
-                            enterDogDataRec(father, column+1, (row*2)-1)
-                        } else {
-                            enterDogDataRec('', column+1, (row*2)-1)
-                        }
-
-                        if (mother != undefined && mother != "") {
-                            enterDogDataRec(mother, column+1, row*2)
-                        } else {
-                            enterDogDataRec('', column+1, row*2)
-                        }
-
-
-                    } else {
-                        console.warn(returnValue.error)
-                    }
-
-                } catch (error) {
-                    console.warn(error)
-                }
-            })
-        }
-
-    }
+function enterSearchedDogData(i){
+    let id = app.animal_data_autocomplete[i].id
+    let column = app.i.ac_animal_data.currentColumn
+    let row = app.i.ac_animal_data.currentRow
     
-    enterDogDataRec(chip,column,row)
+    enterDogDataRec(id,column,row)
     closeACpopup()
+}
 
+function enterDogDataRec(id, column, row){
+
+    
+    if(column <= 4){
+        if(id != null){
+        
+            app.request('read_animal_data_single', [id], (data,err)=>{
+                
+                if(err){sendAToast('warning',err)}
+                else{
+    
+                    let mother = data.mother
+                    let father = data.father
+    
+                    if(data.firstname != '' && data.id != ''){
+                        app.doc.tree[column-1][row-1].name = data.firstname
+                        app.doc.tree[column-1][row-1].id = data.id
+                    }
+    
+                    father = (father != undefined && father != "") ? father : null
+                    enterDogDataRec(father, column+1, (row*2)-1)
+    
+                    mother = (mother != undefined && mother != "") ? mother : null
+                    enterDogDataRec(mother, column+1, row*2)
+    
+                }
+    
+            })
+            
+        } else {
+            app.doc.tree[column-1][row-1].name = null
+            app.doc.tree[column-1][row-1].id = null
+            enterDogDataRec(null, column+1, (row*2)-1)
+            enterDogDataRec(null, column+1, row*2)
+        }
+    }
 }
