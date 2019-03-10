@@ -102,29 +102,14 @@
 
                     </div>
 
-                    <div class="ac-bg">
-                        <div class="ac-holder">
-                            <div class="ac-header">
-                                Eltern Hinzufügen
-                                <div class="close-ui" onclick="closeACpopup()">&#61782;</div>
+                    <div class="add-parent-holder">
+                        <input type="text" v-model="i.ac_animal_data.currentSearch" class="input ac-name-input" onfocus="searchAutoComplete()" oninput="searchAutoComplete()" placeholder="Nach Hund suchen">
+                        <div class="add-parent-list">
+                            <div v-for="(animal, i) in animal_data_autocomplete" @click="enterSearchedDogData(i)" class="add-parent-li">
+                                {{animal.fullname}}<span class="subinfo">{{animal.chipnumber}}</span>
                             </div>
-                            <div class="ac-content">
-                                <input type="hidden" class="ac-gen-column-input" value="1">
-                                <input type="hidden" class="ac-gen-row-input" value="1">
-                                <input type="hidden" class="ac-gender-input" value="female">
-                                <div class="ac-list-holder">
-                                    <input type="text" required class="input ac-name-input" onfocus="searchAutoComplete()" oninput="searchAutoComplete()"
-                                        placeholder="Nach Hund suchen">
-                                    <div class="ac-list">
-                                        <div v-for="acDog in acDogData" onclick="enterSearchedDogData(this)" class="ac-list-item"
-                                            :chip="acDog.chipnumber" :name="acDog.fullname" :mother="acDog.mother" :father="acDog.father">
-                                            {{acDog.fullname}}<span class="ac-list-item-subinfo">{{acDog.chipnumber}}</span>
-                                        </div>
-                                        <div class="ac-seperator"></div>
-                                        <div class="ac-list-item ac-list-need-to-add">Neuen Hund hinzufügen</div>
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="seperator"></div>
+                            <div class="add-parent-li enter-new">Neuen Hund hinzufügen</div>
                         </div>
                     </div>
 
@@ -136,7 +121,7 @@
                             </div>
                             <div class="popup-content pl-content">
 
-                                <div v-if="main.puppy != undefined && main.puppy.length > 0" class="pl-table-name no-select">
+                                <div v-if="doc.entries.length > 0" class="pl-table-name no-select">
                                     <div class="pl-tn-column">Hunde-Name</div>
                                     <div class="pl-tn-column">Geschlecht</div>
                                     <div class="pl-tn-column">Haarfarbe</div>
@@ -148,14 +133,14 @@
                                     Huh! Ganz schön leer.
                                 </div>
 
-                                <div v-for="(puppy, i) in main.puppy" class="puppy-list-row">
+                                <div v-for="(entry, i) in doc.entries" class="puppy-list-row">
                                     <div class="pl-drag">&#61917;</div>
-                                    <div class="pl-column">{{puppy.firstname}}</div>
-                                    <div class="pl-column">{{puppy.gender}}</div>
-                                    <div class="pl-column">{{puppy.haircolor}}</div>
-                                    <div class="pl-column">{{puppy.chip}}</div>
-                                    <div class="pl-column">{{puppy.zbn}}</div>
-                                    <div class="pl-delete" data-tooltip="Welpe löschen" data-tooltip-position="left" :onclick="'removeTabs('+i+')'">&#61888;</div>
+                                    <div class="pl-column">{{entry.firstname}}</div>
+                                    <div class="pl-column">{{entry.gender}}</div>
+                                    <div class="pl-column">{{entry.haircolor}}</div>
+                                    <div class="pl-column">{{entry.chip}}</div>
+                                    <div class="pl-column">{{entry.zbn}}</div>
+                                    <div class="pl-delete" data-tooltip="Welpe löschen" data-tooltip-position="left" @click="removeTab(i+1)">&#64121;</div>
                                 </div>
                             </div>
                         </div>
@@ -191,20 +176,20 @@
                             <div class="db-column dbc-breeder-head">Züchter</div>
                             <div class="db-column dbc-breeder-head">Mitglieds-Nr.</div>
                         </div>
-                        <div v-for="dog in dogData" class="db-row" onclick="editDogData(this)">
-                            <div class="db-column dbc-chip" :title="dog.chipnumber">{{dog.chipnumber}}</div>
-                            <div class="db-column dbc-zbn" :title="dog.zbn">{{dog.zbn}}</div>
-                            <div class="db-column dbc-firstname" :title="dog.firstname">{{dog.firstname}}</div>
-                            <div class="db-column dbc-lastname" :title="dog.lastname">{{dog.lastname}}</div>
-                            <div class="db-column dbc-birthdate" :title="formatDate(dog.birthdate)">{{formatDate(dog.birthdate)}}</div>
-                            <div class="db-column dbc-gender" :title="dog.gender">{{dog.gender}}</div>
-                            <div class="db-column dbc-race" :title="dog.race">{{dog.race}}</div>
-                            <div class="db-column dbc-hairtype" :title="dog.hairtype">{{dog.hairtype}}</div>
-                            <div class="db-column dbc-haircolor" :title="dog.haircolor">{{dog.haircolor}}</div>
-                            <div class="db-column dbc-mother" :title="dog.mother">{{dog.mother}}</div>
-                            <div class="db-column dbc-father" :title="dog.father">{{dog.father}}</div>
-                            <div class="db-column dbc-breeder" :title="dog.breeder">{{dog.breeder}}</div>
-                            <div class="db-column dbc-membernumber" :title="dog.membernumber">{{dog.membernumber}}</div>
+                        <div v-for="animal in animal_data" class="db-row" onclick="editDogData(this)">
+                            <div class="db-column dbc-chip" :title="animal.chipnumber">{{animal.chipnumber}}</div>
+                            <div class="db-column dbc-zbn" :title="animal.zbn">{{animal.zbn}}</div>
+                            <div class="db-column dbc-firstname" :title="animal.firstname">{{animal.firstname}}</div>
+                            <div class="db-column dbc-lastname" :title="animal.lastname">{{animal.lastname}}</div>
+                            <div class="db-column dbc-birthdate" :title="formatDate(animal.birthdate)">{{formatDate(animal.birthdate)}}</div>
+                            <div class="db-column dbc-gender" :title="animal.gender">{{animal.gender}}</div>
+                            <div class="db-column dbc-race" :title="animal.race">{{animal.race}}</div>
+                            <div class="db-column dbc-hairtype" :title="animal.hairtype">{{animal.hairtype}}</div>
+                            <div class="db-column dbc-haircolor" :title="animal.haircolor">{{animal.haircolor}}</div>
+                            <div class="db-column dbc-mother" :title="animal.mother">{{animal.mother}}</div>
+                            <div class="db-column dbc-father" :title="animal.father">{{animal.father}}</div>
+                            <div class="db-column dbc-breeder" :title="animal.breeder">{{animal.breeder}}</div>
+                            <div class="db-column dbc-membernumber" :title="animal.membernumber">{{animal.membernumber}}</div>
                         </div>
                     </div>
                 </div>
@@ -267,8 +252,8 @@
                     <div class="popup-content settings-content" v-show="settings.activeSetting == 'GENERAL'">
                         <!-- OPTION LICENSE -->
                         <div class="settings-divider">
-                            <div class="settings-label"><div class="icon">&#61732;</div>Lizenz:</div>
-                            <input class="settings-input input" v-model="i.settings.license" type="text" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX">
+                            <div class="settings-label"><div class="icon">&#64305;</div>Nutzername:</div>
+                            <input class="settings-input input" v-model="i.settings.user" type="text" placeholder="Nutzername">
                         </div>
 
                         <!-- OPTION DATEFORMAT -->
