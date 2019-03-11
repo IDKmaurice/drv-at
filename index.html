@@ -247,7 +247,7 @@
                         <div class="settings-category" :class="{'active' : settings.activeSetting == 'GENERAL'}" @click="settings.activeSetting = 'GENERAL'"><div class="icon">&#63022;</div> Allgemein</div>
                         <div class="settings-category" :class="{'active' : settings.activeSetting == 'EDITOR'}" @click="settings.activeSetting = 'EDITOR'"><div class="icon">&#63476;</div> Editor</div>
                         <div class="settings-category" :class="{'active' : settings.activeSetting == 'PROXY'}" @click="settings.activeSetting = 'PROXY'"><div class="icon">&#62605;</div> Proxy</div>
-                        <div class="settings-category" :class="{'active' : settings.activeSetting == 'UPDATE'}" @click="settings.activeSetting = 'UPDATE'"><div class="icon">&#63151;</div> Updates</div>
+                        <div class="settings-category" :class="{'active' : settings.activeSetting == 'UPDATE'}" @click="settings.activeSetting = 'UPDATE'"><div class="icon">&#63151;</div> Updates und Info</div>
                         <div class="settings-category" :class="{'active' : settings.activeSetting == 'ADVANCED'}" @click="settings.activeSetting = 'ADVANCED'"><div class="icon">&#63701;</div> Erweitert</div>
                     </div>
 
@@ -350,6 +350,22 @@
                         <div class="settings-divider">
                             <div class="settings-label"><div class="icon">&#61478;</div>Entwickler Modus ( devMode )
                                 <input type="checkbox" class="checkbox" v-model="i.settings.devMode">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="popup-content settings-content" v-show="settings.activeSetting == 'UPDATE'">
+
+                        <!-- INFO -->
+                        <div class="settings-divider">
+                            <div class="info">
+                                <h1>Informationen zur Software</h1>
+                                Version:
+                                <h1>Informationen zu der Entwicklung</h1>
+                                <h2>UI / UX Designer</h2>
                             </div>
                         </div>
 
