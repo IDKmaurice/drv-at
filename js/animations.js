@@ -83,7 +83,7 @@ function animInputPopup(id, opt) {
 
         anime.timeline().add({
             targets: `.${id}`,
-            top: 0,
+            top: 20,
             easing: 'easeInOutCubic',
             duration: 400
         })
@@ -92,7 +92,7 @@ function animInputPopup(id, opt) {
 
         anime.timeline().add({
             targets: `.${id}`,
-            top: -140,
+            top: -200,
             easing: 'easeInOutCubic',
             duration: 400
         })

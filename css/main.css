@@ -78,8 +78,6 @@ body{
 style, script, head{ display: none; }
 
 h1,h2,h3,h4,h5,h6{
-    font-size: 20px;
-    font-weight: 500;
     color: var(--accent-color);
 }
 
@@ -404,6 +402,7 @@ h1,h2,h3,h4,h5,h6{
     line-height: 60px;
     background: var(--background1);
     position: absolute;
+    border-radius: 7px;
     top: 0;
     left: 0;
     z-index: 1;
@@ -434,6 +433,7 @@ h1,h2,h3,h4,h5,h6{
     position: absolute;
     left: 0;
     bottom: 0;
+    border-radius: 7px;
     overflow-x: hidden;
     overflow-y: auto;
     background: var(--background1);
@@ -448,12 +448,12 @@ h1,h2,h3,h4,h5,h6{
     height: 100px;
     background: var(--background1);
     border-left: 7px solid #46CF35;
-    border-radius: 5px;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)));
+    border-radius: 7px;
     position: fixed;
-    z-index: 6000;
     top: -140px;
     left: 15%;
+    z-index: 6000;
     padding: 28px 10px;
 }
 
@@ -465,20 +465,23 @@ h1,h2,h3,h4,h5,h6{
 .input-popup-btn{
     height: 40px;
     width: 150px;
-    border-radius: 4px;
+    border-radius: 7px;
     line-height: 40px;
-    color: var(--button-color1);
+    color: var(--button-color2);
+    background: var(--background1);
     text-align: center;
     font-size: 14px;
+    font-weight: bold;
     text-transform: uppercase;
     cursor: pointer;
     transition: 100ms;
-    background: var(--accent-color);
     margin-left: 10px;
     border: none;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,var(--so)));
 }
 .input-popup-btn:hover{
-    box-shadow: var(--hover-shadow1);
+    color: var(--accent-color);
+    filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)));
 }
 
 

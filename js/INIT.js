@@ -7,6 +7,12 @@ app = new Vue({
         animal_data: null,
         animal_data_autocomplete: null,
         doc: {},
+        info: {
+            version: '0.7.0',
+            apiVersion: '1.2.0',
+            electronVersion: '4.0.8',
+            nodeVersion: '10.11.0',
+        },
         settings: {
             savePath: '',
             unsavedProgress: false,
@@ -23,7 +29,7 @@ app = new Vue({
                 addToDatabase: false,
             },
             notifications: {
-                count: 3,
+                count: 0,
                 contents: []
             },
             tabLimit: 30,

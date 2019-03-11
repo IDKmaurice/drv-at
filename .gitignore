@@ -3,5 +3,5 @@ php/
 temp/
 _ignore/
 *.ini
-.vscode
+.vscode/
 todo.txt
