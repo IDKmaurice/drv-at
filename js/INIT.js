@@ -22,6 +22,10 @@ app = new Vue({
                 editOverview: false,
                 addToDatabase: false,
             },
+            notifications: {
+                count: 3,
+                contents: []
+            },
             tabLimit: 30,
             jwt: '',
             logged: false,
@@ -34,7 +38,7 @@ app = new Vue({
             read_animal_data_autocomplete: {url:'https://api.nttc.it/clients/drv/read/animal_data_autocomplete.php', param: ['searchString','searchGender']},
             create_animal_data_single: {url:'https://api.nttc.it/clients/drv/create/animal_data_single.php', param: []},
             update_animal_data_single: {url:'https://api.nttc.it/clients/drv/update/animal_data_single.php', param: []},
-            delete_animal_data_single: {url:'https://api.nttc.it/clients/drv/delete/animal_data_single.php', param: []},
+            delete_animal_data_single: {url:'https://api.nttc.it/clients/drv/delete/animal_data_single.php', param: ['id']},
         },
         settingDefaults: [
             {option: 'theme', default: 'default_light'},

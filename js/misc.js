@@ -1,10 +1,10 @@
-function ipLicenseNext(event){
+function ipUserNext(event){
 
     event.preventDefault()
 
-    let value = $('#license-ip-value').val();
-    settings.set('license',value);
-    animInputPopup('license-ip-bg','out');
+    let value = $('#user-ip-value').val();
+    settings.set('user',value);
+    animInputPopup('user-ip-bg','out');
     animInputPopup('pass-ip-bg','in');
 }
 
@@ -19,25 +19,18 @@ function ipPassNext(event){
     let user = settings.get('user');
     animInputPopup('pass-ip-bg','out');
 
-    $.post(app.API.auth.url, { user: user, pass: pass }, function (data) {
+    app.request('auth', [user, pass], (data, err) => {
 
-        if (data.response == 'OK') {
-
-            app.settings.jwt = data.jwt
-            app.settings.logged = true
-            sendAToast('success','Erfolgreich eingeloggt!')
-
-        } else {
-
-            app.settings.jwt = null
+        if (err) {
+            app.settings.jwt = ''
             app.settings.logged = false
-            // TODO: the response is just an error-code it need another api to be interpreted
-            sendAToast('warning',data.response)
+            sendAToast('warning', err)
             initLogin()
-
+        } else {
+            app.settings.logged = true
+            sendAToast('success', 'Erfolgreich eingeloggt!')
         }
-
-    }, 'json')
+    })
 }
 
 
@@ -52,8 +45,8 @@ function initLogin(){
     
     } else {
 
-        if(settings.get('license') == "" || settings.has('license') !== true) {
-            animInputPopup('license-ip-bg', 'in')
+        if(settings.get('user') == "" || settings.has('user') !== true) {
+            animInputPopup('user-ip-bg', 'in')
         } else {
             animInputPopup('pass-ip-bg', 'in')
         }
@@ -109,7 +102,7 @@ function updateDogData(event) {
     formData.push({name: 'jwt', value: app.settings.jwt})
     
     
-    $.post("https://maurice-freuwoert.com/drvserverapi/updateDB.php", formData, function (data) {
+    $.post(app.API.update_animal_data_single.url, formData, function (data) {
 
         if(data.response == 'OK'){
             sendAToast('success','Hund erfolgreich geändert')
@@ -147,19 +140,11 @@ function createDogData(event) {
 }
 
 function deleteDogData() {
-    let id = $('.db-hidden-id').val()
-
-    $.post("https://maurice-freuwoert.com/drvserverapi/deleteDB.php", {jwt: app.settings.jwt, id: id}, function (data) {
-        
-        if(data.response == 'OK'){
-            sendAToast('success','Hund erfolgreich gelöscht')
-            app.settings.jwt = data.jwt
-            searchDogData()
-            app.$forceUpdate()
-        } else {
-            sendAToast('warning',data.response)
-        }
-        
+    app.request('delete_animal_data_single', [$('.db-hidden-id').val()], (data, err) => {
+        sendAToast('success','Eintrag erfolgreich gelöscht')
+        searchDogData()
+        app.$forceUpdate()
+        if (err) sendAToast('warning', err)
     })
 
     $('#dog-data-editor').trigger('reset')

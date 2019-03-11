@@ -17,15 +17,11 @@ function changeToDatabaseView() {
         app.settings.activeView = 'database'
         app.resetDocument()
 
-        $.post(app.API.read_animal_data_multiple.url, { jwt: app.settings.jwt, searchString: '' }, function (data) {
-            if(data.response == 'OK'){
-                app.dogData = data.data
-                console.log(data.data)    
-                app.settings.jwt = data.jwt
-            } else {
-                sendAToast('warning',data.response)
-            }
-        }, 'json')
+        app.request('read_animal_data_multiple', [''], (data, err) => {
+            app.animal_data = data
+            app.$forceUpdate()
+            if (err) sendAToast('warning', err)
+        })
     }
 }
 
