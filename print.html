@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <script src="js/vue.min.js"></script>
+        <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/print/main.css">
         <script>
             const $ = require('jquery')
@@ -15,26 +16,22 @@
     </head>
     <body>
         <div id="app">
-            <div v-for="puppy in main.puppy" class="page-holder">
+            <div v-for="entry in doc.entries" class="page-holder">
                 <div class="page page-front">
-                    <div class="sub-page">{{puppy.name}}</div>
+                    <div class="sub-page">{{entry.name}}</div>
                     <div class="sub-page"></div>
                 </div>
                 <div class="page page-back"></div>
             </div>
-            <div class="nav-fab nav-fab-1 no-select no-print" data-tooltip="Drucken" data-tooltip-position="left" onclick="triggerPrint()">
-                <i class="material-icons">print</i>
-            </div>
-            <div class="nav-fab nav-fab-2 no-select no-print" data-tooltip="Druckvorschau schließen" data-tooltip-position="left" onclick="closePrint()">
-                <i class="material-icons">close</i>
-            </div>
+            <div class="nav-fab nav-fab-1 no-select no-print" data-tooltip="Drucken" data-tooltip-position="left" onclick="triggerPrint()">&#62506;</div>
+            <div class="nav-fab nav-fab-2 no-select no-print" data-tooltip="Druckvorschau schließen" data-tooltip-position="left" onclick="closePrint()">&#61782;</div>
         </div>
     </body>
     <script>
 
         app = new Vue({
             el:'#app',
-            data: { main: {} }
+            data: { doc: {} }
         })
 
         tooltip({ style: { backgroundColor: '#292828', borderRadius: '4px' } })
@@ -42,7 +39,7 @@
         ipc.on ('print-info-return', (event, values_raw) => {
             try {
                 values = JSON.parse(values_raw)
-                app.main = values
+                app.doc = values
             } catch (err) {
                 console.error(err)
             }
