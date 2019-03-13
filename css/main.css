@@ -282,6 +282,24 @@ h1,h2,h3,h4,h5,h6{
     line-height: 50px;
 }
 
+.nav-fab-8{
+    height: 50px;
+    width: 50px;
+    bottom: 15px;
+    left: 10px;
+    font-size: 30px;
+    line-height: 50px;
+}
+
+.nav-fab-9{
+    height: 50px;
+    width: 50px;
+    bottom: 15px;
+    left: 70px;
+    font-size: 30px;
+    line-height: 50px;
+}
+
 
 
 

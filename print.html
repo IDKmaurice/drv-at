@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <script src="js/vue.min.js"></script>
         <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/print/main.css">
+        <link rel="stylesheet" href="css/print/main.min.css">
         <script>
             const $ = require('jquery')
             const fs = require('fs')
@@ -16,38 +16,87 @@
     </head>
     <body>
         <div id="app">
-            <div v-for="entry in doc.entries" class="page-holder">
-                <div class="page page-front">
-                    <div class="sub-page">{{entry.firstname}}</div>
-                    <div class="sub-page"></div>
+            <div class="viewport" id="viewport">
+                <div class="page">
+                    <h2>PRINT - VORSCHAU</h2><br>
+                    Dies ist die Printvorschau.<br>
+                    Sie dient als Übersicht und Auswahl für alle Drucke.
                 </div>
-                <div class="page page-back"></div>
             </div>
-            <div class="nav-fab nav-fab-1 no-select no-print" data-tooltip="Drucken" data-tooltip-position="left" onclick="triggerPrint()">&#62506;</div>
-            <div class="nav-fab nav-fab-2 no-select no-print" data-tooltip="Druckvorschau schließen" data-tooltip-position="left" onclick="closePrint()">&#61782;</div>
+            <div class="print-sidebar">
+                <div class="tab-holder">
+                    <div class="tab" :class="{'active' : pageState == 'FRONT'}" @click="pageState = 'FRONT'">Vorderseite</div>
+                    <div class="tab" :class="{'active' : pageState == 'BACK'}" @click="pageState = 'BACK'">Rückseite</div>
+                </div>
+                <div v-for="entry in main.doc.entries" class="entry">
+                    {{entry.firstname}}
+                </div>
+            </div>
+            <div class="print-footer">
+                <div class="button ghost-button" onclick="closePrint()">Schließen</div>
+                <div class="button" onclick="triggerPrint()">Auswahl drucken</div>
+            </div>
         </div>
     </body>
     <script>
 
         app = new Vue({
             el:'#app',
-            data: { doc:{
-                entries: []
-            } }
+            data: {
+                scale: 0.8,
+                pos: {x:-130,y:-45},
+                grab: {startx: 0, starty: 0, isGrabbing: false},
+                pageState: 'FRONT',
+                main: {
+                    doc:{
+                        entries: []
+                    }
+                }
+            }
         })
 
         tooltip({ style: { backgroundColor: '#292828', borderRadius: '4px' } })
+        setPagePosScale()
 
         ipc.on ('print-info-return', (event, values_raw) => {
-            try {
-                values = JSON.parse(values_raw)
-                app = values
-                
-                
-            } catch (err) {
-                console.error(err)
+            app.main = JSON.parse(values_raw)
+        })
+
+        let viewport = document.getElementById('viewport')
+
+        viewport.addEventListener('wheel', function (e) {
+            if (e.deltaY < 0 && app.scale < 3) app.scale = app.scale * 1.1 // Make plane bigger
+            if (e.deltaY > 0 && app.scale > 0.2) app.scale = app.scale / 1.1 // Make plane smaller
+            setPagePosScale()
+        })
+
+        viewport.addEventListener('mousedown', function (e) {
+            app.grab.isGrabbing = true
+            app.grab.startx = e.clientX
+            app.grab.starty = e.clientY
+        })
+
+        viewport.addEventListener('mouseup', function (e) {
+            app.grab.isGrabbing = false
+        })
+
+        viewport.addEventListener('mouseout', function (e) {
+            app.grab.isGrabbing = false
+        })
+
+        viewport.addEventListener('mousemove', function (e) {
+            if(app.grab.isGrabbing){
+                app.pos.x += e.clientX - app.grab.startx
+                app.pos.y += e.clientY - app.grab.starty
+                app.grab.startx = e.clientX
+                app.grab.starty = e.clientY
+                setPagePosScale()
             }
         })
+
+        function setPagePosScale() {
+            $('.page').css('transform', `translate(${app.pos.x}px,${app.pos.y}px) scale(${app.scale})`)
+        }
 
 
 
@@ -79,4 +128,7 @@
             closePrint()
         });
     </script>
+
+    <!-- Just here to let me F5 the program -> delete when production -->
+    <script src="renderer.js"></script>
 </html>

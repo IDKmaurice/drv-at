@@ -10,16 +10,35 @@ quit = false
 let mainWindow
 
 function createWindow () {
-    mainWindow = new BrowserWindow({width: 650, height: 500, icon:'images/icon/drv-at.png'})
+    mainWindow = new BrowserWindow({
+        width: 650,
+        height: 500,
+        icon:'images/icon/drv-at.png',
+        webPreferences: {
+            nodeIntegration: true
+        }
+    })
+
     mainWindow.loadFile('index.html')
     mainWindow.maximize()
     mainWindow.on('closed', function () { mainWindow = null })
 
-    printWindow = new BrowserWindow({width: 1414, height: 1000, show: false, resizable: false})
+
+
+    printWindow = new BrowserWindow({
+        width: 1414,
+        height: 1000,
+        show: false,
+        icon: 'images/icon/drv-at.png',
+        webPreferences: {
+            nodeIntegration: true
+        }
+    })
+
     printWindow.loadFile('print.html')
     printWindow.setMenu(null)
     printWindow.hide();
-    printWindow.webContents.openDevTools()
+    //printWindow.webContents.openDevTools()
 }
 
 app.on('ready', function(){

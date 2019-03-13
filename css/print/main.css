@@ -1,30 +1,111 @@
-.page-holder{
-    height: 100vh;
-    width: 100vw;
+body {
+  overflow: hidden;
 }
 
-.page{
-    height: calc(100% - 50px);
-    border: 4px solid gray;
-    width: 100%;
-    display: inline-block;
+#app {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
-.page-front{ border-color: #0057FF; }
-.page-back{ border-color: midnightblue; }
-
-.sub-page{
-    border: 3px solid #ccc;
-    width: 50%;
-    height: 100%;
-    font-size: 20px;
-    vertical-align: top;
+.viewport {
+  width: calc(100% - 250px);
+  height: calc(100% - 50px);
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: var(--background2);
+  overflow: hidden;
+  cursor: -webkit-drag;
 }
 
+.viewport .page {
+  height: 1000px;
+  width: 1414px;
+  background: var(--background1);
+  -webkit-filter: drop-shadow(0 2px 2px rgba(0, 0, 0, var(--so)));
+          filter: drop-shadow(0 2px 2px rgba(0, 0, 0, var(--so)));
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  cursor: initial;
+  text-align: left;
+  font-size: 19px;
+  line-height: 24px;
+  padding: 20px;
+  color: var(--text-color3);
+}
 
+.print-sidebar {
+  height: calc(100% - 50px);
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-top: 40px;
+  background: var(--background1);
+  -webkit-filter: drop-shadow(0 0 6px rgba(0, 0, 0, var(--so)));
+          filter: drop-shadow(0 0 6px rgba(0, 0, 0, var(--so)));
+}
 
-@media print{    
-    .no-print, .no-print *{
-        display: none !important;
-    }
+.print-sidebar .entry {
+  height: 40px;
+  line-height: 40px;
+  width: 100%;
+  padding: 0 20px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.print-sidebar .tab-holder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.print-sidebar .tab-holder .tab {
+  height: 40px;
+  line-height: 30px;
+  vertical-align: top;
+  width: 50%;
+  font-size: 13px;
+  text-align: center;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  color: var(--button-color2);
+  text-transform: uppercase;
+}
+
+.print-sidebar .tab-holder .tab:hover {
+  color: var(--accent-color);
+}
+
+.print-sidebar .tab-holder .tab.active {
+  color: var(--accent-color);
+  background: var(--background2);
+  border-color: var(--accent-color);
+}
+
+.print-footer {
+  height: 50px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: var(--background1);
+  text-align: right;
+  padding: 10px;
+  -webkit-filter: drop-shadow(0 0 6px rgba(0, 0, 0, var(--so)));
+          filter: drop-shadow(0 0 6px rgba(0, 0, 0, var(--so)));
+}
+
+@media print {
+  .no-print, .no-print * {
+    display: none !important;
+  }
 }
