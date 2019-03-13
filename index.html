@@ -246,7 +246,8 @@
                     <div class="settings-categories">
                         <div class="settings-category" :class="{'active' : settings.activeSetting == 'GENERAL'}" @click="settings.activeSetting = 'GENERAL'"><div class="icon">&#63022;</div> Allgemein</div>
                         <div class="settings-category" :class="{'active' : settings.activeSetting == 'EDITOR'}" @click="settings.activeSetting = 'EDITOR'"><div class="icon">&#63476;</div> Editor</div>
-                        <div class="settings-category" :class="{'active' : settings.activeSetting == 'PROXY'}" @click="settings.activeSetting = 'PROXY'"><div class="icon">&#62605;</div> Proxy</div>
+                        <div class="settings-category" :class="{'active' : settings.activeSetting == 'PROXY'}" @click="settings.activeSetting = 'PROXY'"><div class="icon">&#62605;</div> Proxy (nur UI)</div>
+                        <div class="settings-category" :class="{'active' : settings.activeSetting == 'CLOUD'}" @click="settings.activeSetting = 'CLOUD'"><div class="icon">&#63039;</div> Cloud Speicherung (nur UI)</div>
                         <div class="settings-category" :class="{'active' : settings.activeSetting == 'UPDATE'}" @click="settings.activeSetting = 'UPDATE'"><div class="icon">&#63151;</div> Updates</div>
                         <div class="settings-category" :class="{'active' : settings.activeSetting == 'INFO'}" @click="settings.activeSetting = 'INFO'"><div class="icon">&#62205;</div> Info</div>
                         <div class="settings-category" :class="{'active' : settings.activeSetting == 'ADVANCED'}" @click="settings.activeSetting = 'ADVANCED'"><div class="icon">&#63701;</div> Erweitert</div>
@@ -354,6 +355,14 @@
                             </div>
                         </div>
 
+                    </div>
+
+
+
+                    <div class="popup-content settings-content" v-show="settings.activeSetting == 'CLOUD'">
+                    
+                        <!-- CLOUD SYNC -->
+                    
                     </div>
 
 

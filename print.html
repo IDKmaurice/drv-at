@@ -18,7 +18,7 @@
         <div id="app">
             <div v-for="entry in doc.entries" class="page-holder">
                 <div class="page page-front">
-                    <div class="sub-page">{{entry.name}}</div>
+                    <div class="sub-page">{{entry.firstname}}</div>
                     <div class="sub-page"></div>
                 </div>
                 <div class="page page-back"></div>
@@ -31,7 +31,9 @@
 
         app = new Vue({
             el:'#app',
-            data: { doc: {} }
+            data: { doc:{
+                entries: []
+            } }
         })
 
         tooltip({ style: { backgroundColor: '#292828', borderRadius: '4px' } })
@@ -39,11 +41,13 @@
         ipc.on ('print-info-return', (event, values_raw) => {
             try {
                 values = JSON.parse(values_raw)
-                app.doc = values
+                app = values
+                
+                
             } catch (err) {
                 console.error(err)
             }
-        });
+        })
 
 
 

@@ -59,6 +59,25 @@ function initLogin(){
 
 
 
+function sendDataToPrint() {
+    let printData = {
+        doc: app.doc
+    }
+    for (let i = 0; i < printData.doc.tree.length; i++) {
+        for (let h = 0; h < printData.doc.tree[i].length; h++) {
+            const id = printData.doc.tree[i][h].id;
+            app.request('read_animal_data_single',[id],(data,err)=>{
+                console.log(data);
+                
+            })
+        }
+    }
+    ipcRenderer.send('print-info', JSON.stringify(printData))
+}
+
+
+
+
 function searchDogData() {
     app.request('read_animal_data_multiple', [$('#dog-data-search').val()], (data,err)=>{
         app.animal_data = data

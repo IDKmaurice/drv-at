@@ -19,7 +19,7 @@ function createWindow () {
     printWindow.loadFile('print.html')
     printWindow.setMenu(null)
     printWindow.hide();
-    //printWindow.webContents.openDevTools()
+    printWindow.webContents.openDevTools()
 }
 
 app.on('ready', function(){

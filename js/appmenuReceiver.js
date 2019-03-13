@@ -19,7 +19,7 @@ require('electron').ipcRenderer.on('msgFromMain', function(event, message) {
             app.settings.logged ? openFile() : initLogin();
             break;
         case "print":
-            app.settings.logged ? ipcRenderer.send('print-info', JSON.stringify(app.doc)) : initLogin()
+            sendDataToPrint()
             break;
         case "openSettings":
             animPopup('settings','in');
