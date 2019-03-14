@@ -5,6 +5,7 @@
         <script src="js/vue.min.js"></script>
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/print/main.min.css">
+        <link rel="stylesheet" href="css/print/dina4.min.css">
         <script>
             const $ = require('jquery')
             const fs = require('fs')
@@ -18,9 +19,31 @@
         <div id="app">
             <div class="viewport" id="viewport">
                 <div class="page">
-                    <h2>PRINT - VORSCHAU</h2><br>
-                    Dies ist die Printvorschau.<br>
-                    Sie dient als Übersicht und Auswahl für alle Drucke.
+                    <div class="page-state" v-show="pageState == 'FRONT'">
+                        <div class="page-div">
+                            <h2>PRINT - VORSCHAU - VORDERSEITE</h2><br>
+                            Dies ist die Printvorschau.<br>
+                            Sie dient als Übersicht und Auswahl für alle Drucke.
+                        </div>
+                        <div class="page-div">
+                            <h3 v-if="main.doc.entries[activePage] != undefined">Vorname: {{main.doc.entries[activePage].firstname}}</h3><br>
+                            <h3 v-if="main.doc.entries[activePage] != undefined">Geschlecht: {{main.doc.entries[activePage].gender}}</h3><br>
+                            <h3 v-if="main.doc.entries[activePage] != undefined">Chip Nr: {{main.doc.entries[activePage].chipnumber}}</h3><br>
+                            <h3 v-if="main.doc.entries[activePage] != undefined">Züchtername: {{main.doc.name}}</h3><br>
+                        </div>
+                    </div>
+                    <div class="page-state" v-show="pageState == 'BACK'">
+                        <div class="tree-top" v-if="main.doc.entries[activePage] != undefined">
+                            {{main.doc.entries[activePage].firstname}} - {{main.doc.name}}
+                        </div>
+                        <div class="tree">
+                            <div class="tree-column" v-for="(column, c) in main.doc.tree">
+                                <div class="tree-row" v-for="(row, r) in column">
+                                    {{main.doc.tree[c][r].name}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="print-sidebar">
@@ -28,13 +51,22 @@
                     <div class="tab" :class="{'active' : pageState == 'FRONT'}" @click="pageState = 'FRONT'">Vorderseite</div>
                     <div class="tab" :class="{'active' : pageState == 'BACK'}" @click="pageState = 'BACK'">Rückseite</div>
                 </div>
-                <div v-for="entry in main.doc.entries" class="entry">
-                    {{entry.firstname}}
+                <div class="entry-holder">
+                    <div v-for="(entry, i) in main.doc.entries" class="entry" :class="{'active' : activePage == i}">
+                        <div class="name" @click="selectEntry(i)">{{entry.firstname}}</div>
+                        <label class="checkbox-holder">
+                            <input type="checkbox" class="checkbox" :value="entry.selected" v-model="entry.selected">
+                        </label>
+                    </div>
+                </div>
+                <div class="print-footer">
+                    <div class="button" onclick="triggerPrint()">Auswahl drucken</div>
                 </div>
             </div>
-            <div class="print-footer">
-                <div class="button ghost-button" onclick="closePrint()">Schließen</div>
-                <div class="button" onclick="triggerPrint()">Auswahl drucken</div>
+            <div class="print-controlls">
+                <div class="btn" data-tooltip="Heran zoomen" data-tooltip-position="left" @click="zoomIn(1.3)">&#63212;</div>
+                <div class="btn" data-tooltip="Heraus zoomen" data-tooltip-position="left" @click="zoomOut(1.3)">&#63211;</div>
+                <div class="btn" data-tooltip="Seite zentrieren" data-tooltip-position="left" @click="setPosScaleDefault()">&#62194;</div>
             </div>
         </div>
     </body>
@@ -47,27 +79,44 @@
                 pos: {x:-130,y:-45},
                 grab: {startx: 0, starty: 0, isGrabbing: false},
                 pageState: 'FRONT',
+                activePage: 0,
                 main: {
                     doc:{
                         entries: []
+                    }
+                }
+            },
+            methods: {
+                zoomIn: function(x = 1.1){
+                    if (this.scale < 3) this.scale = this.scale * x
+                    setPosScale()
+                },
+                zoomOut: function(x = 1.1){
+                    if (this.scale > 0.2) this.scale = this.scale / x
+                    setPosScale()
+                },
+                setPosScaleDefault: function(){
+                    this.pos.x = -130
+                    this.pos.y = -45
+                    this.scale = 0.8
+                    setPosScale()
+                },
+                selectEntry: function(i){
+                    if(i >= 0 && i <= this.main.doc.entries.length - 1){
+                        this.activePage = i
                     }
                 }
             }
         })
 
         tooltip({ style: { backgroundColor: '#292828', borderRadius: '4px' } })
-        setPagePosScale()
-
-        ipc.on ('print-info-return', (event, values_raw) => {
-            app.main = JSON.parse(values_raw)
-        })
+        setPosScale()
 
         let viewport = document.getElementById('viewport')
 
         viewport.addEventListener('wheel', function (e) {
-            if (e.deltaY < 0 && app.scale < 3) app.scale = app.scale * 1.1 // Make plane bigger
-            if (e.deltaY > 0 && app.scale > 0.2) app.scale = app.scale / 1.1 // Make plane smaller
-            setPagePosScale()
+            if (e.deltaY < 0) app.zoomIn()
+            if (e.deltaY > 0) app.zoomOut()
         })
 
         viewport.addEventListener('mousedown', function (e) {
@@ -90,11 +139,11 @@
                 app.pos.y += e.clientY - app.grab.starty
                 app.grab.startx = e.clientX
                 app.grab.starty = e.clientY
-                setPagePosScale()
+                setPosScale()
             }
         })
 
-        function setPagePosScale() {
+        function setPosScale() {
             $('.page').css('transform', `translate(${app.pos.x}px,${app.pos.y}px) scale(${app.scale})`)
         }
 
@@ -118,6 +167,15 @@
         }
 
 
+        ipc.on ('print-info-return', (event, values_raw) => {
+            app.main = JSON.parse(values_raw)
+
+            for (let i = 0; i < app.main.doc.entries.length; i++) {
+                app.main.doc.entries[i]['selected'] = true
+            }
+        })
+
+
         ipc.on('print-front-ready', (event, filepath) => {
 
             $('.page-front').css('display','none')
@@ -130,5 +188,5 @@
     </script>
 
     <!-- Just here to let me F5 the program -> delete when production -->
-    <script src="renderer.js"></script>
+    <!-- <script src="renderer.js"></script> -->
 </html>

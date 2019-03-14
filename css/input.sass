@@ -1,0 +1,48 @@
+.quick-select-input
+    max-width: 290px
+    width: 100%
+    height: 40px
+    margin: 5px 0 !important
+    user-select: none
+    overflow: hidden
+    background: var(--input-bg)
+    border-radius: 7px
+
+    .wrapper
+        height: inherit
+        line-height: inherit
+        width: 100%
+        display: flex
+
+        .option
+            line-height: 40px
+            height: inherit
+            vertical-align: top
+            flex: 1
+            text-align: center
+            cursor: pointer
+
+            input[type="radio"]
+                display: none
+
+            .inner
+                height: inherit
+                line-height: inherit
+                width: 100%
+                font-size: 14px
+                color: var(--button-color2)
+
+                .icon
+                    font-size: 25px
+                    font-family: 'Material Icons'
+                    height: inherit
+                    line-height: inherit
+                    width: 40px
+                    text-align: center
+                    vertical-align: top
+                    float: left
+
+            input[type="radio"]:checked+.inner
+                color: var(--button-color1)
+                background: var(--accent-color)
+                border-radius: 7px

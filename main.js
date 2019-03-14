@@ -136,7 +136,11 @@ app.on('ready', function(){
 
     //can only close when mainWindow is closing
     printWindow.on('close', function(e){
-        if(quit !== true){ e.preventDefault(); }
+        if(quit !== true){
+            e.preventDefault()
+            printWindow.hide()
+            mainWindow.webContents.focus()
+        }
     });
 
 })

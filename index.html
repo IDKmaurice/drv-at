@@ -92,15 +92,30 @@
                         </div>
 
                         <div class="edit-tab extra-edit-tab" v-if="settings.activeTab >= 1">
-                            <input class="input" v-model="doc.entries[settings.activeTab-1].firstname" type="text" placeholder="Name">
-                            <select class="input" v-model="doc.entries[settings.activeTab-1].gender">
-                                <option value="" disabled selected>Geschlecht auswählen</option>
-                                <option value="male">Rüde</option>
-                                <option value="female">Hündin</option>
-                            </select>
-                            <input type="text" class="input" v-model="doc.entries[settings.activeTab-1].haircolor" placeholder="Haarfarbe">
-                            <input class="input" v-model="doc.entries[settings.activeTab-1].chip" type="text" placeholder="Chip-Nr.">
-                            <input class="input" v-model="doc.entries[settings.activeTab-1].zbn" type="text" placeholder="Zuchtbuch-Nr.">
+                            <input class="input" v-model="doc.entries[settings.activeTab-1].firstname" type="text" placeholder="Name"><br>
+                            
+                            <div class="quick-select-input">
+                                <div class="wrapper">
+                                    <label class="option">
+                                        <input type="radio" name="gender" selected value="male" v-model="doc.entries[settings.activeTab-1].gender">
+                                        <div class="inner">
+                                            <div class="icon">&#62109;</div>
+                                            Männlich<br>
+                                        </div>
+                                    </label>
+                                    <label class="option">
+                                        <input type="radio" name="gender" selected value="female" v-model="doc.entries[settings.activeTab-1].gender">
+                                        <div class="inner">
+                                            <div class="icon">&#62108;</div>
+                                            Weiblich<br>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div><br>
+                            
+                            <input type="text" class="input" v-model="doc.entries[settings.activeTab-1].haircolor" placeholder="Haarfarbe"><br>
+                            <input class="input" v-model="doc.entries[settings.activeTab-1].chip" type="text" placeholder="Chip-Nr."><br>
+                            <input class="input" v-model="doc.entries[settings.activeTab-1].zbn" type="text" placeholder="Zuchtbuch-Nr."><br>
                         </div>
 
                     </div>

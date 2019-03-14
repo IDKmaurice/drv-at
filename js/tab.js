@@ -11,7 +11,7 @@ function addTab() {
     if(i < app.settings.tabLimit){
 
         // Pushes new entry to memory
-        app.doc.entries.push({firstname: '', haircolor: '', gender: '', chip: '', zbn: ''})
+        app.doc.entries.push({firstname: '', haircolor: '', gender: 'male', chip: '', zbn: ''})
 
         // Selects the created entry-tab
         app.settings.activeTab = i+1
