@@ -1,5 +1,6 @@
 @import 'css-4-fonts/opensans.css';
 @import 'css-4-fonts/mdi.css';
+@import 'css-4-fonts/matura.css';
 
 @import 'start_view.min.css';
 @import 'edit_view.min.css';
@@ -96,6 +97,7 @@ h1,h2,h3,h4,h5,h6{
 .right{ text-align: right; }
 .center{ text-align: center; }
 .u{ text-decoration: underline; }
+.full{ width: 100%; }
 
 *:focus{ outline: none; }
 

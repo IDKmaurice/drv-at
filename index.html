@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>DRV Ahnentafel Tool 2018</title>
+        <title>Gencestor 0.9.0</title>
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vue.min.js"></script>
         <script>
@@ -121,6 +121,7 @@
                     </div>
 
                     <div class="add-parent-holder">
+                        <div class="close" @click="closeACpopup()">&#61782;</div>
                         <input type="text" v-model="i.ac_animal_data.currentSearch" class="input ac-name-input" onfocus="searchAutoComplete()" oninput="searchAutoComplete()" placeholder="Nach Hund suchen">
                         <div class="add-parent-list">
                             <div v-for="(animal, i) in animal_data_autocomplete" @click="enterSearchedDogData(i)" class="add-parent-li">

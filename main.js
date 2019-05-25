@@ -13,7 +13,7 @@ function createWindow () {
     mainWindow = new BrowserWindow({
         width: 650,
         height: 500,
-        icon:'images/icon/drv-at.png',
+        icon:'images/icon/logo_white.png',
         webPreferences: {
             nodeIntegration: true
         }
@@ -26,10 +26,10 @@ function createWindow () {
 
 
     printWindow = new BrowserWindow({
-        width: 1414,
+        width: 1800,
         height: 1000,
         show: false,
-        icon: 'images/icon/drv-at.png',
+        icon: 'images/icon/logo_white.png',
         webPreferences: {
             nodeIntegration: true
         }
@@ -37,8 +37,23 @@ function createWindow () {
 
     printWindow.loadFile('print.html')
     printWindow.setMenu(null)
-    printWindow.hide();
+    printWindow.hide()
     //printWindow.webContents.openDevTools()
+
+    workerWindow = new BrowserWindow({
+        width: 1414,
+        height: 1000,
+        show: true,
+        icon: 'images/icon/logo_white.png',
+        webPreferences: {
+            nodeIntegration: true
+        }
+    })
+
+    workerWindow.loadFile('worker.html')
+    workerWindow.setMenu(null)
+    workerWindow.hide()
+    //workerWindow.webContents.openDevTools()
 }
 
 app.on('ready', function(){
@@ -125,14 +140,15 @@ app.on('ready', function(){
 
         if(choice == 1){
             quit = false
-            e.preventDefault();
+            e.preventDefault()
         } else {
             //enable close for printWindow
             quit = true
             printWindow.close()
+            workerWindow.close()
             // TODO: send renderer msg to delete temp file
         }
-    });
+    })
 
     //can only close when mainWindow is closing
     printWindow.on('close', function(e){
@@ -141,7 +157,13 @@ app.on('ready', function(){
             printWindow.hide()
             mainWindow.webContents.focus()
         }
-    });
+    })
+
+    workerWindow.on('close', function (e) {
+        if (quit !== true) {
+            e.preventDefault()
+        }
+    })
 
 })
 
@@ -192,7 +214,7 @@ ipcMain.on('print-to-pdf', function(event, args) {
 
     let pdfPath = path.join(filepath,subFolderName,filename)
 
-    printWindow.webContents.printToPDF({printBackground: true, marginsType: 1, landscape: true}, function(error, data){
+    workerWindow.webContents.printToPDF({printBackground: true, marginsType: 1, landscape: true}, function(error, data){
         if(error) return console.error(error.message);
         fs.writeFile(pdfPath, data, function(err) {
             if(err) return console.error(err.message);

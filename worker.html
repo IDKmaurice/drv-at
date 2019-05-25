@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gencestor Print Worker</title>
+    <script src="js/vue.min.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/print/main.min.css">
+    <link rel="stylesheet" href="css/print/dina4.min.css">
+    <script>
+        const $ = require('jquery')
+        const fs = require('fs')
+        const settings = require('electron-settings')
+        const ipc = require('electron').ipcRenderer
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="page-state" v-show="pageState == 'FRONT'">
+                <div class="page-div">
+                    <h2>PRINT - VORSCHAU - VORDERSEITE</h2><br>
+                    Dies ist die Printvorschau.<br>
+                    Sie dient als Übersicht und Auswahl für alle Drucke.
+                </div>
+                <div class="page-div">
+                    <h3 v-if="main.doc.entries[activePage] != undefined">Vorname:
+                        {{main.doc.entries[activePage].firstname}}</h3><br>
+                    <h3 v-if="main.doc.entries[activePage] != undefined">Geschlecht:
+                        {{main.doc.entries[activePage].gender}}</h3><br>
+                    <h3 v-if="main.doc.entries[activePage] != undefined">Chip Nr:
+                        {{main.doc.entries[activePage].chipnumber}}</h3><br>
+                    <h3 v-if="main.doc.entries[activePage] != undefined">Züchtername: {{main.doc.name}}</h3><br>
+                </div>
+            </div>
+            <div class="page-state" v-show="pageState == 'BACK'">
+                <div class="tree-top" v-if="main.doc.entries[activePage] != undefined">
+                    {{main.doc.entries[activePage].firstname}} - {{main.doc.name}}
+                </div>
+                <div class="tree">
+                    <div class="tree-column" v-for="(column, c) in main.doc.tree">
+                        <div class="tree-row" v-for="(row, r) in column">
+                            {{main.doc.tree[c][r].name}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+
+    app = new Vue({
+        el: '#app',
+        data: {
+            pageState: 'FRONT',
+            activePage: 0,
+            main: {
+                doc: {
+                    entries: []
+                }
+            }
+        }
+    })
+
+
+    ipc.on('print-info-return', (event, values_raw) => {
+        app.main = JSON.parse(values_raw)
+
+        for (let i = 0; i < app.main.doc.entries.length; i++) {
+            app.main.doc.entries[i]['selected'] = true
+        }
+    })
+
+
+    ipc.on('print-front-ready', (event, filepath) => {
+
+        $('.page-front').css('display', 'none')
+        $('.page-back').css('display', 'inline-block')
+
+        ipc.send('print-to-pdf', [filepath, 'seite_2.pdf', false])
+
+        closePrint()
+    })
+</script>
+</html>

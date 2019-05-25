@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <title>Gencestor Druckvorschau</title>
         <script src="js/vue.min.js"></script>
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/print/main.min.css">
@@ -19,19 +20,104 @@
         <div id="app">
             <div class="viewport" id="viewport">
                 <div class="page">
+
                     <div class="page-state" v-show="pageState == 'FRONT'">
-                        <div class="page-div">
-                            <h2>PRINT - VORSCHAU - VORDERSEITE</h2><br>
-                            Dies ist die Printvorschau.<br>
-                            Sie dient als Übersicht und Auswahl für alle Drucke.
+                        <div class="page-div page-left justify">
+                            <div class="sub-hl">Liebe Hundebesitzerin, lieber Hundebesitzer,</div>
+                            Der Deutsche Rassehunde Verband e.V. (DRV e.V.) – Wolfenbüttel möchte Sie als stolzen Hundebesitzer recht herzlich
+                            beglückwünschen.<br><br>
+                            Sicherlich werden Sie mit Ihrem „vierbeinigen Freund“ viel Freude haben und viele schöne gemeinsame Stunden erleben;
+                            vielleicht werden Sie sogar darüber hinaus mit ihm große Erfolge erringen.<br><br>
+                            Dabei und auch bei allen Belangen der Aufzucht, der Hundehaltung und Hundezucht möchte Ihnen der DRV e.V. gern
+                            behilflich sein. Durch unsere jahrzehntelange Erfahrung mit Hunden stehen Ihnen bei Ihren großen oder kleinen Problemen
+                            unsere kompetenten Fachleute gern zur Seite.<br><br>
+                            Bitte beachten Sie auch, dass Ihr Hund ein Lebewesen ist, welches gerade in der Jugend Ihre Hilfe und Zuneigung
+                            benötigt. Wenn Sie Geduld mit ihm haben und stets liebevoll mit ihm umgehen, wird er es Ihnen sein ganzes Leben lang mit
+                            treue und Liebe danken.<br><br>
+                            In Ihren Unterlagen befindet sich gewiss ein Mitgliedsantrag zu unserem Hundeverband. Füllen Sie diesen bitte
+                            vollständig aus und senden ihn unterzeichnet im Original an uns zurück. Vielen Dank!<br>
+                            <br>
+                            <div class="full center">
+                                Mit freundlicher Empfehlung Ihr
+                                <img src="images/DRV.png" width="60"><br><br>
+                            </div>
+                            <div class="center full">
+                                <div class="sub-hl2">Deutscher Rassehunde Verband e.V. (DRV) – Wolfenbüttel</div>
+                                <span class="left">
+                                    Hauptgeschäftsstelle: Heerklinke 15 ~ 38259 Salzgitter<br>
+                                    Zuchtbuchamt: Hinter den Gärten 1 ~ 38729 Wallmoden<br>
+                                    Tel: 05341 – 2934395 ~ drvev@mail.de ~ www.drvev.de<br><br>
+                                </span><br>
+                            </div>
+                            <div class="comment">
+                                <div class="divider"></div>
+                                <span>Bemerkungen:</span>
+                            </div>
+
                         </div>
+
+
+
                         <div class="page-div">
+                            <div class="hl">Ahnenpass</div>
+                            <div class="sub-hl">Pedigree</div>
+                            <div class="data-container">
+                                <div class="row-title breed">
+                                    <span>Rasse:</span>
+                                    <span>Breed</span>
+                                </div>
+                                <div class="row-title name">
+                                    <span>Name d. Hundes:</span>
+                                    <span>Name of dog</span>
+                                </div>
+                                <div class="row-title date">
+                                    <span>Wurftag:</span>
+                                    <span>Date of birth</span>
+                                </div>
+                                <div class="row-title gender">
+                                    <span>Geschlecht</span>
+                                    <span>Sex</span>
+                                </div>
+                                <div class="row-title color">
+                                    <span>Farbe:</span>
+                                    <span>Color</span>
+                                </div>
+                                <div class="row-title zbn">
+                                    <span>Zuchtbuch - Nr.:</span>
+                                    <span>Studbook number</span>
+                                </div>
+                                <div class="row-title chip">
+                                    <span>Chip - Nr.:</span>
+                                    <span>Micro chip No.</span>
+                                </div>
+                                <div class="row-title address">
+                                    <span>Züchter / Anschrift</span>
+                                    <span>Breeder / Address</span>
+                                </div>
+                                <div class="breedIN"></div>
+                                <div class="nameIN"></div>
+                                <div class="dateIN"></div>
+                                <div class="amountIN"></div>
+                                <div class="genderIN"></div>
+                                <div class="colorIN"></div>
+                                <div class="zbnIN"></div>
+                                <div class="chipIN"></div>
+                                <div class="addressIN"></div>
+                            </div>
+                            <div class="bottom-sign">
+                                Für die Richtigkeit der Wurfangaben: ______________________________________
+                            </div>
+
+                            <div class="watermark"></div>
+
                             <h3 v-if="main.doc.entries[activePage] != undefined">Vorname: {{main.doc.entries[activePage].firstname}}</h3><br>
                             <h3 v-if="main.doc.entries[activePage] != undefined">Geschlecht: {{main.doc.entries[activePage].gender}}</h3><br>
                             <h3 v-if="main.doc.entries[activePage] != undefined">Chip Nr: {{main.doc.entries[activePage].chipnumber}}</h3><br>
                             <h3 v-if="main.doc.entries[activePage] != undefined">Züchtername: {{main.doc.name}}</h3><br>
                         </div>
                     </div>
+
+
                     <div class="page-state" v-show="pageState == 'BACK'">
                         <div class="tree-top" v-if="main.doc.entries[activePage] != undefined">
                             {{main.doc.entries[activePage].firstname}} - {{main.doc.name}}
@@ -44,6 +130,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
             <div class="print-sidebar">
@@ -188,5 +275,5 @@
     </script>
 
     <!-- Just here to let me F5 the program -> delete when production -->
-    <!-- <script src="renderer.js"></script> -->
+    <script src="renderer.js"></script>
 </html>

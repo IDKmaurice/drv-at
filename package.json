@@ -1,15 +1,15 @@
 {
-  "name": "drv-at",
-  "version": "1.0.0",
-  "description": "DRVs Ahnentafel Editor",
+  "name": "gencestor",
+  "version": "0.9.0",
+  "description": "Gencestor is a pedigree tool. :)",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
   "repository": "https://github.com/IDKmaurice/drv-at.git",
   "keywords": [
-    "DRV",
-    "Ahnentafel",
+    "Gencestor",
+    "Pedigree",
     "Editor"
   ],
   "author": "Maurice Freuwoert",
