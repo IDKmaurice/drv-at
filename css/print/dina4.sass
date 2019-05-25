@@ -18,10 +18,10 @@
             width: 50%
             height: 100%
             margin: 0px
-            padding: 0px
+            padding: -10px
             text-align: left
             line-height: 20px
-            font-size: 17px
+            font-size: 12pt
             vertical-align: top
             border: 30px solid transparent
             position: relative
@@ -32,9 +32,14 @@
                 margin-right: 40px
                 text-align: justify
 
+            &.page-right
+                width: calc(50% - 15px)
+                margin-left: 10px
+                margin-right: 5px
+
             .hl
                 font-size: 60px
-                margin-top: 5px
+                margin-top: 15px
                 margin-bottom: 30px
                 width: 100%
                 text-align: center
@@ -49,7 +54,7 @@
                 font-family: 'Matura'
 
             .sub-hl2
-                font-size: 19px
+                font-size: 15.8pt
                 line-height: 40px
                 width: 100%
                 text-align: center
@@ -67,6 +72,11 @@
                 background-repeat: no-repeat
                 opacity: 0.08
 
+            .drv-logo-front
+                vertical-align: middle
+                margin: 10px 0
+                margin-left: 80px
+
             .comment
                 width: 100%
 
@@ -77,24 +87,39 @@
                     width: calc(100% - 30px)
                     margin: 0 15px
                     margin-bottom: 6px
-                span
+                .comment-hl
                     font-weight: bold
+                    margin-bottom: 5px
                     text-decoration: underline
 
             .data-container
+                margin-top: 30px
                 display: grid
-                grid-template-columns: 1fr 1fr 1fr
-                grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr
-                grid-template-areas: "breed breedIN breedIN" "name nameIN nameIN" "date dateIN amountIN" "gender genderIN ." "color colorIN ." "zbn zbnIN ." "chip chipIN ." "address addressIN ."
+                grid-template-columns: 6fr 7fr 7fr
+                grid-template-rows: auto auto auto auto auto auto auto auto
+                grid-row-gap: 45px
+                grid-template-areas: "breed breedIN breedIN" "name nameIN nameIN" "date dateIN amountIN" "gender genderIN ." "color colorIN ." "zbn zbnIN fcm" "chip chipIN fcm" "address addressIN addressIN"
 
                 .row-title
                     span:first-of-type
-                        font-size: 17px
+                        font-size: 14pt
                         display: block
 
                     span:last-of-type
-                        font-size: 15px
+                        font-size: 10pt
                         display: block
+                
+                .row-bold1
+                    font-weight: 600
+                    font-size: 21pt
+                    line-height: 25pt
+                    margin-top: -7px
+
+                .row-bold2
+                    font-weight: 600
+                    font-size: 16pt
+                    line-height: 20pt
+                    margin-top: -3px
 
                 .breedIN
                     grid-area: breedIN
@@ -104,6 +129,13 @@
                     grid-area: dateIN
                 .amountIN
                     grid-area: amountIN
+
+                    .amount-title
+                        vertical-align: top
+                    .amount
+                        vertical-align: top
+                        margin-left: 7px
+
                 .genderIN
                     grid-area: genderIN
                 .colorIN
@@ -132,9 +164,34 @@
                     grid-area: address
                 .fcm
                     grid-area: fcm
+                    text-align: center
+
+                    img
+                        height: 120px
+
 
             .bottom-sign
-                font-size: 15px
+                width: 100%
+                position: absolute
+                bottom: -15px
+                display: grid
+                grid-template-columns: auto 1fr
+                grid-template-rows: auto
+                grid-column-gap: 4px
+                grid-template-areas: "title" "line"
+
+                .title
+                    font-size: 10pt
+                    grid-area: "title"
+                    vertical-align: top
+                .line
+                    border-top: 1px solid black
+                    font-size: 8pt
+                    line-height: 20pt
+                    text-align: center
+                    grid-area: "line"
+                    margin-top: 16px
+                    vertical-align: top
 
         .tree-top
             height: 60px
