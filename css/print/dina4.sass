@@ -200,26 +200,95 @@
             text-align: center
             color: #aaa
             font-size: 17px
-
-        .tree
             display: flex
+
+            .item
+                color: black
+                flex: 1
+                white-space: nowrap
+                font-size: 10pt
+
+        .tree-bottom
             height: calc(100% - 60px)
             width: 100%
-            padding: 10px
-            padding-top: 0
+            position: relative
 
-            .tree-column
+            .border
                 height: 100%
-                flex: 1
-                display: flex
-                flex-direction: column
-                justify-content: space-around
+                width: 100%
+                position: absolute
+                top: 0
+                left: 0
+                z-index: 1
+                border: 30px solid transparent
+                position: relative
+                opacity: 0.5
+                border-image: url("../../images/border.png") 30 30 repeat
 
-                .tree-row
+            .tree-hl
+                height: 28px
+                line-height: 28px
+                width: 100%
+                text-align: center
+                color: #aaa
+                display: flex
+                position: absolute
+                top: 2px
+                left: 0
+                z-index: 3
+
+                .item
                     flex: 1
-                    color: var(--text-color3)
-                    border: 1px solid #aaa
-                    border-radius: 5px
-                    width: 100%
-                    font-size: 14px
-                    padding: 10px
+                    white-space: nowrap
+                    font-size: 12pt
+
+            .tree
+                display: flex
+                height: 100%
+                width: 100%
+                padding: 30px
+                position: absolute
+                top: 0
+                left: 0
+                z-index: 2
+
+                .tree-column
+                    height: 100%
+                    flex: 1
+                    display: flex
+                    flex-direction: column
+                    justify-content: space-around
+
+                    .tree-row
+                        flex: 1
+                        color: var(--text-color3)
+                        width: 100%
+                        font-size: 14px
+                        padding: 10px
+
+                        &.c1
+                            border-right: 2px solid #000
+                            border-bottom: 2px solid #000
+
+                            &:last-child
+                                border-bottom: none
+                            
+                        &.c2
+                            border-right: 2px solid #000
+                            border-bottom: 2px solid #000
+
+                            &:last-child
+                                border-bottom: none
+
+                        &.c3
+                            border-right: 2px solid #000
+                            border-bottom: 2px solid #000
+
+                            &:last-child
+                                border-bottom: none
+
+                        &.c4
+                            border-bottom: 2px solid #000
+
+                            &:last-child
+                                border-bottom: none

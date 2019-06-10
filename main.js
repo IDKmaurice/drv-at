@@ -38,7 +38,7 @@ function createWindow () {
     printWindow.loadFile('print.html')
     printWindow.setMenu(null)
     printWindow.hide()
-    //printWindow.webContents.openDevTools()
+    printWindow.webContents.openDevTools()
 
     workerWindow = new BrowserWindow({
         width: 1414,

@@ -138,18 +138,54 @@
 
 
                     <div class="page-state" v-show="pageState == 'BACK'">
-                        <div class="tree-top" v-if="main.doc.entries[activePage] != undefined">
+                        <!-- <div class="tree-top" v-if="main.doc.entries[activePage]">
                             {{main.doc.entries[activePage].firstname}} - {{main.doc.name}}
+                        </div> -->
+                        <div class="tree-top">
+                            <div class="item">Rasse: <b>Golden Retriever</b></div>
+                            <div class="item">Name: <b>Gladword's Blue Magic Monday of Dreamlad</b></div>
+                            <div class="item">Wurftag: <b>10.11.2018</b></div>
+                            <div class="item">ZB-Nr.: <b>DRV - 11009/18</b></div>
+                            <div class="item">Chip-Nr.: <b>276099100109642</b></div>
                         </div>
-                        <div class="tree">
-                            <div class="tree-column" v-for="(column, c) in main.doc.tree">
-                                <div class="tree-row" v-for="(row, r) in column">
-                                    {{main.doc.tree[c][r].name}}
+
+                        <div class="tree-bottom">
+                            <div class="border"></div>
+                            <div class="tree-hl">
+                                <div class="item">I. Eltern / Parents</div>
+                                <div class="item">II. Großeltern / Grandparents</div>
+                                <div class="item">III. Urgroßeltern / G. Grandparents</div>
+                                <div class="item">IV. Ururgroßeltern / G.-G. Gr.Parents</div>
+                            </div>
+                            <div class="tree">
+                                <div class="tree-column" v-if="main.doc.tree">
+                                    <div class="tree-row c1" v-for="(row, r) in main.doc.tree[0]">
+                                        {{main.doc.tree[0][r].name}}
+                                    </div>
+                                </div>
+                                <div class="tree-column" v-if="main.doc.tree">
+                                    <div class="tree-row c2" v-for="(row, r) in main.doc.tree[1]">
+                                        {{main.doc.tree[1][r].name}}
+                                    </div>
+                                </div>
+                                <div class="tree-column" v-if="main.doc.tree">
+                                    <div class="tree-row c3" v-for="(row, r) in main.doc.tree[2]">
+                                        {{main.doc.tree[2][r].name}}
+                                    </div>
+                                </div>
+                                <div class="tree-column" v-if="main.doc.tree">
+                                    <div class="tree-row c4" v-for="(row, r) in main.doc.tree[3]">
+                                        {{main.doc.tree[3][r].name}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+
+
+
+                    
                 </div>
             </div>
             <div class="print-sidebar">
