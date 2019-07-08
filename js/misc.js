@@ -78,25 +78,42 @@ function sendDataToPrint() {
 
 
 
-function searchDogData() {
-    app.request('read_animal_data_multiple', [$('#dog-data-search').val()], (data,err)=>{
+// Get Animal_Data for DB
+function searchAnimalData(search = '') {
+
+    app.request('read_animal_data_multiple', [search], (data,err)=>{
+        data.forEach(item => {
+            item.LNF_ = (item.LNF == 'YES') ? 'ZWINGER - HUND' : 'HUND - ZWINGER'
+            item.gender_ = (item.gender == 'MALE') ? 'RÜDE' : 'HÜNDIN'
+            item.birthdate_ = app.formatDate(item.birthdate)
+            item.fullname = app.formatLNF(item.firstname, item.lastname, item.LNF)
+        })
         app.animal_data = data
         app.$forceUpdate()
         if(err) sendAToast('warning',err)
     })
 }
 
-function searchAutoComplete() {
-    app.request('read_animal_data_autocomplete', [app.i.ac_animal_data.currentSearch, app.i.ac_animal_data.currentGender], (data,err)=>{
+
+// Get Autocomplete_Data for edit-view
+function searchAnimalAC(gender = app.i.ac_animal_data.currentGender) {
+
+    app.request('read_animal_data_autocomplete', [app.i.ac_animal_data.currentSearch, gender], (data,err)=>{
+        data.forEach(item => {
+            item.LNF_ = (item.LNF == 'YES') ? 'ZWINGER - HUND' : 'HUND - ZWINGER'
+            item.gender_ = (item.gender == 'MALE') ? 'RÜDE' : 'HÜNDIN'
+            item.fullname = app.formatLNF(item.firstname, item.lastname, item.LNF)
+        })
         app.animal_data_autocomplete = data
         if(err) sendAToast('warning',err)
     })
 }
 
 
+// Pre-Setup for autocomplete
 function openACpopup(column,row){
 
-    let gender = (row%2 == 0) ? 'female' : 'male'
+    let gender = (row%2 == 0) ? 'FEMALE' : 'MALE'
 
     $('.add-parent-holder').addClass('active')
     app.i.ac_animal_data.currentColumn = column
@@ -113,34 +130,12 @@ function closeACpopup(){
 }
 
 
-function updateDogData(event) {
+function createAnimalData() {
 
-    
-    event.preventDefault()
-    let formData = $('#dog-data-editor').serializeArray()
-    formData.push({name: 'jwt', value: app.settings.jwt})
-    
-    
-    $.post(app.API.update_animal_data_single.url, formData, function (data) {
+    let formData = JSON.parse(JSON.stringify(app.i.create_animal_data))
+    formData['jwt'] = app.settings.jwt
 
-        if(data.response == 'OK'){
-            sendAToast('success','Hund erfolgreich geändert')
-            app.settings.jwt = data.jwt
-            searchDogData()
-            app.$forceUpdate()
-        } else {
-            sendAToast('warning',data.response)
-        }
-        
-    }, 'json')
-}
-
-function createDogData(event) {
-
-    
-    event.preventDefault()
-    let formData = $('#dog-data-creator').serializeArray()
-    formData.push({name: 'jwt', value: app.settings.jwt})
+    formData.LNF = (formData.LNF == true) ? 'YES' : 'NO'
     
     
     $.post(app.API.create_animal_data_single.url, formData, function (data) {
@@ -149,7 +144,7 @@ function createDogData(event) {
             sendAToast('success','Erfolgreich hinzugefügt')
             animPopup('add-dog','out')
             app.settings.jwt = data.jwt
-            searchDogData()
+            searchAnimalData()
             app.$forceUpdate()
         } else {
             sendAToast('warning',data.response)
@@ -158,47 +153,38 @@ function createDogData(event) {
     }, 'json')
 }
 
-function deleteDogData() {
-    app.request('delete_animal_data_single', [$('.db-hidden-id').val()], (data, err) => {
+function deleteAnimalData(id) {
+    app.request('delete_animal_data_single', [id], (data, err) => {
         sendAToast('success','Eintrag erfolgreich gelöscht')
-        searchDogData()
+        searchAnimalData()
         app.$forceUpdate()
         if (err) sendAToast('warning', err)
     })
-
-    $('#dog-data-editor').trigger('reset')
 }
 
-function editDogData(obj){
+function enterACAnimalData(dataObj, insertPath = 'tree'){
+    if(insertPath == 'tree'){
+        let column = app.i.ac_animal_data.currentColumn
+        let row = app.i.ac_animal_data.currentRow
+        
+        enterAnimalDataRec(dataObj.id,column,row)
+        closeACpopup()
+    } else if (insertPath == 'addParent') {
 
-    //im not proud of this section :(
-
-    $('.db-hidden-id').val($(obj).children('.dbc-id').html())
-    $('.db-edit-chip').val($(obj).children('.dbc-chip').html())
-    $('.db-edit-zbn').val($(obj).children('.dbc-zbn').html())
-    $('.db-edit-firstname').val($(obj).children('.dbc-firstname').html())
-    $('.db-edit-lastname').val($(obj).children('.dbc-lastname').html())
-    $('.db-edit-birthdate').val($(obj).children('.dbc-birthdate').html())
-    $('.db-edit-gender').val($(obj).children('.dbc-gender').html())
-    $('.db-edit-race').val($(obj).children('.dbc-race').html())
-    $('.db-edit-hairtype').val($(obj).children('.dbc-hairtype').html())
-    $('.db-edit-haircolor').val($(obj).children('.dbc-haircolor').html())
-    $('.db-edit-mother').val($(obj).children('.dbc-mother').html())
-    $('.db-edit-father').val($(obj).children('.dbc-father').html())
-    $('.db-edit-breeder').val($(obj).children('.dbc-breeder').html())
-    $('.db-edit-membernumber').val($(obj).children('.dbc-membernumber').html())
+        if(dataObj.gender == 'MALE'){
+            app.i.create_animal_data.father = dataObj.id
+            app.i.create_animal_data.fatherName = app.formatLNF(dataObj.firstname, dataObj.lastname, dataObj.LNF)
+        } else {            
+            app.i.create_animal_data.mother = dataObj.id
+            app.i.create_animal_data.motherName = app.formatLNF(dataObj.firstname, dataObj.lastname, dataObj.LNF)
+        }
+        
+    } else {
+        sendAToast('warning','Konnte Eintrag nicht hinzufügen')
+    }
 }
 
-function enterSearchedDogData(i){
-    let id = app.animal_data_autocomplete[i].id
-    let column = app.i.ac_animal_data.currentColumn
-    let row = app.i.ac_animal_data.currentRow
-    
-    enterDogDataRec(id,column,row)
-    closeACpopup()
-}
-
-function enterDogDataRec(id, column, row){
+function enterAnimalDataRec(id, column, row){
 
     
     if(column <= 4){
@@ -211,17 +197,18 @@ function enterDogDataRec(id, column, row){
     
                     let mother = data.mother
                     let father = data.father
+                    let fullname = app.formatLNF(data.firstname, data.lastname, data.LNF)
     
-                    if(data.firstname != '' && data.id != ''){
-                        app.doc.tree[column-1][row-1].name = data.firstname
+                    if(fullname != '' && data.id){
+                        app.doc.tree[column-1][row-1].name = fullname
                         app.doc.tree[column-1][row-1].id = data.id
                     }
     
                     father = (father != undefined && father != "") ? father : null
-                    enterDogDataRec(father, column+1, (row*2)-1)
+                    enterAnimalDataRec(father, column+1, (row*2)-1)
     
                     mother = (mother != undefined && mother != "") ? mother : null
-                    enterDogDataRec(mother, column+1, row*2)
+                    enterAnimalDataRec(mother, column+1, row*2)
     
                 }
     
@@ -230,8 +217,8 @@ function enterDogDataRec(id, column, row){
         } else {
             app.doc.tree[column-1][row-1].name = null
             app.doc.tree[column-1][row-1].id = null
-            enterDogDataRec(null, column+1, (row*2)-1)
-            enterDogDataRec(null, column+1, row*2)
+            enterAnimalDataRec(null, column+1, (row*2)-1)
+            enterAnimalDataRec(null, column+1, row*2)
         }
     }
 }

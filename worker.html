@@ -20,29 +20,171 @@
     <div id="app">
         <div class="page">
             <div class="page-state" v-show="pageState == 'FRONT'">
-                <div class="page-div">
-                    <h2>PRINT - VORSCHAU - VORDERSEITE</h2><br>
-                    Dies ist die Printvorschau.<br>
-                    Sie dient als Übersicht und Auswahl für alle Drucke.
+                <div class="page-div page-left justify">
+                    <div class="sub-hl">Liebe Hundebesitzerin, lieber Hundebesitzer,</div>
+                    Der Deutsche Rassehunde Verband e.V. (DRV e.V.) – Wolfenbüttel möchte Sie als stolzen Hundebesitzer recht
+                    herzlich
+                    beglückwünschen.<br><br>
+                    Sicherlich werden Sie mit Ihrem „vierbeinigen Freund“ viel Freude haben und viele schöne gemeinsame Stunden
+                    erleben;
+                    vielleicht werden Sie sogar da-rüber hinaus mit ihm große Erfolge erringen.<br><br>
+                    Dabei und auch bei allen Belangen der Aufzucht, der Hundehaltung und Hundezucht möchte Ihnen der DRV e.V. gern
+                    behilflich sein. Durch unsere jahrzehntelange Erfahrung mit Hunden stehen Ihnen bei Ihren großen oder kleinen
+                    Problemen
+                    unsere kompetenten Fachleute gern zur Seite.<br><br>
+                    Bitte beachten Sie auch, dass Ihr Hund ein Lebewesen ist, welches gerade in der Jugend Ihre Hilfe und Zuneigung
+                    benötigt. Wenn Sie Geduld mit ihm haben und stets liebevoll mit ihm umgehen, wird er es Ihnen sein ganzes Leben
+                    lang mit
+                    treue und Liebe danken.<br><br>
+                    In Ihren Unterlagen befindet sich gewiss ein Mitgliedsantrag zu unserem Hundeverband. Füllen Sie diesen bitte
+                    vollständig aus und senden ihn unterzeichnet im Original an uns zurück. Vielen Dank!<br>
+                    <div class="full center">
+                        Mit freundlicher Empfehlung Ihr
+                        <img src="images/DRV.png" class="drv-logo-front" width="80"><br>
+                    </div>
+                    <div class="center full">
+                        <div class="sub-hl2">Deutscher Rassehunde Verband e.V. (DRV) – Wolfenbüttel</div>
+                        <span class="left">
+                            Hauptgeschäftsstelle:&nbsp;&nbsp;&nbsp;&nbsp;Heerklinke
+                            15&nbsp;&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;&nbsp;38259 Salzgitter<br>
+                            Zuchtbuchamt:&nbsp;&nbsp;&nbsp;Hinter den Gärten 1&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;38729
+                            Wallmoden<br>
+                            Tel:&nbsp;&nbsp;05341 –
+                            2934395&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;drvev@mail.de&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;www.drvev.de<br><br>
+                        </span><br>
+                    </div>
+                    <div class="comment">
+                        <div class="divider"></div>
+                        <span class="comment-hl">Bemerkungen:</span><br>
+                        <span>
+                            <!-- PUT BEMERKUNG HERE -->
+                        </span>
+                    </div>
+            
                 </div>
-                <div class="page-div">
-                    <h3 v-if="main.doc.entries[activePage] != undefined">Vorname:
-                        {{main.doc.entries[activePage].firstname}}</h3><br>
-                    <h3 v-if="main.doc.entries[activePage] != undefined">Geschlecht:
-                        {{main.doc.entries[activePage].gender}}</h3><br>
-                    <h3 v-if="main.doc.entries[activePage] != undefined">Chip Nr:
-                        {{main.doc.entries[activePage].chipnumber}}</h3><br>
+            
+            
+            
+                <div class="page-div page-right">
+                    <div class="hl">Ahnenpass</div>
+                    <div class="sub-hl">Pedigree</div>
+                    <div class="data-container">
+                        <div class="row-title breed">
+                            <span>Rasse:</span>
+                            <span>Breed</span>
+                        </div>
+                        <div class="row-title name">
+                            <span>Name d. Hundes:</span>
+                            <span>Name of dog</span>
+                        </div>
+                        <div class="row-title date">
+                            <span>Wurftag:</span>
+                            <span>Date of birth</span>
+                        </div>
+                        <div class="row-title gender">
+                            <span>Geschlecht:</span>
+                            <span>Sex</span>
+                        </div>
+                        <div class="row-title color">
+                            <span>Farbe:</span>
+                            <span>Colour</span>
+                        </div>
+                        <div class="row-title zbn">
+                            <span>Zuchtbuch - Nr.:</span>
+                            <span>Studbook number</span>
+                        </div>
+                        <div class="row-title chip">
+                            <span>Chip - Nr.:</span>
+                            <span>Micro chip No.</span>
+                        </div>
+                        <div class="row-title address">
+                            <span>Züchter / Anschrift:</span>
+                            <span>Breeder / Address</span>
+                        </div>
+                        <div class="breedIN row-bold2">Deutscher Schäferhund - LSH</div>
+                        <div class="nameIN row-bold1">
+                            DIVA DAMIRA<br>
+                            von der Blümchenwiese
+                        </div>
+                        <div class="dateIN row-bold2">12.12.2012</div>
+                        <div class="amountIN">
+                            <div class="row-title amount-title">
+                                <span>Wurfstärke:</span>
+                                <span>amount of puppies</span>
+                            </div>
+                            <div class="amount row-bold2">88 / 88</div>
+                        </div>
+                        <div class="genderIN row-bold2">Hündin</div>
+                        <div class="colorIN row-bold2">schwarz - braun</div>
+                        <div class="zbnIN row-bold1">DRV - 01001/18</div>
+                        <div class="chipIN row-bold2">276098100XXXXXX</div>
+                        <div class="addressIN row-bold2">
+                            Kerstin Freuwört<br>
+                            Hinter den Gärten 1<br>
+                            38729 Wallmoden
+                        </div>
+                        <div class="fcm">
+                            <img src="images/FCM.png">
+                        </div>
+                    </div>
+                    <div class="bottom-sign">
+                        <span class="title">Für die Richtigkeit der Wurfangaben:</span>
+                        <span class="line">Unterschrift des Züchters</span>
+                    </div>
+            
+                    <div class="watermark"></div>
+            
+                    <h3 v-if="main.doc.entries[activePage] != undefined">Vorname: {{main.doc.entries[activePage].firstname}}</h3>
+                    <br>
+                    <h3 v-if="main.doc.entries[activePage] != undefined">Geschlecht: {{main.doc.entries[activePage].gender}}</h3>
+                    <br>
+                    <h3 v-if="main.doc.entries[activePage] != undefined">Chip Nr: {{main.doc.entries[activePage].chipnumber}}</h3>
+                    <br>
                     <h3 v-if="main.doc.entries[activePage] != undefined">Züchtername: {{main.doc.name}}</h3><br>
                 </div>
             </div>
+            
+            
             <div class="page-state" v-show="pageState == 'BACK'">
-                <div class="tree-top" v-if="main.doc.entries[activePage] != undefined">
-                    {{main.doc.entries[activePage].firstname}} - {{main.doc.name}}
+                <!-- <div class="tree-top" v-if="main.doc.entries[activePage]">
+                                        {{main.doc.entries[activePage].firstname}} - {{main.doc.name}}
+                                    </div> -->
+                <div class="tree-top">
+                    <div class="item">Rasse: <b>Golden Retriever</b></div>
+                    <div class="item">Name: <b>Gladword's Blue Magic Monday of Dreamlad</b></div>
+                    <div class="item">Wurftag: <b>10.11.2018</b></div>
+                    <div class="item">ZB-Nr.: <b>DRV - 11009/18</b></div>
+                    <div class="item">Chip-Nr.: <b>276099100109642</b></div>
                 </div>
-                <div class="tree">
-                    <div class="tree-column" v-for="(column, c) in main.doc.tree">
-                        <div class="tree-row" v-for="(row, r) in column">
-                            {{main.doc.tree[c][r].name}}
+            
+                <div class="tree-bottom">
+                    <div class="border"></div>
+                    <div class="tree-hl">
+                        <div class="item">I. Eltern / Parents</div>
+                        <div class="item">II. Großeltern / Grandparents</div>
+                        <div class="item">III. Urgroßeltern / G. Grandparents</div>
+                        <div class="item">IV. Ururgroßeltern / G.-G. Gr.Parents</div>
+                    </div>
+                    <div class="tree">
+                        <div class="tree-column" v-if="main.doc.tree">
+                            <div class="tree-row c1" v-for="(row, r) in main.doc.tree[0]">
+                                {{main.doc.tree[0][r].name}}
+                            </div>
+                        </div>
+                        <div class="tree-column" v-if="main.doc.tree">
+                            <div class="tree-row c2" v-for="(row, r) in main.doc.tree[1]">
+                                {{main.doc.tree[1][r].name}}
+                            </div>
+                        </div>
+                        <div class="tree-column" v-if="main.doc.tree">
+                            <div class="tree-row c3" v-for="(row, r) in main.doc.tree[2]">
+                                {{main.doc.tree[2][r].name}}
+                            </div>
+                        </div>
+                        <div class="tree-column" v-if="main.doc.tree">
+                            <div class="tree-row c4" v-for="(row, r) in main.doc.tree[3]">
+                                {{main.doc.tree[3][r].name}}
+                            </div>
                         </div>
                     </div>
                 </div>

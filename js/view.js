@@ -17,11 +17,7 @@ function changeToDatabaseView() {
         app.settings.activeView = 'database'
         app.resetDocument()
 
-        app.request('read_animal_data_multiple', [''], (data, err) => {
-            app.animal_data = data
-            app.$forceUpdate()
-            if (err) sendAToast('warning', err)
-        })
+        searchAnimalData('')
     }
 }
 

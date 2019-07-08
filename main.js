@@ -44,6 +44,7 @@ function createWindow () {
         width: 1414,
         height: 1000,
         show: true,
+        frame: false,
         icon: 'images/icon/logo_white.png',
         webPreferences: {
             nodeIntegration: true

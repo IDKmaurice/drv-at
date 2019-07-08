@@ -1,8 +1,10 @@
 let dir = fs.readdirSync(getTempName("temp/backup/",'folder'))
+
+const _ = require('lodash')
+
 app = new Vue({
     el:'#app',
     data: {
-        main: {},
         backup: dir,
         animal_data: null,
         animal_data_autocomplete: null,
@@ -61,15 +63,32 @@ app = new Vue({
             {option: 'devMode', default: false},
         ],
         themes: {},
+        // i = input... like v-model inputs
         i:{
+            search_animal_data: '',
             ac_animal_data: {
                 currentColumn: 1,
                 currentRow: 1,
-                currentGender: 'male',
+                currentGender: 'MALE',
                 currentSearch: ''
             },
             create_animal_data: {
-
+                chipnumber: '',
+                zbn: '',
+                firstname: '',
+                lastname: '',
+                LNF: false,
+                birthdate: '',
+                gender: 'MALE',
+                size: 0,
+                race: '',
+                hairtype: '',
+                haircolor: '',
+                father: '',
+                mother: '',
+                fatherName: '',
+                motherName: '',
+                membernumber: ''
             },
             settings:{
                 user: '',
@@ -102,6 +121,9 @@ app = new Vue({
 
             return date
         },
+        formatLNF: function(FN,LN,LNF) {
+            return (LNF == true || LNF == 'YES') ? LN + ' ' + FN : FN + ' ' + LN
+        },
         resetDocument: function(){
             this.doc = {
                 name: '',
@@ -122,6 +144,9 @@ app = new Vue({
             this.settings.activeTab = 0
             this.settings.reset = true
         },
+        deleteAnimalData: function(id){
+            deleteAnimalData(id)
+        },
         request: function(script,param,callback) {
             if(this.API.hasOwnProperty(script)){
 
@@ -139,7 +164,7 @@ app = new Vue({
                             app.settings.jwt = data.jwt
                             callback(data.data, null)
                         } else {
-                            callback(null, data.response)
+                            callback(null, data.response+'test')
                         }
                 
                     }, 'json')
@@ -158,6 +183,9 @@ app = new Vue({
         this.resetDocument()
     },
     watch: {
+        'i.search_animal_data': _.debounce( function(search){
+            searchAnimalData(search)
+        }, 500),
         doc: {
             handler(){
                 if(this.settings.reset){

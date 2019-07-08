@@ -18,10 +18,51 @@
     position: fixed
     left: 0
     top: 60px
-    overflow: scroll
+    overflow-y: scroll
+    text-align: left
+
+    .db-item
+        width: calc(25% - 20px)
+        margin: 10px
+        background: var(--background1)
+        border-radius: 7px
+        filter: drop-shadow(0 3px 5px rgba(0,0,0,var(--so)))
+        border-left: 7px solid #00C3FF
+
+        &.FEMALE
+            border-color: #FF6AD5
+        &:hover .btn
+            opacity: 1 !important
+
+        .btn
+            font-family: 'Material Icons'
+            font-size: 20px
+            user-select: none
+            width: 40px
+            height: 38px
+            line-height: 38px
+            text-align: center
+            opacity: 0
+            vertical-align: top
+            cursor: pointer
+
+        .holder
+            vertical-align: top
+            padding: 10px
+            width: calc(100% - 40px)
+            float: left
+
+            .hl
+                font-size: 16px
+                display: block
+                color: var(--text-color1)
+
+            .sub-info
+                display: block
+                color: var(--text-color7)
+                font-size: 12px
 
 .db-table-holder
-    width: 180%
     font-size: 0
     background: var(--background1)
 
@@ -58,7 +99,7 @@
     display: inline-block
     white-space: nowrap
     line-height: inherit
-    width: calc(100% / 13)
+    width: 170px
     height: 40px
     line-height: 20px
     text-align: inherit
@@ -68,3 +109,73 @@
     vertical-align: top
     text-overflow: ellipsis
     overflow: hidden
+
+.add-dog-holder
+
+    .add-dog-content
+        padding-top: 20px
+
+    .input, .quick-select-input
+        margin: 5px !important
+
+    .parent-show
+        width: 590px
+        background: var(--input-bg)
+        border-radius: 7px 7px 0 0
+        margin-top: 5px
+
+        div
+            text-align: left
+            padding: 0 10px
+            font-size: 14px
+            width: 50%
+            height: 40px
+            line-height: 40px
+            color: var(--text-color1)
+
+    .checkbox-label
+        font-size: 14px
+        color: var(--text-color1)
+        height: 40px
+        line-height: 40px
+        width: 590px
+        background: var(--input-bg)
+        border-radius: 7px
+        margin: 5px
+
+
+    .pac-holder
+            width: 100%
+            max-width: 590px
+            background: var(--input-bg)
+            border-radius: 0 0 7px 7px
+            margin-bottom: 5px
+            padding: 5px
+            padding-bottom: 0
+            height: 250px
+            overflow-y: auto
+
+            .pac-item
+                line-height: 20px
+                width: 100%
+                padding: 7px 10px
+                color: var(--text-color1)
+                background: var(--background1)
+                transition: all 100ms
+                text-align: left
+                font-size: 14px
+                border-radius: 7px
+                cursor: pointer
+                user-select: none
+                margin-bottom: 5px
+
+                .subinfo
+                    color: inherit
+                    font-size: 12px
+                    opacity: 0.6
+                    width: 100%
+                    text-align: left
+
+            .pac-item:hover
+                color: var(--accent-color);
+                filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)));
