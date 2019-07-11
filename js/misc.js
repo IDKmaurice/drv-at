@@ -145,6 +145,7 @@ function createAnimalData() {
             animPopup('add-dog','out')
             app.settings.jwt = data.jwt
             searchAnimalData()
+            app.resetCreateAnimalData()
             app.$forceUpdate()
         } else {
             sendAToast('warning',data.response)

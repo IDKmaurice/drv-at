@@ -62,54 +62,6 @@
                 color: var(--text-color7)
                 font-size: 12px
 
-.db-table-holder
-    font-size: 0
-    background: var(--background1)
-
-.db-row
-    background: var(--background2)
-    font-size: 0
-    line-height: 40px
-    width: 100%
-    color: var(--text-color4)
-    text-align: left
-    cursor: pointer
-    white-space: nowrap
-    display: table
-
-.db-row:nth-child(2n)
-    background: var(--background1) 
-
-.db-table-head
-    width: 100%
-    background: var(--background1)
-    z-index: 2
-    line-height: 50px
-    height: 50px
-    color: var(--text-color2)
-    text-transform: uppercase
-    font-weight: bold
-    cursor: initial
-
-.db-table-head .db-column
-    line-height: 30px
-    height: 50px
-
-.db-column
-    display: inline-block
-    white-space: nowrap
-    line-height: inherit
-    width: 170px
-    height: 40px
-    line-height: 20px
-    text-align: inherit
-    padding: 10px
-    font-size: 13px
-    color: inherit
-    vertical-align: top
-    text-overflow: ellipsis
-    overflow: hidden
-
 .add-dog-holder
 
     .add-dog-content
@@ -117,6 +69,9 @@
 
     .input, .quick-select-input
         margin: 5px !important
+    
+    .parent-search
+        max-width: 590px !important
 
     .parent-show
         width: 590px
@@ -177,5 +132,36 @@
                     text-align: left
 
             .pac-item:hover
-                color: var(--accent-color);
-                filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)));
+                color: var(--accent-color)
+                filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)))
+
+
+.delete-animal-holder
+    height: auto !important
+    width: 300px !important
+    padding: 10px
+    font-size: 15px !important
+    color: var(--text-color3) !important
+    top: calc(50% - 80px) !important
+    left: calc(50% - 150px) !important
+
+.show-animal-content
+    font-size: 16px
+
+    .centerer
+        text-align: left
+        margin: 30px
+
+        .data
+            display: block
+            font-weight: 700
+            line-height: 40px
+            color: var(--text-color3)
+            padding: 0 10px
+
+            &:nth-child(2n)
+                background: var(--background2)
+
+            span
+                width: 150px
+                font-weight: 400

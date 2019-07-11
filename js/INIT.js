@@ -29,6 +29,7 @@ app = new Vue({
                 settings: false,
                 editOverview: false,
                 addToDatabase: false,
+                deleteFromDatabase: false,
             },
             notifications: {
                 count: 0,
@@ -65,31 +66,16 @@ app = new Vue({
         themes: {},
         // i = input... like v-model inputs
         i:{
+            delete_animal_data: '',
             search_animal_data: '',
+            loaded_animal_data: {},
             ac_animal_data: {
                 currentColumn: 1,
                 currentRow: 1,
                 currentGender: 'MALE',
                 currentSearch: ''
             },
-            create_animal_data: {
-                chipnumber: '',
-                zbn: '',
-                firstname: '',
-                lastname: '',
-                LNF: false,
-                birthdate: '',
-                gender: 'MALE',
-                size: 0,
-                race: '',
-                hairtype: '',
-                haircolor: '',
-                father: '',
-                mother: '',
-                fatherName: '',
-                motherName: '',
-                membernumber: ''
-            },
+            create_animal_data: {},
             settings:{
                 user: '',
                 theme: '',
@@ -129,6 +115,8 @@ app = new Vue({
                 name: '',
                 date: '',
                 race: '',
+                LNF: false,
+                address: '',
                 hairtype: '',
                 tree: [
                     [{id: null, name: null},{id: null, name: null}],
@@ -144,8 +132,41 @@ app = new Vue({
             this.settings.activeTab = 0
             this.settings.reset = true
         },
-        deleteAnimalData: function(id){
-            deleteAnimalData(id)
+        resetCreateAnimalData: function(){
+            this.i.create_animal_data = {
+                chipnumber: '',
+                zbn: '',
+                firstname: '',
+                lastname: '',
+                LNF: false,
+                birthdate: '',
+                gender: 'MALE',
+                size: null,
+                race: '',
+                hairtype: '',
+                haircolor: '',
+                father: '',
+                mother: '',
+                fatherName: '',
+                motherName: ''
+            }
+        },
+        deleteAnimalData: function(id, confirm){
+            if(confirm){
+
+                deleteAnimalData(this.i.delete_animal_data)
+                animPopup('delete-animal','out')
+
+            } else if(confirm == false && id){
+
+                this.i.delete_animal_data = id
+                animPopup('delete-animal','in')
+
+            }
+        },
+        showAnimalData: function(animal){
+            this.i.loaded_animal_data = animal
+            animPopup('show-animal','in')
         },
         request: function(script,param,callback) {
             if(this.API.hasOwnProperty(script)){
@@ -181,6 +202,8 @@ app = new Vue({
     created: function(){
         // This initializes the document
         this.resetDocument()
+        // This initializes the create animal data popup
+        this.resetCreateAnimalData()
     },
     watch: {
         'i.search_animal_data': _.debounce( function(search){
