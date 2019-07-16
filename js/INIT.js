@@ -43,6 +43,7 @@ app = new Vue({
         API: {
             auth: {url:'https://api.nttc.it/clients/drv/auth.php', param: ['user','pass']},
             read_animal_data_single: {url:'https://api.nttc.it/clients/drv/read/animal_data_single.php', param: ['id']},
+            read_animal_data_array: {url:'https://api.nttc.it/clients/drv/read/animal_data_array.php', param: ['arr']},
             read_animal_data_multiple: {url:'https://api.nttc.it/clients/drv/read/animal_data_multiple.php', param: ['searchString']},
             read_animal_data_autocomplete: {url:'https://api.nttc.it/clients/drv/read/animal_data_autocomplete.php', param: ['searchString','searchGender']},
             create_animal_data_single: {url:'https://api.nttc.it/clients/drv/create/animal_data_single.php', param: []},

@@ -45,6 +45,7 @@
             <div class="view" v-if="settings.activeView == 'edit'">
                 <div class="edit-view-holder">
 
+
                     <div class="edit-sidebar no-select">
                         <div class="nav-btn nav-back" onclick="changeToStartView()">&#61761;</div>
 
@@ -65,20 +66,29 @@
                         </div>
                     </div>
 
+
                     <div class="edit-content-holder">
 
                         <div class="edit-tab" v-show="settings.activeTab == 0">
-                            <input class="input" v-model="doc.name" type="text" placeholder="Zwinger-Name">
-                            <input v-model="doc.LNF" type="checkbox" class="checkbox">
-                            <textarea placeholder="Anschrift" class="input" v-model="doc.address" cols="30" rows="10"></textarea>
-                            <input class="input" v-model="doc.date" type="date" placeholder="Wurftag">
-                            <input class="input" v-model="doc.race" type="text" placeholder="Rasse">
-                            <input class="input" v-model="doc.hairtype" type="text" placeholder="Haartyp">
+                            <div class="edit-main-grid">
+                                <div class="holder">
+                                    <input class="input" v-model="doc.name" type="text" placeholder="Zwinger-Name">
+                                    <label class="input checkbox-label">
+                                        <input v-model="doc.LNF" type="checkbox" class="checkbox">
+                                        Zwinger-Name vor Hunde-Name
+                                    </label><br>
+                                    <input class="input" v-model="doc.date" type="date" placeholder="Wurftag">
+                                    <input class="input" v-model="doc.race" type="text" placeholder="Rasse">
+                                </div>
+                                <div class="holder">
+                                    <textarea placeholder="Züchter-Anschrift" class="input address-input" v-model="doc.address" cols="30" rows="10"></textarea>
+                                </div>
+                            </div>
                             <div class="family-tree">
                                 <div class="main-grid">
                                     <div class="grid-column" v-for="(column, c) in doc.tree">
                                         <div class="grid-row" v-for="(row, r) in column" :class="{'hasParent': doc.tree[c][r].id != null}">
-                                            <div v-if="doc.tree[c][r].id != null">{{doc.tree[c][r].name}}</div><br>
+                                            <div v-if="doc.tree[c][r].id != null" @click="openACpopup(c+1,r+1)">{{doc.tree[c][r].name}}<br></div>
                                             <textarea v-if="doc.tree[c][r].id != null" class="desc" v-model="doc.tree[c][r].desc" placeholder="Auszeichnungen etc."></textarea>
                                             <div v-else @click="openACpopup(c+1,r+1)">{{((r%2==0) ? 'Vater' : 'Mutter') + ' hinzufügen'}}</div>
                                         </div>
@@ -112,7 +122,7 @@
                             <input type="text" class="input" v-model="doc.entries[settings.activeTab-1].haircolor" placeholder="Haarfarbe"><br>
                             <input class="input" v-model="doc.entries[settings.activeTab-1].chip" type="text" placeholder="Chip-Nr."><br>
                             <input class="input" v-model="doc.entries[settings.activeTab-1].zbn" type="text" placeholder="Zuchtbuch-Nr."><br>
-                            <textarea placeholder="Bemerkung" class="input" cols="30" rows="10" v-model="doc.entries[settings.activeTab-1].comment"></textarea><br>
+                            <textarea placeholder="Bemerkung" class="input desc-input" cols="30" rows="10" v-model="doc.entries[settings.activeTab-1].comment"></textarea><br>
                         </div>
 
                     </div>

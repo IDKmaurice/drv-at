@@ -143,6 +143,20 @@ h1,h2,h3,h4,h5,h6{
     border-color: var(--accent-color);
 }
 
+.address-input{
+    resize: none !important;
+    height: 90px !important;
+    line-height: 20px !important;
+    vertical-align: top;
+}
+
+.desc-input{
+    resize: none !important;
+    height: 240px !important;
+    max-width: 400px !important;
+    line-height: 20px !important;
+}
+
 .checkbox{
     -webkit-appearance: none;
     appearance: none;

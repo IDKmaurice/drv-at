@@ -60,19 +60,104 @@ function initLogin(){
 
 
 function sendDataToPrint() {
-    let printData = {
-        doc: app.doc
-    }
-    for (let i = 0; i < printData.doc.tree.length; i++) {
-        for (let h = 0; h < printData.doc.tree[i].length; h++) {
-            const id = printData.doc.tree[i][h].id;
-            app.request('read_animal_data_single',[id],(data,err)=>{
-                console.log(data);
-                
-            })
+
+    let DOC = JSON.parse(JSON.stringify(app.doc))
+    let PARENT_ARRAY = []
+    let PRINT_DATA = []
+    let TREE_DATA = {}
+    let FEMALE = 0
+    let MALE = 0
+
+    
+    
+    for (let i = 0; i < DOC.tree.length; i++) {
+        for (let h = 0; h < DOC.tree[i].length; h++) {
+
+            if(DOC.tree[i][h].id) PARENT_ARRAY.push( DOC.tree[i][h].id )
+
         }
     }
-    ipcRenderer.send('print-info', JSON.stringify(printData))
+
+
+    app.request('read_animal_data_array',[JSON.stringify( PARENT_ARRAY )],(data,err)=>{
+
+        data.forEach(item => {
+            TREE_DATA[item.id] = item
+        })
+
+        for (let i = 0; i < DOC.tree.length; i++) {
+            for (let h = 0; h < DOC.tree[i].length; h++) {
+
+                if(DOC.tree[i][h].id){
+                    
+                    let desc = DOC.tree[i][h].desc
+                    DOC.tree[i][h] = TREE_DATA[DOC.tree[i][h].id]
+                    DOC.tree[i][h].desc = desc.replace(/\n/g,'<br>')
+
+                } else {
+
+                    // Defaulting
+                    DOC.tree[i][h] = {
+                        LNF: "YES",
+                        birthdate: "0000-00-00",
+                        chipnumber: "",
+                        desc: "",
+                        father: "",
+                        firstname: "",
+                        gender: "MALE",
+                        haircolor: "",
+                        id: "",
+                        lastname: "",
+                        membernumber: "",
+                        mother: "",
+                        race: "",
+                        size:0,
+                        zbn:""
+                    }
+                }
+            }
+        }
+
+        DOC.entries.forEach(entry => {
+            
+            if(entry.gender == 'MALE'){ MALE++ } else { FEMALE++ }
+            
+        })
+        
+        DOC.entries.forEach(entry => {
+
+            let name_1 = (DOC.LNF) ? DOC.name        : entry.firstname
+            let name_2 = (DOC.LNF) ? entry.firstname : DOC.name
+            let gender = (entry.gender == 'MALE') ? 'Rüde' : 'Hündin'
+
+            let address = DOC.address.replace(/\n/g,'<br>')
+            let comment = entry.comment.replace(/\n/g,'<br>')
+
+            PRINT_DATA.push({
+                name_1: name_1,
+                name_2: name_2,
+                firstname: entry.firstname,
+                lastname: DOC.name,
+                race: DOC.race,
+                male: MALE,
+                female: FEMALE,
+                gender: gender,
+                haircolor: entry.haircolor,
+                address: address,
+                zbn: entry.zbn,
+                chipnumber: entry.chip,
+                comment: comment,
+                selected: true,
+                birthdate: app.formatDate(DOC.date),
+                tree: DOC.tree,
+            })
+            
+        })
+        
+        ipcRenderer.send('print-info', JSON.stringify(PRINT_DATA))
+        
+    })
+
 }
 
 
