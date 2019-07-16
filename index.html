@@ -77,10 +77,10 @@
                             <div class="family-tree">
                                 <div class="main-grid">
                                     <div class="grid-column" v-for="(column, c) in doc.tree">
-                                        <div class="grid-row" v-for="(row, r) in column" @click="openACpopup(c+1,r+1)" :class="{'hasParent': doc.tree[c][r].name != null}">
-                                            <input type="hidden" class="gen-chip" v-model="doc.tree[c][r].chip">
-                                            <div v-if="doc.tree[c][r].name != null">{{doc.tree[c][r].name}}</div>
-                                            <div v-else>{{((r%2==0) ? 'Vater' : 'Mutter') + ' hinzufügen'}}</div>
+                                        <div class="grid-row" v-for="(row, r) in column" :class="{'hasParent': doc.tree[c][r].id != null}">
+                                            <div v-if="doc.tree[c][r].id != null">{{doc.tree[c][r].name}}</div><br>
+                                            <textarea v-if="doc.tree[c][r].id != null" class="desc" v-model="doc.tree[c][r].desc" placeholder="Auszeichnungen etc."></textarea>
+                                            <div v-else @click="openACpopup(c+1,r+1)">{{((r%2==0) ? 'Vater' : 'Mutter') + ' hinzufügen'}}</div>
                                         </div>
                                     </div>
                                 </div>

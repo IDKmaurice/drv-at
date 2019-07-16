@@ -119,10 +119,10 @@ app = new Vue({
                 address: '',
                 hairtype: '',
                 tree: [
-                    [{id: null, name: null},{id: null, name: null}],
-                    [{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null}],
-                    [{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null}],
-                    [{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null},{id: null, name: null}],
+                    [{id: null, name: null, desc: null},{id: null, name: null, desc: null}],
+                    [{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null}],
+                    [{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null}],
+                    [{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null},{id: null, name: null, desc: null}],
                 ],
                 entries: []
             }
