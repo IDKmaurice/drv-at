@@ -186,6 +186,7 @@
                     <input type="text" class="input" id="dog-data-search" v-model="i.search_animal_data" placeholder="Nach Hund suchen">
                     <div class="nav-btn nav-back" onclick="changeToStartView()">&#61761;</div>
                 </div>
+
                 <div class="db-table">
                     <div v-for="animal in animal_data" :class="animal.gender" class="db-item">
                         <div class="holder" @click="showAnimalData(animal)">
@@ -193,11 +194,40 @@
                             <div class="sub-info">{{animal.race}}</div>
                             <div class="sub-info">{{animal.birthdate_}}</div>
                         </div>
-                        <div class="btn">&#64658;</div>
+                        <div class="btn" @click="openEditAnimalData(animal)">&#64658;</div>
                         <div class="btn" @click="deleteAnimalData(animal.id, false)">&#64121;</div>
                     </div>
                 </div>
+
                 <div class="nav-fab nav-fab-1 no-select" data-tooltip="Eintrag hinzufügen" data-tooltip-position="left" onclick="animPopup('add-dog','in')">&#62485;</div>
+            </div>
+
+
+
+            <div class="popup-bg show-animal-bg no-select">
+                <div class="popup-holder show-animal-holder">
+                    <div class="popup-header show-animal-header">
+                        Eintrag-Info
+                        <div class="close-ui" onclick="animPopup('show-animal','out')">&#61782;</div>
+                    </div>
+                    <div class="popup-content show-animal-content">
+                        <div class="centerer">
+                            <div class="data"><span>Hunde-Name:</span> {{i.loaded_animal_data.firstname}}</div>
+                            <div class="data"><span>Zwinger-Name:</span> {{i.loaded_animal_data.lastname}}</div>
+                            <div class="data"><span>Namen-Folge:</span> {{i.loaded_animal_data.LNF_}}</div>
+                            <div class="data"><span>Wurftag:</span> {{i.loaded_animal_data.birthdate_}}</div>
+                            <div class="data"><span>Geschlecht:</span> {{i.loaded_animal_data.gender_}}</div>
+                            <div class="data"><span>Chip-Nr:</span> {{i.loaded_animal_data.chipnumber}}</div>
+                            <div class="data"><span>Zuchtbuch-Nr:</span> {{i.loaded_animal_data.zbn}}</div>
+                            <div class="data"><span>Größe (cm):</span> {{i.loaded_animal_data.size}}</div>
+                            <div class="data"><span>Rasse:</span> {{i.loaded_animal_data.race}}</div>
+                            <div class="data"><span>Haartyp:</span> {{i.loaded_animal_data.hairtype}}</div>
+                            <div class="data"><span>Haarfarbe:</span> {{i.loaded_animal_data.haircolor}}</div>
+                            <div class="data"><span>Mutter (GID):</span> {{i.loaded_animal_data.mother}}</div>
+                            <div class="data"><span>Vater (GID):</span> {{i.loaded_animal_data.father}}</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
 
@@ -264,28 +294,63 @@
 
 
 
-            <div class="popup-bg show-animal-bg no-select">
-                <div class="popup-holder show-animal-holder">
-                    <div class="popup-header show-animal-header">
-                        Eintrag-Info
-                        <div class="close-ui" onclick="animPopup('show-animal','out')">&#61782;</div>
+            <div class="popup-bg edit-animal-bg no-select">
+                <div class="popup-holder edit-animal-holder">
+                    <div class="popup-header edit-animal-header">
+                        Eintrag Bearbeiten
+                        <div class="close-ui" onclick="animPopup('edit-animal','out')">&#61782;</div>
                     </div>
-                    <div class="popup-content show-animal-content">
-                        <div class="centerer">
-                            <div class="data"><span>Hunde-Name:</span> {{i.loaded_animal_data.firstname}}</div>
-                            <div class="data"><span>Zwinger-Name:</span> {{i.loaded_animal_data.lastname}}</div>
-                            <div class="data"><span>Namen-Folge:</span> {{i.loaded_animal_data.LNF_}}</div>
-                            <div class="data"><span>Wurftag:</span> {{i.loaded_animal_data.birthdate_}}</div>
-                            <div class="data"><span>Geschlecht:</span> {{i.loaded_animal_data.gender_}}</div>
-                            <div class="data"><span>Chip-Nr:</span> {{i.loaded_animal_data.chipnumber}}</div>
-                            <div class="data"><span>Zuchtbuch-Nr:</span> {{i.loaded_animal_data.zbn}}</div>
-                            <div class="data"><span>Größe (cm):</span> {{i.loaded_animal_data.size}}</div>
-                            <div class="data"><span>Rasse:</span> {{i.loaded_animal_data.race}}</div>
-                            <div class="data"><span>Haartyp:</span> {{i.loaded_animal_data.hairtype}}</div>
-                            <div class="data"><span>Haarfarbe:</span> {{i.loaded_animal_data.haircolor}}</div>
-                            <div class="data"><span>Mutter (GID):</span> {{i.loaded_animal_data.mother}}</div>
-                            <div class="data"><span>Vater (GID):</span> {{i.loaded_animal_data.father}}</div>
+                    <div class="popup-content edit-animal-content">
+                        <input v-model="i.create_animal_data.firstname" type="text" class="input" placeholder="Hunde-Name">
+                        <input v-model="i.create_animal_data.lastname" type="text" class="input" placeholder="Zwinger-Name"><br>
+            
+                        <label class="checkbox-label">
+                            <input v-model="i.create_animal_data.LNF" type="checkbox" class="checkbox">
+                            Zwinger-Name vor Hunde-Name
+                        </label><br>
+            
+                        <div class="quick-select-input">
+                            <div class="wrapper">
+                                <label class="option">
+                                    <input type="radio" name="gender" selected value="MALE" v-model="i.create_animal_data.gender">
+                                    <div class="inner">
+                                        <div class="icon">&#62109;</div>
+                                        Männlich<br>
+                                    </div>
+                                </label>
+                                <label class="option">
+                                    <input type="radio" name="gender" selected value="FEMALE" v-model="i.create_animal_data.gender">
+                                    <div class="inner">
+                                        <div class="icon">&#62108;</div>
+                                        Weiblich<br>
+                                    </div>
+                                </label>
+                            </div>
                         </div>
+                        <input v-model="i.create_animal_data.birthdate" type="date" class="input" placeholder="Wurftag"><br>
+            
+                        <input v-model="i.create_animal_data.chipnumber" maxlength="15" type="text" class="input"
+                            placeholder="Chip-Nr.">
+                        <input v-model="i.create_animal_data.zbn" type="text" class="input" placeholder="Zuchtbuch-Nr."><br>
+            
+                        <input v-model="i.create_animal_data.size" type="text" class="input" placeholder="Größe">
+                        <input v-model="i.create_animal_data.race" type="text" class="input" placeholder="Rasse"><br>
+            
+                        <input v-model="i.create_animal_data.hairtype" type="text" class="input" placeholder="Haartyp">
+                        <input v-model="i.create_animal_data.haircolor" type="text" class="input" placeholder="Haarfarbe"><br>
+            
+                        <input v-model="i.ac_animal_data.currentSearch" type="text" class="input parent-search" onfocus="searchAnimalAC('NEUTRAL')" oninput="searchAnimalAC('NEUTRAL')" placeholder="Elternteil suchen"><br>
+                        <!-- PAC = Parent Auto Complete -->
+                        <div class="parent-show">
+                            <div class="father">Vater: <b>{{i.create_animal_data.fatherName}}</b></div>
+                            <div class="mother">Mutter: <b>{{i.create_animal_data.motherName}}</b></div>
+                        </div><br>
+                        <div class="pac-holder">
+                            <div v-for="animal in animal_data_autocomplete" @click="enterACAnimalData(animal, 'addParent')" class="pac-item">
+                                {{formatLNF(animal.firstname, animal.lastname, animal.LNF)}}<span class="subinfo"><b>{{animal.gender_}}</b> {{animal.zbn}}</span>
+                            </div>
+                        </div><br>
+                        <button @click="editAnimalData()" class="button">Bearbeiten</button>
                     </div>
                 </div>
             </div>

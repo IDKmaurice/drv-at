@@ -152,6 +152,32 @@ app = new Vue({
                 motherName: ''
             }
         },
+        showAnimalData: function(animal){
+            this.i.loaded_animal_data = animal
+            animPopup('show-animal','in')
+        },
+        openEditAnimalData: function(animal){
+            this.i.create_animal_data = animal
+
+            this.i.create_animal_data.LNF = (this.i.create_animal_data.LNF == 'YES') ? true : false
+            
+            app.request('read_animal_data_array',[JSON.stringify( [animal.father, animal.mother] )],(data,err)=>{
+
+                let DATA = {}
+
+                data.forEach(item => {
+                    DATA[item.id] = item
+                })
+                
+                if(DATA[animal.father]) this.i.create_animal_data.fatherName = DATA[animal.father].firstname
+                if(DATA[animal.mother]) this.i.create_animal_data.motherName = DATA[animal.mother].firstname
+
+                this.$forceUpdate()
+                
+
+                animPopup('edit-animal','in')
+            })
+        },
         deleteAnimalData: function(id, confirm){
             if(confirm){
 
@@ -164,10 +190,6 @@ app = new Vue({
                 animPopup('delete-animal','in')
 
             }
-        },
-        showAnimalData: function(animal){
-            this.i.loaded_animal_data = animal
-            animPopup('show-animal','in')
         },
         request: function(script,param,callback) {
             if(this.API.hasOwnProperty(script)){

@@ -239,6 +239,29 @@ function createAnimalData() {
     }, 'json')
 }
 
+function editAnimalData() {
+
+    let formData = JSON.parse(JSON.stringify(app.i.create_animal_data))
+    formData['jwt'] = app.settings.jwt
+
+    formData.LNF = (formData.LNF == true) ? 'YES' : 'NO'
+    
+    $.post(app.API.update_animal_data_single.url, formData, function (data) {
+
+        if(data.response == 'OK'){
+            sendAToast('success','Erfolgreich bearbeitet')
+            animPopup('edit-animal','out')
+            app.settings.jwt = data.jwt
+            searchAnimalData()
+            app.resetCreateAnimalData()
+            app.$forceUpdate()
+        } else {
+            sendAToast('warning',data.response)
+        }
+        
+    }, 'json')
+}
+
 function deleteAnimalData(id) {
     app.request('delete_animal_data_single', [id], (data, err) => {
         sendAToast('success','Eintrag erfolgreich gelöscht')
@@ -249,6 +272,7 @@ function deleteAnimalData(id) {
 }
 
 function enterACAnimalData(dataObj, insertPath = 'tree'){
+    
     if(insertPath == 'tree'){
         let column = app.i.ac_animal_data.currentColumn
         let row = app.i.ac_animal_data.currentRow
@@ -264,6 +288,8 @@ function enterACAnimalData(dataObj, insertPath = 'tree'){
             app.i.create_animal_data.mother = dataObj.id
             app.i.create_animal_data.motherName = app.formatLNF(dataObj.firstname, dataObj.lastname, dataObj.LNF)
         }
+
+        app.$forceUpdate()
         
     } else {
         sendAToast('warning','Konnte Eintrag nicht hinzufügen')
