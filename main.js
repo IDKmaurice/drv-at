@@ -215,7 +215,7 @@ ipcMain.on('print-to-pdf', function(event, args) {
 
     let pdfPath = path.join(filepath,subFolderName,filename)
 
-    workerWindow.webContents.printToPDF({printBackground: true, marginsType: 1, landscape: true}, function(error, data){
+    workerWindow.webContents.printToPDF({printBackground: true, marginsType: 1, landscape: true, pageSize: 'A4'}, function(error, data){
         if(error) return console.error(error.message);
         fs.writeFile(pdfPath, data, function(err) {
             if(err) return console.error(err.message);

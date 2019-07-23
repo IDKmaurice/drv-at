@@ -126,6 +126,9 @@ body
         color: var(--button-color1)
         background: var(--accent-color)
 
-@media print    
+@media print   
+    @page
+        size: 297mm 210mm
+        
     .no-print, .no-print *
         display: none !important

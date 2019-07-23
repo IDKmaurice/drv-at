@@ -133,22 +133,11 @@
                     </div>
             
                     <div class="watermark"></div>
-            
-                    <h3 v-if="main.doc.entries[activePage] != undefined">Vorname: {{main.doc.entries[activePage].firstname}}</h3>
-                    <br>
-                    <h3 v-if="main.doc.entries[activePage] != undefined">Geschlecht: {{main.doc.entries[activePage].gender}}</h3>
-                    <br>
-                    <h3 v-if="main.doc.entries[activePage] != undefined">Chip Nr: {{main.doc.entries[activePage].chipnumber}}</h3>
-                    <br>
-                    <h3 v-if="main.doc.entries[activePage] != undefined">Züchtername: {{main.doc.name}}</h3><br>
                 </div>
             </div>
             
             
             <div class="page-state" v-show="pageState == 'BACK'">
-                <!-- <div class="tree-top" v-if="main.doc.entries[activePage]">
-                                        {{main.doc.entries[activePage].firstname}} - {{main.doc.name}}
-                                    </div> -->
                 <div class="tree-top">
                     <div class="item">Rasse: <b>Golden Retriever</b></div>
                     <div class="item">Name: <b>Gladword's Blue Magic Monday of Dreamlad</b></div>
