@@ -120,8 +120,6 @@
                                 <span class="title">Für die Richtigkeit der Wurfangaben:</span>
                                 <span class="line">Unterschrift des Züchters</span>
                             </div>
-
-                            <div class="watermark"></div>
                         </div>
                     </div>
 
@@ -183,7 +181,7 @@
                     <div v-for="(entry, i) in main" class="entry" :class="{'active' : activePage == i}">
                         <div class="name" @click="selectEntry(i)">{{entry.firstname}}</div>
                         <label class="checkbox-holder">
-                            <input type="checkbox" class="checkbox" :value="entry.selected" v-model="entry.selected">
+                            <input type="checkbox" class="checkbox" :value="entry.selected" v-model="entry.selected" v-show="false">
                         </label>
                     </div>
                 </div>
@@ -298,12 +296,7 @@
 
         function triggerPrint() {
             dialog.showOpenDialog({properties: ['openDirectory']}, (filepath) => {
-
-                $('.page-front').css('display','inline-block')
-                $('.page-back').css('display','none')
-
-                ipc.send('print-to-pdf',[filepath[0],'seite_1.pdf',true])
-
+                ipc.send('print-request',[JSON.stringify(app.main), filepath[0]])
             })
         }
 
@@ -311,19 +304,5 @@
         ipc.on ('print-info-return', (event, values_raw) => {
             app.main = JSON.parse(values_raw)
         })
-
-
-        ipc.on('print-front-ready', (event, filepath) => {
-
-            $('.page-front').css('display','none')
-            $('.page-back').css('display','inline-block')
-
-            ipc.send('print-to-pdf',[filepath,'seite_2.pdf',false])
-
-            closePrint()
-        });
     </script>
-
-    <!-- Just here to let me F5 the program -> delete when production -->
-    <script src="renderer.js"></script>
 </html>

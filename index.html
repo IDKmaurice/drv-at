@@ -120,7 +120,7 @@
                             </div><br>
                             
                             <input type="text" class="input" v-model="doc.entries[settings.activeTab-1].haircolor" placeholder="Haarfarbe"><br>
-                            <input class="input" v-model="doc.entries[settings.activeTab-1].chip" type="text" placeholder="Chip-Nr."><br>
+                            <input class="input" v-model="doc.entries[settings.activeTab-1].chip" type="text" maxlength="15" placeholder="Chip-Nr."><br>
                             <input class="input" v-model="doc.entries[settings.activeTab-1].zbn" type="text" placeholder="Zuchtbuch-Nr."><br>
                             <textarea placeholder="Bemerkung" class="input desc-input" cols="30" rows="10" v-model="doc.entries[settings.activeTab-1].comment"></textarea><br>
                         </div>
@@ -162,7 +162,7 @@
                                 <div v-for="(entry, i) in doc.entries" class="puppy-list-row">
                                     <div class="pl-drag">&#61917;</div>
                                     <div class="pl-column">{{entry.firstname}}</div>
-                                    <div class="pl-column">{{entry.gender}}</div>
+                                    <div class="pl-column">{{(entry.gender == 'MALE') ? 'Rüde' : 'Hündin'}}</div>
                                     <div class="pl-column">{{entry.haircolor}}</div>
                                     <div class="pl-column">{{entry.chip}}</div>
                                     <div class="pl-column">{{entry.zbn}}</div>
@@ -507,15 +507,9 @@
                                 <h3>Informationen zur Software</h3><br>
                                 Version: <div class="box">{{info.version}}</div><br>
                                 API-Version: <div class="box">{{info.apiVersion}}</div><br>
-                                Electron-Version: <div class="box">{{info.electronVersion}}</div><br>
-                                <h3>Informationen zu den Entwicklern</h3><br>
-                                <h4>UI / UX Designer</h4><br>
+                                <h3>Informationen zu dem Entwickler</h3><br>
+                                <h4>Full-Stack Dev</h4><br>
                                 Maurice Freuwört<br>
-                                <h4>Front-End Entwicklung</h4><br>
-                                Maurice Freuwört<br>
-                                <h4>Back-End Entwicklung</h4><br>
-                                Maurice Freuwört<br>
-                                Maximilian Böer<br>
                             </div>
                         </div>
 
@@ -579,9 +573,6 @@
     <script src="js/animations.js"></script>
     <script src="js/theme.js"></script>
     <script src="js/misc.js"></script>
-
-    <!-- Just here to let me F5 the program -> delete when production -->
-    <script src="renderer.js"></script>
 
     <script src="js/INIT.js"></script>
 </html>

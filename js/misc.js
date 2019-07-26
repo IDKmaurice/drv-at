@@ -90,16 +90,15 @@ function sendDataToPrint() {
 
                 if(DOC.tree[i][h].id){
                     
-                    let desc = DOC.tree[i][h].desc
                     DOC.tree[i][h] = TREE_DATA[DOC.tree[i][h].id]
-                    DOC.tree[i][h].desc = desc.replace(/\n/g,'<br>')
+                    DOC.tree[i][h].desc = (DOC.tree[i][h].desc) ? DOC.tree[i][h].desc.replace(/\n/g,'<br>') : ''
 
                 } else {
 
                     // Defaulting
                     DOC.tree[i][h] = {
                         LNF: "YES",
-                        birthdate: "0000-00-00",
+                        birthdate: "1970-01-01",
                         chipnumber: "",
                         desc: "",
                         father: "",
@@ -130,8 +129,8 @@ function sendDataToPrint() {
             let name_2 = (DOC.LNF) ? entry.firstname : DOC.name
             let gender = (entry.gender == 'MALE') ? 'Rüde' : 'Hündin'
 
-            let address = DOC.address.replace(/\n/g,'<br>')
-            let comment = entry.comment.replace(/\n/g,'<br>')
+            let address = (DOC.address) ? DOC.address.replace(/\n/g,'<br>') : ''
+            let comment = (entry.comment) ? entry.comment.replace(/\n/g,'<br>') : ''
 
             PRINT_DATA.push({
                 name_1: name_1,

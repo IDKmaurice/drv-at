@@ -38,7 +38,7 @@ function createWindow () {
     printWindow.loadFile('print.html')
     printWindow.setMenu(null)
     printWindow.hide()
-    printWindow.webContents.openDevTools()
+    //printWindow.webContents.openDevTools()
 
     workerWindow = new BrowserWindow({
         width: 1414,
@@ -118,14 +118,6 @@ app.on('ready', function(){
             submenu:[
                 {label: 'Dev Tools öffnen', role: 'toggledevtools'},
             ]
-        },{
-            label:'Hilfe',
-            submenu:[
-                {
-                    label: 'Online Hilfe',
-                    click () { require('electron').shell.openExternal('https://maurice-freuwoert.com') }
-                },
-            ]
         }
     ]
 
@@ -193,20 +185,26 @@ ipcMain.on('request-main', (event, arg) => {
     }
 })
 
-ipcMain.on('print-info', (event, arg) => {
-    printWindow.webContents.send('print-info-return', arg);
-    printWindow.show();
+ipcMain.on('print-close', () => {
+    printWindow.hide()
+    mainWindow.webContents.focus()
 })
 
-ipcMain.on('print-close', () => {
-    printWindow.hide();
-    mainWindow.webContents.focus()
+ipcMain.on('print-info', (event, arg) => {
+    printWindow.webContents.send('print-info-return', arg)
+    printWindow.show()
+})
+
+
+
+ipcMain.on('print-request', (event, args) => {
+    workerWindow.webContents.send('print-request-return', args)
 })
 
 ipcMain.on('print-to-pdf', function(event, args) {
 
-    let filepath = args[0];
-    let filename = args[1];
+    let filepath = args[0]
+    let filename = args[1]
 
     
     if (!fs.existsSync(filepath+'/'+subFolderName)) {
@@ -216,12 +214,10 @@ ipcMain.on('print-to-pdf', function(event, args) {
     let pdfPath = path.join(filepath,subFolderName,filename)
 
     workerWindow.webContents.printToPDF({printBackground: true, marginsType: 1, landscape: true, pageSize: 'A4'}, function(error, data){
-        if(error) return console.error(error.message);
+        if(error) return console.error(error.message)
         fs.writeFile(pdfPath, data, function(err) {
-            if(err) return console.error(err.message);
-            if(args[2]){
-                event.sender.send('print-front-ready', filepath);
-            }
+            if(err) return console.error(err.message)
+            event.sender.send('print-to-pdf-ready')
         })
     })
 })

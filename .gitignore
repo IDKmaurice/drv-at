@@ -4,4 +4,6 @@ temp/
 _ignore/
 *.ini
 .vscode/
+vscode/
+build/
 todo.txt

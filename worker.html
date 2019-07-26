@@ -28,15 +28,18 @@
                     Sicherlich werden Sie mit Ihrem „vierbeinigen Freund“ viel Freude haben und viele schöne gemeinsame Stunden
                     erleben;
                     vielleicht werden Sie sogar da-rüber hinaus mit ihm große Erfolge erringen.<br><br>
-                    Dabei und auch bei allen Belangen der Aufzucht, der Hundehaltung und Hundezucht möchte Ihnen der DRV e.V. gern
-                    behilflich sein. Durch unsere jahrzehntelange Erfahrung mit Hunden stehen Ihnen bei Ihren großen oder kleinen
-                    Problemen
+                    Dabei und auch bei allen Belangen der Aufzucht, der Hundehaltung und Hundezucht möchte Ihnen der DRV e.V.
+                    gern
+                    behilflich sein. Durch unsere jahrzehntelange Erfahrung mit Hunden stehen Ihnen bei Ihren großen oder
+                    kleinen Problemen
                     unsere kompetenten Fachleute gern zur Seite.<br><br>
-                    Bitte beachten Sie auch, dass Ihr Hund ein Lebewesen ist, welches gerade in der Jugend Ihre Hilfe und Zuneigung
-                    benötigt. Wenn Sie Geduld mit ihm haben und stets liebevoll mit ihm umgehen, wird er es Ihnen sein ganzes Leben
-                    lang mit
+                    Bitte beachten Sie auch, dass Ihr Hund ein Lebewesen ist, welches gerade in der Jugend Ihre Hilfe und
+                    Zuneigung
+                    benötigt. Wenn Sie Geduld mit ihm haben und stets liebevoll mit ihm umgehen, wird er es Ihnen sein ganzes
+                    Leben lang mit
                     treue und Liebe danken.<br><br>
-                    In Ihren Unterlagen befindet sich gewiss ein Mitgliedsantrag zu unserem Hundeverband. Füllen Sie diesen bitte
+                    In Ihren Unterlagen befindet sich gewiss ein Mitgliedsantrag zu unserem Hundeverband. Füllen Sie diesen
+                    bitte
                     vollständig aus und senden ihn unterzeichnet im Original an uns zurück. Vielen Dank!<br>
                     <div class="full center">
                         Mit freundlicher Empfehlung Ihr
@@ -56,15 +59,13 @@
                     <div class="comment">
                         <div class="divider"></div>
                         <span class="comment-hl">Bemerkungen:</span><br>
-                        <span>
-                            <!-- PUT BEMERKUNG HERE -->
-                        </span>
+                        <span v-html="main[activePage].comment"></span>
                     </div>
-            
+        
                 </div>
-            
-            
-            
+        
+        
+        
                 <div class="page-div page-right">
                     <div class="hl">Ahnenpass</div>
                     <div class="sub-hl">Pedigree</div>
@@ -101,28 +102,24 @@
                             <span>Züchter / Anschrift:</span>
                             <span>Breeder / Address</span>
                         </div>
-                        <div class="breedIN row-bold2">Deutscher Schäferhund - LSH</div>
+                        <div class="breedIN row-bold2">{{main[activePage].race}}</div>
                         <div class="nameIN row-bold1">
-                            DIVA DAMIRA<br>
-                            von der Blümchenwiese
+                            {{main[activePage].name_1}}<br>
+                            {{main[activePage].name_2}}
                         </div>
-                        <div class="dateIN row-bold2">12.12.2012</div>
+                        <div class="dateIN row-bold2">{{main[activePage].birthdate}}</div>
                         <div class="amountIN">
                             <div class="row-title amount-title">
                                 <span>Wurfstärke:</span>
                                 <span>amount of puppies</span>
                             </div>
-                            <div class="amount row-bold2">88 / 88</div>
+                            <div class="amount row-bold2">{{main[activePage].male}} / {{main[activePage].female}}</div>
                         </div>
-                        <div class="genderIN row-bold2">Hündin</div>
-                        <div class="colorIN row-bold2">schwarz - braun</div>
-                        <div class="zbnIN row-bold1">DRV - 01001/18</div>
-                        <div class="chipIN row-bold2">276098100XXXXXX</div>
-                        <div class="addressIN row-bold2">
-                            Kerstin Freuwört<br>
-                            Hinter den Gärten 1<br>
-                            38729 Wallmoden
-                        </div>
+                        <div class="genderIN row-bold2">{{main[activePage].gender}}</div>
+                        <div class="colorIN row-bold2">{{main[activePage].haircolor}}</div>
+                        <div class="zbnIN row-bold1">{{main[activePage].zbn}}</div>
+                        <div class="chipIN row-bold2">{{main[activePage].chipnumber}}</div>
+                        <div class="addressIN row-bold2" v-html="main[activePage].address"></div>
                         <div class="fcm">
                             <img src="images/FCM.png">
                         </div>
@@ -131,21 +128,19 @@
                         <span class="title">Für die Richtigkeit der Wurfangaben:</span>
                         <span class="line">Unterschrift des Züchters</span>
                     </div>
-            
-                    <div class="watermark"></div>
                 </div>
             </div>
-            
-            
+        
+        
             <div class="page-state" v-show="pageState == 'BACK'">
                 <div class="tree-top">
-                    <div class="item">Rasse: <b>Golden Retriever</b></div>
-                    <div class="item">Name: <b>Gladword's Blue Magic Monday of Dreamlad</b></div>
-                    <div class="item">Wurftag: <b>10.11.2018</b></div>
-                    <div class="item">ZB-Nr.: <b>DRV - 11009/18</b></div>
-                    <div class="item">Chip-Nr.: <b>276099100109642</b></div>
+                    <div class="item">Rasse: <b>{{main[activePage].race}}</b></div>
+                    <div class="item">Name: <b>{{main[activePage].name_1}} {{main[activePage].name_2}}</b></div>
+                    <div class="item">Wurftag: <b>{{main[activePage].birthdate}}</b></div>
+                    <div class="item">ZB-Nr.: <b>{{main[activePage].zbn}}</b></div>
+                    <div class="item">Chip-Nr.: <b>{{main[activePage].chipnumber}}</b></div>
                 </div>
-            
+        
                 <div class="tree-bottom">
                     <div class="border"></div>
                     <div class="tree-hl">
@@ -154,28 +149,28 @@
                         <div class="item">III. Urgroßeltern / G. Grandparents</div>
                         <div class="item">IV. Ururgroßeltern / G.-G. Gr.Parents</div>
                     </div>
-                    <div class="tree">
+                    <!-- <div class="tree">
                         <div class="tree-column" v-if="main.doc.tree">
                             <div class="tree-row c1" v-for="(row, r) in main.doc.tree[0]">
-                                {{main.doc.tree[0][r].name}}
+                                {{main[activePage].tree[0][r].firstname}}
                             </div>
                         </div>
                         <div class="tree-column" v-if="main.doc.tree">
                             <div class="tree-row c2" v-for="(row, r) in main.doc.tree[1]">
-                                {{main.doc.tree[1][r].name}}
+                                {{main[activePage].tree[1][r].firstname}}
                             </div>
                         </div>
                         <div class="tree-column" v-if="main.doc.tree">
                             <div class="tree-row c3" v-for="(row, r) in main.doc.tree[2]">
-                                {{main.doc.tree[2][r].name}}
+                                {{main[activePage].tree[2][r].firstname}}
                             </div>
                         </div>
                         <div class="tree-column" v-if="main.doc.tree">
                             <div class="tree-row c4" v-for="(row, r) in main.doc.tree[3]">
-                                {{main.doc.tree[3][r].name}}
+                                {{main[activePage].tree[3][r].firstname}}
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -186,34 +181,69 @@
     app = new Vue({
         el: '#app',
         data: {
+            filepath: '',
             pageState: 'FRONT',
             activePage: 0,
-            main: {
-                doc: {
-                    entries: []
+            main: [{
+                name_1: '',
+                name_2: '',
+                firstname: '',
+                lastname: '',
+                race: '',
+                male: 0,
+                female: 0,
+                gender: '',
+                haircolor: '',
+                address: '',
+                zbn: '',
+                chipnumber: '',
+                comment: '',
+                selected: true,
+                birthdate: '',
+                tree: []
+            }]
+        }
+    })
+
+
+    ipc.on('print-request-return', (event, args) => {
+        app.main = JSON.parse(args[0])
+        app.filepath = args[1]
+        app.$nextTick(()=>{
+            pickNprint(false)
+        })
+    })
+
+
+    ipc.on('print-to-pdf-ready', (event, filepath) => {
+        pickNprint(true)
+    })
+
+    var pickNprint = (shouldAdd = false) => {
+        if((app.activePage+1) < app.main.length || app.pageState == 'FRONT'){
+
+            if(shouldAdd){
+                if(app.pageState == 'FRONT'){
+                    app.pageState = 'BACK'
+                }else{
+                    app.pageState = 'FRONT'
+                    app.activePage++
                 }
             }
+
+            app.$nextTick(() => {
+                let pageName = (app.pageState == 'FRONT') ? 'Seite-1' : 'Seite-2'
+                ipc.send('print-to-pdf', [app.filepath, `${pageName} ${app.main[app.activePage].name_1} ${app.main[app.activePage].name_2}.pdf`])
+            })
+
+            // if(app.main[app.activePage].selected){
+            //     app.$nextTick(() => {
+            //         ipc.send('print-to-pdf', [app.filepath, `${app.pageState}_${app.main[app.activePage].name_1}_${app.main[app.activePage].name_2}.pdf`])
+            //     })
+            // } else {
+            //     pickNprint(true)
+            // }
         }
-    })
-
-
-    ipc.on('print-info-return', (event, values_raw) => {
-        app.main = JSON.parse(values_raw)
-
-        for (let i = 0; i < app.main.doc.entries.length; i++) {
-            app.main.doc.entries[i]['selected'] = true
-        }
-    })
-
-
-    ipc.on('print-front-ready', (event, filepath) => {
-
-        $('.page-front').css('display', 'none')
-        $('.page-back').css('display', 'inline-block')
-
-        ipc.send('print-to-pdf', [filepath, 'seite_2.pdf', false])
-
-        closePrint()
-    })
+    }
 </script>
 </html>

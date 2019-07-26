@@ -10,8 +10,8 @@ app = new Vue({
         animal_data_autocomplete: null,
         doc: {},
         info: {
-            version: '0.7.0',
-            apiVersion: '1.2.0',
+            version: '0.9.0',
+            apiVersion: '1.3.0',
             electronVersion: '4.0.8',
             nodeVersion: '10.11.0',
         },
@@ -114,7 +114,7 @@ app = new Vue({
         resetDocument: function(){
             this.doc = {
                 name: '',
-                date: '',
+                date: '1970-01-01',
                 race: '',
                 LNF: false,
                 address: '',
@@ -140,7 +140,7 @@ app = new Vue({
                 firstname: '',
                 lastname: '',
                 LNF: false,
-                birthdate: '',
+                birthdate: '1970-01-01',
                 gender: 'MALE',
                 size: null,
                 race: '',
