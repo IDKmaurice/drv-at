@@ -266,7 +266,7 @@ app = new Vue({
 //               INITIALIZATION                //
 /////////////////////////////////////////////////
 
-checkForBackups()
+//checkForBackups()
 loadThemeFromPath()
 initSettings()
 initLogin()
