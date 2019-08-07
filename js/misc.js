@@ -73,7 +73,7 @@ function sendDataToPrint() {
     for (let i = 0; i < DOC.tree.length; i++) {
         for (let h = 0; h < DOC.tree[i].length; h++) {
 
-            if(DOC.tree[i][h].id) PARENT_ARRAY.push( DOC.tree[i][h].id )
+            if(DOC.tree[i][h].id){ PARENT_ARRAY.push( DOC.tree[i][h].id )}
 
         }
     }
@@ -90,8 +90,9 @@ function sendDataToPrint() {
 
                 if(DOC.tree[i][h].id){
                     
+                    let desc = (DOC.tree[i][h].desc) ? DOC.tree[i][h].desc.replace(/\n/g, '<br>') : ''
                     DOC.tree[i][h] = TREE_DATA[DOC.tree[i][h].id]
-                    DOC.tree[i][h].desc = (DOC.tree[i][h].desc) ? DOC.tree[i][h].desc.replace(/\n/g,'<br>') : ''
+                    DOC.tree[i][h].desc = desc
 
                 } else {
 

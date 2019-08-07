@@ -25,17 +25,26 @@
             vertical-align: top
             border: 30px solid transparent
             position: relative
-            border-image: url("../../images/border.png") 30 30 repeat
 
             &.page-left
-                width: calc(50% - 40px)
-                margin-right: 40px
+                width: calc(50% - 60px)
+                margin-right: 60px
                 text-align: justify
 
             &.page-right
-                width: calc(50% - 15px)
-                margin-left: 10px
+                width: calc(50% - 30px)
+                margin-left: 25px
                 margin-right: 5px
+
+            .page-border
+                position: absolute
+                left: -30px
+                top: -30px
+                width: calc(100% + 60px) !important
+                height: calc(100% + 60px) !important
+                border: 30px solid transparent
+                border-image: url("../../images/border.png") 30 30 repeat
+                opacity: 0.55
 
             .hl
                 font-size: 60px
@@ -54,7 +63,7 @@
                 font-family: 'Matura'
 
             .sub-hl2
-                font-size: 15.8pt
+                font-size: 15.4pt
                 line-height: 40px
                 width: 100%
                 text-align: center
@@ -195,18 +204,19 @@
 
         .tree-top
             height: 60px
-            line-height: 60px
-            width: 100%
+            line-height: 40px
+            width: calc(100% - 60px)
+            margin: 0 30px
             text-align: center
             color: #aaa
             font-size: 17px
             display: flex
+            justify-content: space-between
 
             .item
                 color: black
-                flex: 1
                 white-space: nowrap
-                font-size: 10pt
+                font-size: 11pt
 
         .tree-bottom
             height: calc(100% - 60px)
@@ -222,13 +232,14 @@
                 z-index: 1
                 border: 30px solid transparent
                 position: relative
-                opacity: 0.5
+                opacity: 0.55
                 border-image: url("../../images/border.png") 30 30 repeat
 
             .tree-hl
                 height: 28px
                 line-height: 28px
-                width: 100%
+                width: calc(100% - 60px)
+                margin: 0 30px
                 text-align: center
                 color: #aaa
                 display: flex
@@ -240,7 +251,7 @@
                 .item
                     flex: 1
                     white-space: nowrap
-                    font-size: 12pt
+                    font-size: 13pt
 
             .tree
                 display: flex
@@ -263,29 +274,131 @@
                         flex: 1
                         color: var(--text-color3)
                         width: 100%
-                        font-size: 14px
-                        padding: 10px
+                        text-align: left
 
                         &.c1
                             border-right: 2px solid #000
                             border-bottom: 2px solid #000
+                            padding: 6px 7px
+                            padding-bottom: 0
 
                             &:last-child
                                 border-bottom: none
+
+                            .name
+                                font-weight: bold
+                                font-size: 12pt
+                                width: 100%
+                                line-height: 14pt
+                                margin-bottom: 8px
+
+                            .data
+                                width: 100%
+
+                                .title
+                                    width: 70px
+                                    font-size: 9pt
+                                    line-height: 11pt
+                                    vertical-align: top
+                                .values
+                                    font-weight: bold
+                                    width: calc(100% - 70px)
+                                    font-size: 9pt
+                                    line-height: 11pt
+                                    vertical-align: top
+                            
+                            .desc
+                                font-size: 9pt
+                                line-height: 11pt
+                                font-weight: bold
                             
                         &.c2
                             border-right: 2px solid #000
                             border-bottom: 2px solid #000
+                            padding: 6px 7px
+                            padding-bottom: 0
 
                             &:last-child
                                 border-bottom: none
+
+                            .name
+                                font-weight: bold
+                                font-size: 12pt
+                                width: 100%
+                                line-height: 14pt
+                                margin-bottom: 8px
+
+                            .data
+                                width: 100%
+
+                                .title
+                                    width: 40%
+                                    font-size: 9pt
+                                    line-height: 11pt
+                                    font-weight: bold
+                                    vertical-align: top
+                                .values
+                                    font-weight: bold
+                                    width: 60%
+                                    font-size: 9pt
+                                    line-height: 11pt
+                                    vertical-align: top
+
+                            .size
+                                font-size: 9pt
+                                line-height: 11pt
+                                font-weight: bold
+                                display: inline
+                            
+                            .desc
+                                font-size: 9pt
+                                line-height: 11pt
+                                font-weight: bold
+                                display: inline
 
                         &.c3
                             border-right: 2px solid #000
                             border-bottom: 2px solid #000
+                            padding: 3px 7px
+                            padding-bottom: 0
 
                             &:last-child
                                 border-bottom: none
+
+                            .name
+                                font-weight: bold
+                                font-size: 12pt
+                                width: 100%
+                                line-height: 14pt
+                                margin-bottom: 3px
+
+                            .data
+                                width: 100%
+
+                                .title
+                                    width: 40%
+                                    font-size: 9pt
+                                    line-height: 11pt
+                                    font-weight: bold
+                                    vertical-align: top
+                                .values
+                                    font-weight: bold
+                                    width: 60%
+                                    font-size: 9pt
+                                    line-height: 11pt
+                                    vertical-align: top
+
+                            .size
+                                font-size: 9pt
+                                line-height: 11pt
+                                font-weight: bold
+                                display: inline
+                            
+                            .desc
+                                font-size: 9pt
+                                line-height: 11pt
+                                font-weight: bold
+                                display: inline
 
                         &.c4
                             border-bottom: 2px solid #000

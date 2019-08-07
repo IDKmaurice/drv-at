@@ -23,11 +23,12 @@
 
                     <div class="page-state" v-show="pageState == 'FRONT'">
                         <div class="page-div page-left justify">
+                            <div class="page-border"></div>
                             <div class="sub-hl">Liebe Hundebesitzerin, lieber Hundebesitzer,</div>
                             Der Deutsche Rassehunde Verband e.V. (DRV e.V.) – Wolfenbüttel möchte Sie als stolzen Hundebesitzer recht herzlich
                             beglückwünschen.<br><br>
                             Sicherlich werden Sie mit Ihrem „vierbeinigen Freund“ viel Freude haben und viele schöne gemeinsame Stunden erleben;
-                            vielleicht werden Sie sogar da-rüber hinaus mit ihm große Erfolge erringen.<br><br>
+                            vielleicht werden Sie sogar darüber hinaus mit ihm große Erfolge erringen.<br><br>
                             Dabei und auch bei allen Belangen der Aufzucht, der Hundehaltung und Hundezucht möchte Ihnen der DRV e.V. gern
                             behilflich sein. Durch unsere jahrzehntelange Erfahrung mit Hunden stehen Ihnen bei Ihren großen oder kleinen Problemen
                             unsere kompetenten Fachleute gern zur Seite.<br><br>
@@ -59,6 +60,7 @@
 
 
                         <div class="page-div page-right">
+                            <div class="page-border"></div>
                             <div class="hl">Ahnenpass</div>
                             <div class="sub-hl">Pedigree</div>
                             <div class="data-container">
@@ -141,28 +143,105 @@
                                 <div class="item">III. Urgroßeltern / G. Grandparents</div>
                                 <div class="item">IV. Ururgroßeltern / G.-G. Gr.Parents</div>
                             </div>
-                            <!-- <div class="tree">
-                                <div class="tree-column" v-if="main.doc.tree">
-                                    <div class="tree-row c1" v-for="(row, r) in main.doc.tree[0]">
-                                        {{main[activePage].tree[0][r].firstname}}
+                            <div class="tree">
+                                <div class="tree-column">
+                                    <div class="tree-row c1" v-for="(row, r) in main[activePage].tree[0]">
+                                        <div class="name">
+                                            <span v-if="main[activePage].tree[0][r].LNF == 'YES'">
+                                                {{main[activePage].tree[0][r].lastname}}
+                                                {{main[activePage].tree[0][r].firstname}}
+                                            </span>
+                                            <span v-else>
+                                                {{main[activePage].tree[0][r].firstname}}
+                                                {{main[activePage].tree[0][r].lastname}}
+                                            </span>
+                                        </div><br>
+                                        <div class="data">
+                                            <div class="title">
+                                                ZB-Nr.:<br>
+                                                Chip-Nr.:<br>
+                                                Wurftag:<br>
+                                                Farbe:<br>
+                                                Größe:<br><br>
+                                            </div>
+                                            <div class="values">
+                                                {{main[activePage].tree[0][r].zbn}}<br>
+                                                {{main[activePage].tree[0][r].chipnumber}}<br>
+                                                <span v-if="main[activePage].tree[0][r].birthdate != '0001-01-01'">{{main[activePage].tree[0][r].birthdate}}</span><br>
+                                                {{main[activePage].tree[0][r].haircolor}}<br>
+                                                <span v-if="main[activePage].tree[0][r].size != 0">{{main[activePage].tree[0][r].size}}cm</span><br><br>
+                                            </div>
+                                        </div><br>
+                                        <div class="desc" v-html="main[activePage].tree[0][r].desc"></div>
                                     </div>
                                 </div>
-                                <div class="tree-column" v-if="main.doc.tree">
-                                    <div class="tree-row c2" v-for="(row, r) in main.doc.tree[1]">
-                                        {{main[activePage].tree[1][r].firstname}}
+
+
+
+                                <div class="tree-column">
+                                    <div class="tree-row c2" v-for="(row, r) in main[activePage].tree[1]">
+                                        <div class="name">
+                                            <span v-if="main[activePage].tree[1][r].LNF == 'YES'">
+                                                {{main[activePage].tree[1][r].lastname}}
+                                                {{main[activePage].tree[1][r].firstname}}
+                                            </span>
+                                            <span v-else>
+                                                {{main[activePage].tree[1][r].firstname}}
+                                                {{main[activePage].tree[1][r].lastname}}
+                                            </span>
+                                        </div><br>
+                                        <div class="data">
+                                            <div class="title">
+                                                {{main[activePage].tree[1][r].zbn}}<br>
+                                                <span v-if="main[activePage].tree[1][r].birthdate != '0001-01-01'">{{main[activePage].tree[1][r].birthdate}}</span><br><br>
+                                            </div>
+                                            <div class="values">
+                                                {{main[activePage].tree[1][r].chipnumber}}<br>
+                                                {{main[activePage].tree[1][r].haircolor}}<br><br>
+                                            </div>
+                                        </div><br>
+                                        <span class="size" v-if="main[activePage].tree[1][r].size != 0">Gr.: {{main[activePage].tree[1][r].size}}cm ; </span>
+                                        <div class="desc" v-html="main[activePage].tree[1][r].desc"></div>
                                     </div>
                                 </div>
-                                <div class="tree-column" v-if="main.doc.tree">
-                                    <div class="tree-row c3" v-for="(row, r) in main.doc.tree[2]">
-                                        {{main[activePage].tree[2][r].firstname}}
+
+
+
+                                <div class="tree-column">
+                                    <div class="tree-row c3" v-for="(row, r) in main[activePage].tree[2]">
+                                        <div class="name">
+                                            <span v-if="main[activePage].tree[2][r].LNF == 'YES'">
+                                                {{main[activePage].tree[2][r].lastname}}
+                                                {{main[activePage].tree[2][r].firstname}}
+                                            </span>
+                                            <span v-else>
+                                                {{main[activePage].tree[2][r].firstname}}
+                                                {{main[activePage].tree[2][r].lastname}}
+                                            </span>
+                                        </div><br>
+                                        <div class="data">
+                                            <div class="title">
+                                                {{main[activePage].tree[2][r].zbn}}<br>
+                                                <span v-if="main[activePage].tree[2][r].birthdate != '0001-01-01'">{{main[activePage].tree[2][r].birthdate}}</span><br>
+                                            </div>
+                                            <div class="values">
+                                                {{main[activePage].tree[2][r].chipnumber}}<br>
+                                                {{main[activePage].tree[2][r].haircolor}}<br>
+                                            </div>
+                                        </div><br>
+                                        <span class="size" v-if="main[activePage].tree[2][r].size != 0">Gr.: {{main[activePage].tree[2][r].size}}cm ; </span>
+                                        <div class="desc" v-html="main[activePage].tree[2][r].desc"></div>
                                     </div>
                                 </div>
-                                <div class="tree-column" v-if="main.doc.tree">
-                                    <div class="tree-row c4" v-for="(row, r) in main.doc.tree[3]">
+
+
+                                
+                                <div class="tree-column">
+                                    <div class="tree-row c4" v-for="(row, r) in main[activePage].tree[3]">
                                         {{main[activePage].tree[3][r].firstname}}
                                     </div>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
                     </div>
 
