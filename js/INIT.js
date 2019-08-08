@@ -1,11 +1,11 @@
-let dir = fs.readdirSync(getTempName("temp/backup/",'folder'))
+//let dir = fs.readdirSync(getTempName("temp/backup/",'folder'))
 
 const _ = require('lodash')
 
 app = new Vue({
     el:'#app',
     data: {
-        backup: dir,
+        backup: null,
         animal_data: null,
         animal_data_autocomplete: null,
         doc: {},
