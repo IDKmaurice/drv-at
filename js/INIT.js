@@ -10,7 +10,7 @@ app = new Vue({
         animal_data_autocomplete: null,
         doc: {},
         info: {
-            version: '0.9.0',
+            version: '0.9.1',
             apiVersion: '1.3.0',
             electronVersion: '4.0.8',
             nodeVersion: '10.11.0',

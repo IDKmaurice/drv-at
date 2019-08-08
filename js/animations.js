@@ -79,7 +79,7 @@ function animInputPopup(id, opt) {
 
     if(opt == 'in'){
 
-        $(`.${id}`).children('input').first().focus();
+        $(`.${id}`).children('input').first().focus()
 
         anime.timeline().add({
             targets: `.${id}`,
