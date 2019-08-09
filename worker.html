@@ -151,28 +151,133 @@
                         <div class="item">III. Urgroßeltern / G. Grandparents</div>
                         <div class="item">IV. Ururgroßeltern / G.-G. Gr.Parents</div>
                     </div>
-                    <!-- <div class="tree">
-                        <div class="tree-column" v-if="main.doc.tree">
-                            <div class="tree-row c1" v-for="(row, r) in main.doc.tree[0]">
-                                {{main[activePage].tree[0][r].firstname}}
+                    <div class="tree">
+                        <div class="tree-column">
+                            <div class="tree-row c1" v-for="(row, r) in main[activePage].tree[0]">
+                                <div class="name">
+                                    <span v-if="main[activePage].tree[0][r].LNF == 'YES'">
+                                        {{main[activePage].tree[0][r].lastname}}
+                                        {{main[activePage].tree[0][r].firstname}}
+                                    </span>
+                                    <span v-else>
+                                        {{main[activePage].tree[0][r].firstname}}
+                                        {{main[activePage].tree[0][r].lastname}}
+                                    </span>
+                                </div><br>
+                                <div class="data">
+                                    <div class="title">
+                                        ZB-Nr.:<br>
+                                        Chip-Nr.:<br>
+                                        Wurftag:<br>
+                                        Farbe:<br>
+                                        Größe:<br><br>
+                                    </div>
+                                    <div class="values">
+                                        {{main[activePage].tree[0][r].zbn}}<br>
+                                        {{main[activePage].tree[0][r].chipnumber}}<br>
+                                        <span
+                                            v-if="main[activePage].tree[0][r].birthdate != '0001-01-01'">{{main[activePage].tree[0][r].birthdate}}</span>
+                                        <span v-else>*****</span><br>
+                                        {{main[activePage].tree[0][r].haircolor}}<br>
+                                        <span
+                                            v-if="main[activePage].tree[0][r].size != 0">{{main[activePage].tree[0][r].size}}cm</span><br><br>
+                                    </div>
+                                </div><br>
+                                <div class="desc" v-html="main[activePage].tree[0][r].desc"></div>
                             </div>
                         </div>
-                        <div class="tree-column" v-if="main.doc.tree">
-                            <div class="tree-row c2" v-for="(row, r) in main.doc.tree[1]">
-                                {{main[activePage].tree[1][r].firstname}}
+                    
+                    
+                    
+                        <div class="tree-column">
+                            <div class="tree-row c2" v-for="(row, r) in main[activePage].tree[1]">
+                                <div class="name">
+                                    <span v-if="main[activePage].tree[1][r].LNF == 'YES'">
+                                        {{main[activePage].tree[1][r].lastname}}
+                                        {{main[activePage].tree[1][r].firstname}}
+                                    </span>
+                                    <span v-else>
+                                        {{main[activePage].tree[1][r].firstname}}
+                                        {{main[activePage].tree[1][r].lastname}}
+                                    </span>
+                                </div><br>
+                                <div class="data">
+                                    <div class="title">
+                                        {{main[activePage].tree[1][r].zbn}}<br>
+                                        <span
+                                            v-if="main[activePage].tree[1][r].birthdate != '0001-01-01'">{{main[activePage].tree[1][r].birthdate}}</span>
+                                        <span v-else>********</span><br>
+                                    </div>
+                                    <div class="values">
+                                        {{main[activePage].tree[1][r].haircolor}}<br>
+                                        {{main[activePage].tree[1][r].chipnumber}}<br>
+                                    </div>
+                                </div><br>
+                                <span class="size" v-if="main[activePage].tree[1][r].size != 0">Gr.: {{main[activePage].tree[1][r].size}}cm
+                                    ; </span>
+                                <div class="desc" v-html="main[activePage].tree[1][r].desc"></div>
                             </div>
                         </div>
-                        <div class="tree-column" v-if="main.doc.tree">
-                            <div class="tree-row c3" v-for="(row, r) in main.doc.tree[2]">
-                                {{main[activePage].tree[2][r].firstname}}
+                    
+                    
+                    
+                        <div class="tree-column">
+                            <div class="tree-row c3" v-for="(row, r) in main[activePage].tree[2]">
+                                <div class="name">
+                                    <span v-if="main[activePage].tree[2][r].LNF == 'YES'">
+                                        {{main[activePage].tree[2][r].lastname}}
+                                        {{main[activePage].tree[2][r].firstname}}
+                                    </span>
+                                    <span v-else>
+                                        {{main[activePage].tree[2][r].firstname}}
+                                        {{main[activePage].tree[2][r].lastname}}
+                                    </span>
+                                </div><br>
+                                <div class="data">
+                                    <div class="title">
+                                        {{main[activePage].tree[2][r].zbn}}<br>
+                                        <span
+                                            v-if="main[activePage].tree[2][r].birthdate != '0001-01-01'">{{main[activePage].tree[2][r].birthdate}}</span>
+                                        <span v-else>********</span><br>
+                                    </div>
+                                    <div class="values">
+                                        {{main[activePage].tree[2][r].haircolor}}<br>
+                                        {{main[activePage].tree[2][r].chipnumber}}<br>
+                                    </div>
+                                </div><br>
+                                <span class="size" v-if="main[activePage].tree[2][r].size != 0">Gr.: {{main[activePage].tree[2][r].size}}cm
+                                    ; </span>
+                                <div class="desc" v-html="main[activePage].tree[2][r].desc"></div>
                             </div>
                         </div>
-                        <div class="tree-column" v-if="main.doc.tree">
-                            <div class="tree-row c4" v-for="(row, r) in main.doc.tree[3]">
-                                {{main[activePage].tree[3][r].firstname}}
+                    
+                    
+                    
+                        <div class="tree-column">
+                            <div class="tree-row c4" v-for="(row, r) in main[activePage].tree[3]">
+                                <div class="name">
+                                    <span v-if="main[activePage].tree[3][r].LNF == 'YES'">
+                                        {{main[activePage].tree[3][r].lastname}}
+                                        {{main[activePage].tree[3][r].firstname}}
+                                    </span>
+                                    <span v-else>
+                                        {{main[activePage].tree[3][r].firstname}}
+                                        {{main[activePage].tree[3][r].lastname}}
+                                    </span>
+                                </div><br>
+                                <div class="data">
+                                    <span class="item">{{main[activePage].tree[3][r].zbn}}</span>
+                                    <span class="item"
+                                        v-if="main[activePage].tree[3][r].birthdate != '0001-01-01'">{{main[activePage].tree[3][r].birthdate}}</span>
+                                    <span class="item" v-else>*****</span>
+                                    <span class="item">{{main[activePage].tree[3][r].haircolor}}</span>
+                                </div><br>
+                                <span class="size" v-if="main[activePage].tree[3][r].size != 0">Gr.: {{main[activePage].tree[3][r].size}}cm
+                                    ; </span>
+                                <div class="desc" v-html="main[activePage].tree[3][r].desc"></div>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
