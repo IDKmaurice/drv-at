@@ -1,2 +1,4 @@
-# drv-at
-(German) Projekt für den DRV zum verwalten von Wurf-Daten
+# Gencestor
+Ein Ahnentafel Tool, initiiert vom Deutschen Rassehunde Verband e.V. (DRV)
+
+Aktive Entwicklung: Maurice Freuwört (maurice.freuwoert@live.de)
