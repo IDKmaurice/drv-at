@@ -167,7 +167,7 @@
                                             <div class="values">
                                                 {{main[activePage].tree[0][r].zbn}}<br>
                                                 {{main[activePage].tree[0][r].chipnumber}}<br>
-                                                <span v-if="main[activePage].tree[0][r].birthdate != '0001-01-01'">{{main[activePage].tree[0][r].birthdate}}</span>
+                                                <span v-if="main[activePage].tree[0][r].birthdate != '0001-01-01'">{{main[activePage].tree[0][r].birthdate_}}</span>
                                                 <span v-else>*****</span><br>
                                                 {{main[activePage].tree[0][r].haircolor}}<br>
                                                 <span v-if="main[activePage].tree[0][r].size != 0">{{main[activePage].tree[0][r].size}}cm</span><br><br>
@@ -194,7 +194,7 @@
                                         <div class="data">
                                             <div class="title">
                                                 {{main[activePage].tree[1][r].zbn}}<br>
-                                                <span v-if="main[activePage].tree[1][r].birthdate != '0001-01-01'">{{main[activePage].tree[1][r].birthdate}}</span>
+                                                <span v-if="main[activePage].tree[1][r].birthdate != '0001-01-01'">{{main[activePage].tree[1][r].birthdate_}}</span>
                                                 <span v-else>********</span><br>
                                             </div>
                                             <div class="values">
@@ -224,7 +224,7 @@
                                         <div class="data">
                                             <div class="title">
                                                 {{main[activePage].tree[2][r].zbn}}<br>
-                                                <span v-if="main[activePage].tree[2][r].birthdate != '0001-01-01'">{{main[activePage].tree[2][r].birthdate}}</span>
+                                                <span v-if="main[activePage].tree[2][r].birthdate != '0001-01-01'">{{main[activePage].tree[2][r].birthdate_}}</span>
                                                 <span v-else>********</span><br>
                                             </div>
                                             <div class="values">
@@ -253,7 +253,7 @@
                                         </div><br>
                                         <div class="data">
                                             <span class="item">{{main[activePage].tree[3][r].zbn}}</span>
-                                            <span class="item" v-if="main[activePage].tree[3][r].birthdate != '0001-01-01'">{{main[activePage].tree[3][r].birthdate}}</span>
+                                            <span class="item" v-if="main[activePage].tree[3][r].birthdate != '0001-01-01'">{{main[activePage].tree[3][r].birthdate_}}</span>
                                             <span class="item" v-else>*****</span>
                                             <span class="item">{{main[activePage].tree[3][r].haircolor}}</span>
                                         </div><br>

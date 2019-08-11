@@ -93,6 +93,7 @@ function sendDataToPrint() {
                     let desc = (DOC.tree[i][h].desc) ? DOC.tree[i][h].desc.replace(/\n/g, '<br>') : ''
                     DOC.tree[i][h] = TREE_DATA[DOC.tree[i][h].id]
                     DOC.tree[i][h].desc = desc
+                    DOC.tree[i][h].birthdate_ = app.formatDate(DOC.tree[i][h].birthdate)
 
                 } else {
 
@@ -100,6 +101,7 @@ function sendDataToPrint() {
                     DOC.tree[i][h] = {
                         LNF: "YES",
                         birthdate: "1970-01-01",
+                        birthdate_: app.formatDate("1970-01-01"),
                         chipnumber: "",
                         desc: "",
                         father: "",
