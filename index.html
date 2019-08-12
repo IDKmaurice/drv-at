@@ -2,8 +2,8 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="css/main.css">
-        <script src="js/vue.min.js"></script>
+        <link rel="stylesheet" href="src/css/main.css">
+        <script src="src/js/vue.min.js"></script>
         <script>
             const $ = require('jquery')
             const tooltip = require('electron-tooltip')
@@ -31,7 +31,7 @@
                             <span class="start-option-text">Öffnen</span>
                         </div>
                         <div class="start-option" onclick="app.settings.logged ? changeToDatabaseView() : initLogin()">
-                            <div class="start-option-icon">&#64169;</div>
+                            <div class="start-option-icon">&#61880;</div>
                             <span class="start-option-text">Datenbank</span>
                         </div>
                     </div>
@@ -566,16 +566,15 @@
         </div>
     </body>
 
-    <script src="js/view.js"></script>
-    <script src="js/tab.js"></script>
-    <script src="js/toast.js"></script>
-    <script src="js/filemanagement.js"></script>
-    <script src="js/backup_handler.js"></script>
-    <script src="js/appmenuReceiver.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/animations.js"></script>
-    <script src="js/theme.js"></script>
-    <script src="js/misc.js"></script>
+    <script src="src/js/view.js"></script>
+    <script src="src/js/tab.js"></script>
+    <script src="src/js/toast.js"></script>
+    <script src="src/js/filemanagement.js"></script>
+    <script src="src/js/appmenuReceiver.js"></script>
+    <script src="src/js/settings.js"></script>
+    <script src="src/js/animations.js"></script>
+    <script src="src/js/theme.js"></script>
+    <script src="src/js/misc.js"></script>
 
-    <script src="js/INIT.js"></script>
+    <script src="src/js/INIT.js"></script>
 </html>

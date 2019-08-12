@@ -2,10 +2,10 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <script src="js/vue.min.js"></script>
-        <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/print/main.min.css">
-        <link rel="stylesheet" href="css/print/dina4.min.css">
+        <script src="src/js/vue.min.js"></script>
+        <link rel="stylesheet" href="src/css/main.css">
+        <link rel="stylesheet" href="src/css/print/main.min.css">
+        <link rel="stylesheet" href="src/css/print/dina4.min.css">
         <script>
             const $ = require('jquery')
             const fs = require('fs')
@@ -38,7 +38,7 @@
                             vollständig aus und senden ihn unterzeichnet im Original an uns zurück. Vielen Dank!<br>
                             <div class="full center">
                                 Mit freundlicher Empfehlung Ihr
-                                <img src="images/DRV.png" class="drv-logo-front" width="80"><br>
+                                <img src="src/images/DRV.png" class="drv-logo-front" width="80"><br>
                             </div>
                             <div class="center full">
                                 <div class="sub-hl2">Deutscher Rassehunde Verband e.V. (DRV) – Wolfenbüttel</div>
@@ -114,7 +114,7 @@
                                 <div class="chipIN row-bold2">{{main[activePage].chipnumber}}</div>
                                 <div class="addressIN row-bold2" v-html="main[activePage].address"></div>
                                 <div class="fcm">
-                                    <img src="images/FCM.png">
+                                    <img src="src/images/FCM.png">
                                 </div>
                             </div>
                             <div class="bottom-sign">

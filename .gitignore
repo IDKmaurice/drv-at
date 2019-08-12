@@ -1,6 +1,5 @@
-php/
 *.ini
 .vscode/
 vscode/
 dist/*
-electron-builder.yml
+php/*

@@ -91,6 +91,15 @@ function sendDataToPrint() {
                 if(DOC.tree[i][h].id){
                     
                     let desc = (DOC.tree[i][h].desc) ? DOC.tree[i][h].desc.replace(/\n/g, '<br>') : ''
+
+                    desc = desc.replace(/\*\*\*/g, '</span><span class="blue">')
+                    desc = desc.replace(/\*\*/g, '</span><span class="red">')
+                    desc = desc.replace(/\*/g, '</span><span class="black">')
+
+                    if(desc.startsWith('</span>')){ desc = desc.slice(7) }
+                    if(desc.startsWith('<span') == false){ desc = '<span class="black">' + desc}
+                    if(desc.endsWith('</span>') == false){ desc = desc + '</span>'}
+
                     DOC.tree[i][h] = TREE_DATA[DOC.tree[i][h].id]
                     DOC.tree[i][h].desc = desc
                     DOC.tree[i][h].birthdate_ = app.formatDate(DOC.tree[i][h].birthdate)
@@ -113,7 +122,7 @@ function sendDataToPrint() {
                         membernumber: "",
                         mother: "",
                         race: "",
-                        size:0,
+                        size: 0,
                         zbn:""
                     }
                 }

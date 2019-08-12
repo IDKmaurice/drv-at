@@ -23,7 +23,7 @@ function loadThemeFromPath(path = '__SELF__') {
     }
 
     if(path == '__SELF__'){
-        themes = glob.sync("themes/*.json")
+        themes = glob.sync("src/themes/*.json")
     }
 
     for (const theme of themes) {

@@ -86,7 +86,7 @@ function openFile() {
         }, (file) => {
 
             if (file === undefined) {
-                sendAToast("warning", "Keine Datei ausgewählt!", 2000)
+                sendAToast("info", "Keine Datei ausgewählt!")
                 return
             } else {
                 //file is an array but we only need one string

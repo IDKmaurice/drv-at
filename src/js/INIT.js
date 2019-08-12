@@ -1,5 +1,3 @@
-//let dir = fs.readdirSync(getTempName("temp/backup/",'folder'))
-
 const _ = require('lodash')
 
 app = new Vue({
@@ -266,7 +264,6 @@ app = new Vue({
 //               INITIALIZATION                //
 /////////////////////////////////////////////////
 
-//checkForBackups()
 loadThemeFromPath()
 initSettings()
 initLogin()
