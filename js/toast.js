@@ -1,12 +1,12 @@
 function sendAToast(type,msg,duration = 2000) {
 
-    if(['success','warning','error'].indexOf(type) !== -1){
+    if(['success','warning','error', 'info'].indexOf(type) !== -1){
         
         let id = 'toast-' + new Date().getTime()
 
         let TOASTPARENT_ = $('.toast-holder')
 
-        arr = {'error':'&#61480;','warning':'&#61478;','success':'&#61740;'}
+        arr = {'error':'&#61480;','warning':'&#61478;','success':'&#61740;','info':'&#62205;'}
 
         TOASTPARENT_.append(
             `<div class="toast toast-${type}" id="${id}">`+

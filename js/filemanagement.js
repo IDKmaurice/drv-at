@@ -20,18 +20,6 @@ function getTempName(dir, arg) {
 
 
 
-function checkForBackups() {
-    var filepath = getTempName("temp/");
-    if (fs.existsSync(filepath)) {
-        renameFile(filepath, getTempName('temp/backup/'));
-    }
-    JsonDB = require('node-json-db');
-    // TODO: set second parameter to true when exporting product
-    db = new JsonDB(getTempName('temp/', 'db'), true, true)
-}
-
-
-
 function deleteFile(filepath) {
 
     if (fs.existsSync(filepath)) {

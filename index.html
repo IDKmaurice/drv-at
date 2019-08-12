@@ -2,7 +2,6 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Gencestor 0.9.0</title>
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vue.min.js"></script>
         <script>
@@ -21,9 +20,7 @@
 
             <div class="view start-view" v-show="settings.activeView == 'start'">
                 <div class="start-holder">
-                    <div class="start-hl">
-                        Willkommen zurück!
-                    </div>
+                    <div class="start-hl">Willkommen zurück!</div>
                     <div class="start-option-holder no-select">
                         <div class="start-option" onclick="app.settings.logged ? changeToEditView() : initLogin()">
                             <div class="start-option-icon">&#61988;</div>
@@ -512,9 +509,10 @@
                                 <h3>Informationen zur Software</h3><br>
                                 Version: <div class="box">{{info.version}}</div><br>
                                 API-Version: <div class="box">{{info.apiVersion}}</div><br>
+                                Electron-Version: <div class="box">{{info.electronVersion}}</div><br>
                                 <h3>Informationen zu dem Entwickler</h3><br>
                                 <h4>Full-Stack Dev</h4><br>
-                                Maurice Freuwört<br>
+                                Maurice Freuwört (maurice.freuwoert@live.de)<br>
                             </div>
                         </div>
 

@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Gencestor Print Worker</title>
     <script src="js/vue.min.js"></script>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/print/main.min.css">
@@ -176,7 +175,7 @@
                                         {{main[activePage].tree[0][r].zbn}}<br>
                                         {{main[activePage].tree[0][r].chipnumber}}<br>
                                         <span
-                                            v-if="main[activePage].tree[0][r].birthdate != '0001-01-01'">{{main[activePage].tree[0][r].birthdate}}</span>
+                                            v-if="main[activePage].tree[0][r].birthdate != '0001-01-01'">{{main[activePage].tree[0][r].birthdate_}}</span>
                                         <span v-else>*****</span><br>
                                         {{main[activePage].tree[0][r].haircolor}}<br>
                                         <span
@@ -205,7 +204,7 @@
                                     <div class="title">
                                         {{main[activePage].tree[1][r].zbn}}<br>
                                         <span
-                                            v-if="main[activePage].tree[1][r].birthdate != '0001-01-01'">{{main[activePage].tree[1][r].birthdate}}</span>
+                                            v-if="main[activePage].tree[1][r].birthdate != '0001-01-01'">{{main[activePage].tree[1][r].birthdate_}}</span>
                                         <span v-else>********</span><br>
                                     </div>
                                     <div class="values">
@@ -237,7 +236,7 @@
                                     <div class="title">
                                         {{main[activePage].tree[2][r].zbn}}<br>
                                         <span
-                                            v-if="main[activePage].tree[2][r].birthdate != '0001-01-01'">{{main[activePage].tree[2][r].birthdate}}</span>
+                                            v-if="main[activePage].tree[2][r].birthdate != '0001-01-01'">{{main[activePage].tree[2][r].birthdate_}}</span>
                                         <span v-else>********</span><br>
                                     </div>
                                     <div class="values">
@@ -268,7 +267,7 @@
                                 <div class="data">
                                     <span class="item">{{main[activePage].tree[3][r].zbn}}</span>
                                     <span class="item"
-                                        v-if="main[activePage].tree[3][r].birthdate != '0001-01-01'">{{main[activePage].tree[3][r].birthdate}}</span>
+                                        v-if="main[activePage].tree[3][r].birthdate != '0001-01-01'">{{main[activePage].tree[3][r].birthdate_}}</span>
                                     <span class="item" v-else>*****</span>
                                     <span class="item">{{main[activePage].tree[3][r].haircolor}}</span>
                                 </div><br>

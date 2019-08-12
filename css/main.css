@@ -15,6 +15,7 @@
     --red: #FF5959;
     --yellow: #FFDD2A;
     --green: #00CC33;
+    --blue: #0057ff;
 
     --background1: #fff;
     --background2: #f9f9f9;
@@ -381,6 +382,7 @@ h1,h2,h3,h4,h5,h6{
 .toast-error{background: var(--red); color: white}
 .toast-warning{background: var(--yellow); color: #222}
 .toast-success{background: var(--green); color: white}
+.toast-info{background: #eee; color: #222}
 
 .toast-msg{ vertical-align: middle; max-width: calc(100% - 55px)}
 

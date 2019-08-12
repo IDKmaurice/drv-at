@@ -1,9 +1,6 @@
-temp/
 php/
-temp/
-_ignore/
 *.ini
 .vscode/
 vscode/
-build/
-todo.txt
+dist/*
+electron-builder.yml
