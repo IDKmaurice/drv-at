@@ -277,7 +277,7 @@
                 </div>
                 <div class="entry-holder">
                     <div v-for="(entry, i) in main" class="entry" :class="{'active' : activePage == i}">
-                        <div class="name" @click="selectEntry(i)">{{entry.firstname}}</div>
+                        <div class="name" @click="selectEntry(i)"><span v-if="entry.firstname">{{entry.firstname}}</span><i v-else><b>Welpe {{i+1}}</b></i></div>
                         <label class="checkbox-holder">
                             <input type="checkbox" class="checkbox" :value="entry.selected" v-model="entry.selected" v-show="false">
                         </label>
@@ -381,7 +381,7 @@
         })
 
         function setPosScale() {
-            $('.page').css('transform', `translate(${app.pos.x}px,${app.pos.y}px) scale(${app.scale})`)
+            document.querySelector('.page').style.transform = `translate( ${app.pos.x}px, ${app.pos.y}px) scale( ${app.scale} )`
         }
 
 

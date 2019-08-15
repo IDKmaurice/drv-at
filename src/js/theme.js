@@ -1,6 +1,6 @@
 settings.watch('theme', (val) => {
     setTheme(val)
-});
+})
 
 function setTheme(theme) {
     if(app.themes[theme] != undefined){
@@ -15,6 +15,9 @@ function setTheme(theme) {
 
 
 function loadThemeFromPath(path = '__SELF__') {
+
+    let pn = require('path')
+    let glob = require('glob')
 
     let themes = ''
 
@@ -36,6 +39,4 @@ function loadThemeFromPath(path = '__SELF__') {
             console.log(e)
         }
     }
-
-    
 }

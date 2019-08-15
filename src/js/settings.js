@@ -23,7 +23,6 @@ function initSettings(){
     }
     
     setTheme(settings.get('theme'))
-    app.settings.hairtypes = settings.get('hairtypes').split(',')
 }
 
 function applySettings(){
@@ -31,7 +30,3 @@ function applySettings(){
         settings.set(option, app.i.settings[option])
     }
 }
-
-settings.watch('hairtypes', (val) => {
-    app.settings.hairtypes = val.split(',')
-});

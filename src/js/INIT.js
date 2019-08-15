@@ -3,7 +3,6 @@ const _ = require('lodash')
 app = new Vue({
     el:'#app',
     data: {
-        backup: null,
         animal_data: null,
         animal_data_autocomplete: null,
         doc: {},
@@ -13,7 +12,7 @@ app = new Vue({
             electronVersion: process.versions.electron,
             nodeVersion: process.versions.node,
         },
-        settings: {
+        MEMORY: {
             savePath: '',
             unsavedProgress: false,
             reset: false,
@@ -21,13 +20,8 @@ app = new Vue({
             activeView: 'start',
             activeSetting: 'GENERAL',
             activeTab: 0,
-            popups: {
-                login: false,
-                backups: false,
-                settings: false,
-                editOverview: false,
-                addToDatabase: false,
-                deleteFromDatabase: false,
+            UI: {
+                autocomplete: false,
             },
             notifications: {
                 count: 0,
@@ -36,7 +30,6 @@ app = new Vue({
             tabLimit: 30,
             jwt: '',
             logged: false,
-            hairtypes: []
         },
         API: {
             auth: {url:'https://api.nttc.it/clients/drv/auth.php', param: ['user','pass']},
@@ -47,6 +40,19 @@ app = new Vue({
             create_animal_data_single: {url:'https://api.nttc.it/clients/drv/create/animal_data_single.php', param: []},
             update_animal_data_single: {url:'https://api.nttc.it/clients/drv/update/animal_data_single.php', param: []},
             delete_animal_data_single: {url:'https://api.nttc.it/clients/drv/delete/animal_data_single.php', param: ['id']},
+        },
+        _settings: {
+            categories: {
+                categoryName: 'icon',
+            },
+            options: {
+                theme:          {icon: '', default: 'default_light'},
+                outputFolder:   {icon: '', default: 'PDF'},
+                dateFormat:     {icon: '', default: 'DMY'},
+                dataDivider:    {icon: '', default: '.'},
+                user:           {icon: '', default: ''},
+                devMode:        {icon: '', default: false},
+            }
         },
         settingDefaults: [
             {option: 'theme', default: 'default_light'},
@@ -126,10 +132,10 @@ app = new Vue({
                 entries: []
             }
 
-            this.settings.unsavedProgress = false
-            this.settings.savePath = ''
-            this.settings.activeTab = 0
-            this.settings.reset = true
+            this.MEMORY.unsavedProgress = false
+            this.MEMORY.savePath = ''
+            this.MEMORY.activeTab = 0
+            this.MEMORY.reset = true
         },
         resetCreateAnimalData: function(){
             this.i.create_animal_data = {
@@ -150,51 +156,12 @@ app = new Vue({
                 motherName: ''
             }
         },
-        showAnimalData: function(animal){
-            this.i.loaded_animal_data = animal
-            animPopup('show-animal','in')
-        },
-        openEditAnimalData: function(animal){
-            this.i.create_animal_data = animal
-
-            this.i.create_animal_data.LNF = (this.i.create_animal_data.LNF == 'YES') ? true : false
-            
-            app.request('read_animal_data_array',[JSON.stringify( [animal.father, animal.mother] )],(data,err)=>{
-
-                let DATA = {}
-
-                data.forEach(item => {
-                    DATA[item.id] = item
-                })
-                
-                if(DATA[animal.father]) this.i.create_animal_data.fatherName = DATA[animal.father].firstname
-                if(DATA[animal.mother]) this.i.create_animal_data.motherName = DATA[animal.mother].firstname
-
-                this.$forceUpdate()
-                
-
-                animPopup('edit-animal','in')
-            })
-        },
-        deleteAnimalData: function(id, confirm){
-            if(confirm){
-
-                deleteAnimalData(this.i.delete_animal_data)
-                animPopup('delete-animal','out')
-
-            } else if(confirm == false && id){
-
-                this.i.delete_animal_data = id
-                animPopup('delete-animal','in')
-
-            }
-        },
         request: function(script,param,callback) {
             if(this.API.hasOwnProperty(script)){
 
                 if(this.API[script].param.length <= param.length){
 
-                    let params = {jwt: this.settings.jwt}
+                    let params = {jwt: this.MEMORY.jwt}
 
                     for (let i = 0; i < param.length; i++) {
                         params[this.API[script].param[i]] = param[i]
@@ -203,7 +170,7 @@ app = new Vue({
                     $.post(this.API[script].url, params, function (data) {
             
                         if(data.response == 'OK'){
-                            app.settings.jwt = data.jwt
+                            app.MEMORY.jwt = data.jwt
                             callback(data.data, null)
                         } else {
                             callback(null, data.response+'test')
@@ -232,14 +199,14 @@ app = new Vue({
         }, 500),
         doc: {
             handler(){
-                if(this.settings.reset){
-                    this.settings.reset = false
-                    this.settings.unsavedProgress = false
-                } else if(this.settings.justLoaded) {
-                    this.settings.justLoaded = false
-                    this.settings.unsavedProgress = false
+                if(this.MEMORY.reset){
+                    this.MEMORY.reset = false
+                    this.MEMORY.unsavedProgress = false
+                } else if(this.MEMORY.justLoaded) {
+                    this.MEMORY.justLoaded = false
+                    this.MEMORY.unsavedProgress = false
                 } else {
-                    this.settings.unsavedProgress = true
+                    this.MEMORY.unsavedProgress = true
                 }
             },
             deep: true
@@ -247,25 +214,17 @@ app = new Vue({
     }
 })
 
-////////////////////////////////////////////////////////////////////////////////
-// ATTENTION:
-////////////////////////////////////////////////////////////////////////////////
-// app.i.settings and vice versa are not in any kind related to app.settings
-// app.i.settings are input settings to control the UI
-// app.settings are settings for the API / loaded memory
-//
-// in app.i are only input-controllers!
-////////////////////////////////////////////////////////////////////////////////
-
-
 
 
 /////////////////////////////////////////////////
 //               INITIALIZATION                //
 /////////////////////////////////////////////////
 
+// TODO: Fix .asar theme load error
 loadThemeFromPath()
 initSettings()
 initLogin()
 tooltip({ style: { backgroundColor: '#292828', borderRadius: '4px' } })
-ipcRenderer.send('request-main', 'openedWithFile') //send a msg to main to let it know renderer has loaded
+
+//send a msg to main to let it know renderer has loaded
+ipcRenderer.send('loaded')

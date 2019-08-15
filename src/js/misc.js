@@ -2,45 +2,40 @@ function ipUserNext(event){
 
     event.preventDefault()
 
-    let value = $('#user-ip-value').val();
-    settings.set('user',value);
-    animInputPopup('user-ip-bg','out');
-    animInputPopup('pass-ip-bg','in');
+    let value = document.getElementById('user-ip-value').value
+    settings.set('user',value)
+    animInputPopup('user-ip-bg','out')
+    animInputPopup('pass-ip-bg','in')
 }
-
-
-
 
 function ipPassNext(event){
 
     event.preventDefault()
 
-    let pass = $('#pass-ip-value').val();
-    let user = settings.get('user');
-    animInputPopup('pass-ip-bg','out');
+    let pass = document.getElementById('pass-ip-value').value
+    let user = settings.get('user')
+    animInputPopup('pass-ip-bg','out')
 
     app.request('auth', [user, pass], (data, err) => {
 
         if (err) {
-            app.settings.jwt = ''
-            app.settings.logged = false
+            app.MEMORY.jwt = ''
+            app.MEMORY.logged = false
             sendAToast('warning', err)
             initLogin()
         } else {
-            app.settings.logged = true
+            app.MEMORY.logged = true
             sendAToast('success', 'Erfolgreich eingeloggt!')
         }
     })
 }
 
-
-
 function initLogin(){
 
     if (settings.get('devMode')) {
 
-        app.settings.jwt = 'DEVMODE'
-        app.settings.logged = true
+        app.MEMORY.jwt = 'DEVMODE'
+        app.MEMORY.logged = true
         sendAToast('success', '<b>DevMode:</b> Sie befinden sich im DevMode!<br>Sie können dies in den Einstellungen unter <i>Erweitert > devMode</i> ändern.', 8000)
     
     } else {
@@ -51,11 +46,10 @@ function initLogin(){
             animInputPopup('pass-ip-bg', 'in')
         }
 
-        app.settings.jwt = null
-        app.settings.logged = false
+        app.MEMORY.jwt = null
+        app.MEMORY.logged = false
     }
 }
-
 
 
 
@@ -173,7 +167,6 @@ function sendDataToPrint() {
 
 
 
-
 // Get Animal_Data for DB
 function searchAnimalData(search = '') {
 
@@ -190,7 +183,6 @@ function searchAnimalData(search = '') {
     })
 }
 
-
 // Get Autocomplete_Data for edit-view
 function searchAnimalAC(gender = app.i.ac_animal_data.currentGender) {
 
@@ -205,83 +197,6 @@ function searchAnimalAC(gender = app.i.ac_animal_data.currentGender) {
     })
 }
 
-
-// Pre-Setup for autocomplete
-function openACpopup(column,row){
-
-    let gender = (row%2 == 0) ? 'FEMALE' : 'MALE'
-
-    $('.add-parent-holder').addClass('active')
-    app.i.ac_animal_data.currentColumn = column
-    app.i.ac_animal_data.currentRow = row
-    app.i.ac_animal_data.currentGender = gender
-    app.i.ac_animal_data.currentSearch = ''
-
-}
-
-function closeACpopup(){
-
-    $('.add-parent-holder').removeClass('active')
-
-}
-
-
-function createAnimalData() {
-
-    let formData = JSON.parse(JSON.stringify(app.i.create_animal_data))
-    formData['jwt'] = app.settings.jwt
-
-    formData.LNF = (formData.LNF == true) ? 'YES' : 'NO'
-    
-    
-    $.post(app.API.create_animal_data_single.url, formData, function (data) {
-
-        if(data.response == 'OK'){
-            sendAToast('success','Erfolgreich hinzugefügt')
-            animPopup('add-dog','out')
-            app.settings.jwt = data.jwt
-            searchAnimalData()
-            app.resetCreateAnimalData()
-            app.$forceUpdate()
-        } else {
-            sendAToast('warning',data.response)
-        }
-        
-    }, 'json')
-}
-
-function editAnimalData() {
-
-    let formData = JSON.parse(JSON.stringify(app.i.create_animal_data))
-    formData['jwt'] = app.settings.jwt
-
-    formData.LNF = (formData.LNF == true) ? 'YES' : 'NO'
-    
-    $.post(app.API.update_animal_data_single.url, formData, function (data) {
-
-        if(data.response == 'OK'){
-            sendAToast('success','Erfolgreich bearbeitet')
-            animPopup('edit-animal','out')
-            app.settings.jwt = data.jwt
-            searchAnimalData()
-            app.resetCreateAnimalData()
-            app.$forceUpdate()
-        } else {
-            sendAToast('warning',data.response)
-        }
-        
-    }, 'json')
-}
-
-function deleteAnimalData(id) {
-    app.request('delete_animal_data_single', [id], (data, err) => {
-        sendAToast('success','Eintrag erfolgreich gelöscht')
-        searchAnimalData()
-        app.$forceUpdate()
-        if (err) sendAToast('warning', err)
-    })
-}
-
 function enterACAnimalData(dataObj, insertPath = 'tree'){
     
     if(insertPath == 'tree'){
@@ -289,7 +204,7 @@ function enterACAnimalData(dataObj, insertPath = 'tree'){
         let row = app.i.ac_animal_data.currentRow
         
         enterAnimalDataRec(dataObj.id,column,row)
-        closeACpopup()
+        closeAutocomplete()
     } else if (insertPath == 'addParent') {
 
         if(dataObj.gender == 'MALE'){
@@ -342,6 +257,44 @@ function enterAnimalDataRec(id, column, row){
             app.doc.tree[column-1][row-1].id = null
             enterAnimalDataRec(null, column+1, (row*2)-1)
             enterAnimalDataRec(null, column+1, row*2)
+        }
+    }
+}
+
+
+
+function canProceed(callback) {
+    if(app.MEMORY.unsavedProgress == false){
+
+        app.MEMORY.savePath = ''
+        callback()
+
+    } else {
+
+        let electron = require('electron').remote
+        let dialog = electron.dialog
+        let choice = dialog.showMessageBox(
+            electron.getCurrentWindow(),{
+                type: 'warning',
+                buttons: ['Speichern', 'Verwerfen', 'Abbrechen'],
+                title: 'Ungespeicherter Fortschritt',
+                message: 'Wollen Sie Ihren ungespeicherten Fortschritt speichern?'
+            })
+
+        if(choice == 0){
+
+            file.save()
+            app.MEMORY.savePath = ''
+            app.MEMORY.unsavedProgress = false
+            callback()
+
+        } else if(choice == 1) {
+
+            app.resetDocument()
+            app.MEMORY.savePath = ''
+            app.MEMORY.unsavedProgress = false
+            callback()
+
         }
     }
 }

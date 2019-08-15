@@ -8,62 +8,66 @@
             const $ = require('jquery')
             const tooltip = require('electron-tooltip')
             const fs = require('fs')
-            const pn = require('path')
-            const glob = require('glob')
             const anime = require('animejs')
             const settings = require('electron-settings')
-            const {ipcRenderer} = require('electron')
+            const { ipcRenderer } = require('electron')
         </script>
     </head>
     <body>
         <div id="app">
 
-            <div class="view start-view" v-show="settings.activeView == 'start'">
+            <div class="view start-view" v-show="MEMORY.activeView == 'start'">
                 <div class="start-holder">
                     <div class="start-hl">Willkommen zurück!</div>
                     <div class="start-option-holder no-select">
-                        <div class="start-option" onclick="app.settings.logged ? changeToEditView() : initLogin()">
-                            <div class="start-option-icon">&#61988;</div>
-                            <span class="start-option-text">Erstellen</span>
+                        <div class="start-option-wrapper">
+                            <div class="start-option create" onclick="createFileIfSignedIn()">
+                                <div class="start-option-icon">&#63313;</div>
+                                <span class="start-option-text">Erstellen</span>
+                            </div>
+                            <div class="start-option open" onclick="openFileIfSignedIn()">
+                                <div class="start-option-icon">&#63343;</div>
+                                <span class="start-option-text">Öffnen</span>
+                            </div>
                         </div>
-                        <div class="start-option" onclick="app.settings.logged ? openFile() : initLogin()">
-                            <div class="start-option-icon">&#63343;</div>
-                            <span class="start-option-text">Öffnen</span>
+                        <div class="start-option database" onclick="databaseIfSignedIn()">
+                                <div class="start-option-icon">&#61880;</div>
+                                <span class="start-option-text">Datenbank</span>
                         </div>
-                        <div class="start-option" onclick="app.settings.logged ? changeToDatabaseView() : initLogin()">
-                            <div class="start-option-icon">&#61880;</div>
-                            <span class="start-option-text">Datenbank</span>
+                        <div class="start-option layout">
+                            <div class="start-option-icon">&#61501;</div>
+                            <span class="start-option-text">Layout (WIP)</span>
                         </div>
                     </div>
                 </div>
-                <div class="start-open-settings" onclick="animPopup('settings','in')">
+                <div class="start-open-settings" onclick="openSettings()">
                     <div class="icon">&#62611;</div>
-                    <div v-show="settings.notifications.count >= 1" class="notification">{{settings.notifications.count}}</div>
+                    <div v-show="MEMORY.notifications.count >= 1" class="notification">{{MEMORY.notifications.count}}</div>
                 </div>
             </div>
 
 
 
-            <div class="view" v-if="settings.activeView == 'edit'">
+            <div class="view" v-if="MEMORY.activeView == 'edit'">
                 <div class="edit-view-holder">
 
 
                     <div class="edit-sidebar no-select">
-                        <div class="nav-btn nav-back" onclick="changeToStartView()">&#61761;</div>
+                        <div class="nav-btn nav-back" onclick="homescreenIfSignedIn()">&#61761;</div>
 
-                        <div class="tab" :class="{'tab-active' : settings.activeTab == 0}">
-                            <div class="tab-text" @click="setTab(0)">
-                                <div class="tab-icon">&#62634;</div> Hauptseite
+                        <div class="tab" :class="{'tab-active' : MEMORY.activeTab == 0}">
+                            <div class="tab-text" onclick="setTab(0)">
+                                <div class="tab-icon">&#63533;</div> Hauptseite
                             </div>
-                            <div class="tab-btn" @click="addTab()" data-tooltip="Tab hinzufügen" data-tooltip-position="right">&#62485;</div>
+                            <div class="tab-btn" onclick="addTab()" data-tooltip="Tab hinzufügen" data-tooltip-position="right">&#62485;</div>
                         </div>
 
                         <div class="tab-holder">
-                            <div class="tab" v-for="(entry, i) in doc.entries" :class="{'tab-active' : settings.activeTab == (i+1)}">
-                                <div class="tab-text" @click="setTab(i+1)">
+                            <div class="tab" v-for="(entry, i) in doc.entries" :class="{'tab-active' : MEMORY.activeTab == (i+1)}">
+                                <div class="tab-text" onclick="setTab(i+1)">
                                     <div class="tab-count">{{i+1}}</div> {{entry.firstname}}
                                 </div>
-                                <div class="tab-btn delete" @click="removeTab(i+1)" data-tooltip="Tab löschen" data-tooltip-position="right">&#64121;</div>
+                                <div class="tab-btn delete" onclick="removeTab(i+1)" data-tooltip="Tab löschen" data-tooltip-position="right">&#64121;</div>
                             </div>
                         </div>
                     </div>
@@ -71,7 +75,7 @@
 
                     <div class="edit-content-holder">
 
-                        <div class="edit-tab" v-show="settings.activeTab == 0">
+                        <div class="edit-tab" v-show="MEMORY.activeTab == 0">
                             <div class="edit-main-grid">
                                 <div class="holder">
                                     <input class="input" v-model="doc.name" type="text" placeholder="Zwinger-Name">
@@ -90,29 +94,29 @@
                                 <div class="main-grid">
                                     <div class="grid-column" v-for="(column, c) in doc.tree">
                                         <div class="grid-row" v-for="(row, r) in column" :class="{'hasParent': doc.tree[c][r].id != null}">
-                                            <div v-if="doc.tree[c][r].id != null" @click="openACpopup(c+1,r+1)">{{doc.tree[c][r].name}}<br></div>
+                                            <div v-if="doc.tree[c][r].id != null" :onclick="'openAutocomplete('+(c+1)+','+(r+1)+')'">{{doc.tree[c][r].name}}<br></div>
                                             <textarea v-if="doc.tree[c][r].id != null" class="desc" v-model="doc.tree[c][r].desc" placeholder="Auszeichnungen etc."></textarea>
-                                            <div v-else @click="openACpopup(c+1,r+1)">{{((r%2==0) ? 'Vater' : 'Mutter') + ' hinzufügen'}}</div>
+                                            <div v-else :onclick="'openAutocomplete('+(c+1)+','+(r+1)+')'">{{((r%2==0) ? 'Vater' : 'Mutter') + ' hinzufügen'}}</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="edit-tab extra-edit-tab" v-if="settings.activeTab >= 1">
-                            <input class="input" v-model="doc.entries[settings.activeTab-1].firstname" type="text" placeholder="Name"><br>
+                        <div class="edit-tab extra-edit-tab" v-if="MEMORY.activeTab >= 1">
+                            <input class="input" v-model="doc.entries[MEMORY.activeTab-1].firstname" type="text" placeholder="Name"><br>
                             
                             <div class="quick-select-input">
                                 <div class="wrapper">
                                     <label class="option">
-                                        <input type="radio" name="gender_" value="MALE" v-model="doc.entries[settings.activeTab-1].gender">
+                                        <input type="radio" name="gender_" value="MALE" v-model="doc.entries[MEMORY.activeTab-1].gender">
                                         <div class="inner">
                                             <div class="icon">&#62109;</div>
                                             Männlich<br>
                                         </div>
                                     </label>
                                     <label class="option">
-                                        <input type="radio" name="gender_" value="FEMALE" v-model="doc.entries[settings.activeTab-1].gender">
+                                        <input type="radio" name="gender_" value="FEMALE" v-model="doc.entries[MEMORY.activeTab-1].gender">
                                         <div class="inner">
                                             <div class="icon">&#62108;</div>
                                             Weiblich<br>
@@ -121,23 +125,23 @@
                                 </div>
                             </div><br>
                             
-                            <input type="text" class="input" v-model="doc.entries[settings.activeTab-1].haircolor" placeholder="Haarfarbe"><br>
-                            <input class="input" v-model="doc.entries[settings.activeTab-1].chip" type="text" maxlength="15" placeholder="Chip-Nr."><br>
-                            <input class="input" v-model="doc.entries[settings.activeTab-1].zbn" type="text" placeholder="Zuchtbuch-Nr."><br>
-                            <textarea placeholder="Bemerkung" class="input desc-input" cols="30" rows="10" v-model="doc.entries[settings.activeTab-1].comment"></textarea><br>
+                            <input type="text" class="input" v-model="doc.entries[MEMORY.activeTab-1].haircolor" placeholder="Haarfarbe"><br>
+                            <input class="input" v-model="doc.entries[MEMORY.activeTab-1].chip" type="text" maxlength="15" placeholder="Chip-Nr."><br>
+                            <input class="input" v-model="doc.entries[MEMORY.activeTab-1].zbn" type="text" placeholder="Zuchtbuch-Nr."><br>
+                            <textarea placeholder="Bemerkung" class="input desc-input" cols="30" rows="10" v-model="doc.entries[MEMORY.activeTab-1].comment"></textarea><br>
                         </div>
 
                     </div>
 
-                    <div class="add-parent-holder">
-                        <div class="close" @click="closeACpopup()">&#61782;</div>
+                    <div class="add-parent-holder" :class="{'active' : MEMORY.UI.autocomplete}">
+                        <div class="close" @click="closeAutocomplete()">&#61782;</div>
                         <input type="text" v-model="i.ac_animal_data.currentSearch" class="input ac-name-input" onfocus="searchAnimalAC()" oninput="searchAnimalAC()" placeholder="Nach Hund suchen">
                         <div class="add-parent-list">
                             <div v-for="animal in animal_data_autocomplete" @click="enterACAnimalData(animal, 'tree')" class="add-parent-li">
                                 {{formatLNF(animal.firstname, animal.lastname, animal.LNF)}}<span class="subinfo">{{animal.zbn}}</span>
                             </div>
                             <div class="seperator"></div>
-                            <div class="add-parent-li enter-new" onclick="animPopup('add-dog','in')">Neuen Hund hinzufügen</div>
+                            <div class="add-parent-li enter-new" onclick="openCreateEntry()">Neuen Hund hinzufügen</div>
                         </div>
                     </div>
 
@@ -145,7 +149,7 @@
                         <div class="popup-holder pl-holder">
                             <div class="popup-header pl-header no-select">
                                 Übersicht
-                                <div class="close-ui" onclick="animPopup('pl','out')">&#61782;</div>
+                                <div class="close-ui" onclick="openPuppyList()">&#61782;</div>
                             </div>
                             <div class="popup-content pl-content">
 
@@ -168,40 +172,40 @@
                                     <div class="pl-column">{{entry.haircolor}}</div>
                                     <div class="pl-column">{{entry.chip}}</div>
                                     <div class="pl-column">{{entry.zbn}}</div>
-                                    <div class="pl-delete" data-tooltip="Welpe löschen" data-tooltip-position="left" @click="removeTab(i+1)">&#64121;</div>
+                                    <div class="pl-delete" data-tooltip="Tab löschen" data-tooltip-position="left" :onclick="'removeTab('+(i+1)+')'">&#64121;</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="nav-fab nav-fab-1 no-select" data-tooltip="Datei speichern" data-tooltip-position="left" onclick="saveFile()">&#61843;</div>
+                    <div class="nav-fab nav-fab-1 no-select" data-tooltip="Datei speichern" data-tooltip-position="left" onclick="file.save()">&#61843;</div>
                     <div class="nav-fab nav-fab-2 no-select" data-tooltip="Druckvorschau öffnen" data-tooltip-position="left" onclick="sendDataToPrint()">&#62506;</div>
-                    <div class="nav-fab nav-fab-3 no-select" data-tooltip="Übersicht öffnen" data-tooltip-position="left" onclick="animPopup('pl','in')">&#63849;</div>
+                    <div class="nav-fab nav-fab-3 no-select" data-tooltip="Übersicht öffnen" data-tooltip-position="left" onclick="openPuppyList()">&#63849;</div>
 
                 </div>
             </div>
 
 
 
-            <div class="view" v-if="settings.activeView == 'database'">
+            <div class="view" v-if="MEMORY.activeView == 'database'">
                 <div class="db-header">
                     <input type="text" class="input" id="dog-data-search" v-model="i.search_animal_data" placeholder="Nach Hund suchen">
-                    <div class="nav-btn nav-back" onclick="changeToStartView()">&#61761;</div>
+                    <div class="nav-btn nav-back" onclick="homescreenIfSignedIn()">&#61761;</div>
                 </div>
 
                 <div class="db-table">
-                    <div v-for="animal in animal_data" :class="animal.gender" class="db-item">
-                        <div class="holder" @click="showAnimalData(animal)">
+                    <div v-for="(animal, i) in animal_data" :class="animal.gender" class="db-item">
+                        <div class="holder" :onclick="'openAnimalInfo('+i+')'">
                             <div class="hl">{{animal.fullname}}</div>
                             <div class="sub-info">{{animal.race}}</div>
                             <div class="sub-info">{{animal.birthdate_}}</div>
                         </div>
-                        <div class="btn" @click="openEditAnimalData(animal)">&#64658;</div>
-                        <div class="btn" @click="deleteAnimalData(animal.id, false)">&#64121;</div>
+                        <div class="btn" :onclick="'openEditAnimal('+i+')'">&#64658;</div>
+                        <div class="btn" :onclick="'openSelectAndDeleteAnimal('+i+', '+false+')'">&#64121;</div>
                     </div>
                 </div>
 
-                <div class="nav-fab nav-fab-1 no-select" data-tooltip="Eintrag hinzufügen" data-tooltip-position="left" onclick="animPopup('add-dog','in')">&#62485;</div>
+                <div class="nav-fab nav-fab-1 no-select" data-tooltip="Eintrag hinzufügen" data-tooltip-position="left" onclick="openCreateAnimal()">&#62485;</div>
             </div>
 
 
@@ -210,7 +214,7 @@
                 <div class="popup-holder show-animal-holder">
                     <div class="popup-header show-animal-header">
                         Eintrag-Info
-                        <div class="close-ui" onclick="animPopup('show-animal','out')">&#61782;</div>
+                        <div class="close-ui" onclick="closeAnimalInfo()">&#61782;</div>
                     </div>
                     <div class="popup-content show-animal-content">
                         <div class="centerer">
@@ -234,13 +238,13 @@
 
 
 
-            <div class="popup-bg add-dog-bg no-select">
-                <div class="popup-holder add-dog-holder">
-                    <div class="popup-header add-dog-header">
+            <div class="popup-bg add-animal-bg no-select">
+                <div class="popup-holder add-animal-holder">
+                    <div class="popup-header add-animal-header">
                         Eintrag hinzufügen
-                        <div class="close-ui" onclick="animPopup('add-dog','out')">&#61782;</div>
+                        <div class="close-ui" onclick="closeCreateAnimal()">&#61782;</div>
                     </div>
-                    <div class="popup-content add-dog-content">
+                    <div class="popup-content add-animal-content">
                         <input v-model="i.create_animal_data.firstname" type="text" class="input" placeholder="Hunde-Name">
                         <input v-model="i.create_animal_data.lastname" type="text" class="input" placeholder="Zwinger-Name"><br>
 
@@ -289,7 +293,7 @@
                                 {{formatLNF(animal.firstname, animal.lastname, animal.LNF)}}<span class="subinfo"><b>{{animal.gender_}}</b> {{animal.zbn}}</span>
                             </div>
                         </div><br>
-                        <button @click="createAnimalData()" class="button">Hinzufügen</button>
+                        <button onclick="createAnimal()" class="button">Hinzufügen</button>
                     </div>
                 </div>
             </div>
@@ -300,7 +304,7 @@
                 <div class="popup-holder edit-animal-holder">
                     <div class="popup-header edit-animal-header">
                         Eintrag Bearbeiten
-                        <div class="close-ui" onclick="animPopup('edit-animal','out')">&#61782;</div>
+                        <div class="close-ui" onclick="closeEditAnimal()">&#61782;</div>
                     </div>
                     <div class="popup-content edit-animal-content">
                         <input v-model="i.create_animal_data.firstname" type="text" class="input" placeholder="Hunde-Name">
@@ -352,7 +356,7 @@
                                 {{formatLNF(animal.firstname, animal.lastname, animal.LNF)}}<span class="subinfo"><b>{{animal.gender_}}</b> {{animal.zbn}}</span>
                             </div>
                         </div><br>
-                        <button @click="editAnimalData()" class="button">Bearbeiten</button>
+                        <button onclick="editAnimal()" class="button">Bearbeiten</button>
                     </div>
                 </div>
             </div>
@@ -362,8 +366,8 @@
             <div class="popup-bg delete-animal-bg no-select">
                 <div class="popup-holder delete-animal-holder">
                     Möchten sie den Eintrag wirklich löschen?<br><br>
-                    <button onclick="animPopup('delete-animal','out')" class="button ghost-button">Abbrechen</button>
-                    <button @click="deleteAnimalData(null,true)" class="button">Löschen</button>
+                    <button onclick="closeDeleteAnimal()" class="button ghost-button">Abbrechen</button>
+                    <button onclick="openSelectAndDeleteAnimal(null, true)" class="button">Löschen</button>
                 </div>
             </div>
 
@@ -373,21 +377,21 @@
                 <div class="popup-holder settings-holder">
                     <div class="popup-header settings-header">
                         Einstellungen
-                        <div class="close-ui" onclick="animPopup('settings','out')">&#61782;</div>
+                        <div class="close-ui" onclick="closeSettings()">&#61782;</div>
                     </div>
                     <div class="settings-categories">
-                        <div class="settings-category" :class="{'active' : settings.activeSetting == 'GENERAL'}" @click="settings.activeSetting = 'GENERAL'"><div class="icon">&#63022;</div> Allgemein</div>
-                        <!-- <div class="settings-category" :class="{'active' : settings.activeSetting == 'EDITOR'}" @click="settings.activeSetting = 'EDITOR'"><div class="icon">&#63476;</div> Editor</div>
-                        <div class="settings-category" :class="{'active' : settings.activeSetting == 'PROXY'}" @click="settings.activeSetting = 'PROXY'"><div class="icon">&#62605;</div> Proxy (nur UI)</div>
-                        <div class="settings-category" :class="{'active' : settings.activeSetting == 'CLOUD'}" @click="settings.activeSetting = 'CLOUD'"><div class="icon">&#63039;</div> Cloud Speicherung (nur UI)</div>
-                        <div class="settings-category" :class="{'active' : settings.activeSetting == 'UPDATE'}" @click="settings.activeSetting = 'UPDATE'"><div class="icon">&#63151;</div> Updates</div> -->
-                        <div class="settings-category" :class="{'active' : settings.activeSetting == 'INFO'}" @click="settings.activeSetting = 'INFO'"><div class="icon">&#62205;</div> Info</div>
-                        <div class="settings-category" :class="{'active' : settings.activeSetting == 'ADVANCED'}" @click="settings.activeSetting = 'ADVANCED'"><div class="icon">&#63701;</div> Erweitert</div>
+                        <div class="settings-category" :class="{'active' : MEMORY.activeSetting == 'GENERAL'}" @click="MEMORY.activeSetting = 'GENERAL'"><div class="icon">&#63022;</div> Allgemein</div>
+                        <!-- <div class="settings-category" :class="{'active' : MEMORY.activeSetting == 'EDITOR'}" @click="MEMORY.activeSetting = 'EDITOR'"><div class="icon">&#63476;</div> Editor</div>
+                        <div class="settings-category" :class="{'active' : MEMORY.activeSetting == 'PROXY'}" @click="MEMORY.activeSetting = 'PROXY'"><div class="icon">&#62605;</div> Proxy (nur UI)</div>
+                        <div class="settings-category" :class="{'active' : MEMORY.activeSetting == 'CLOUD'}" @click="MEMORY.activeSetting = 'CLOUD'"><div class="icon">&#63039;</div> Cloud Speicherung (nur UI)</div>
+                        <div class="settings-category" :class="{'active' : MEMORY.activeSetting == 'UPDATE'}" @click="MEMORY.activeSetting = 'UPDATE'"><div class="icon">&#63151;</div> Updates</div> -->
+                        <div class="settings-category" :class="{'active' : MEMORY.activeSetting == 'INFO'}" @click="MEMORY.activeSetting = 'INFO'"><div class="icon">&#62205;</div> Info</div>
+                        <div class="settings-category" :class="{'active' : MEMORY.activeSetting == 'ADVANCED'}" @click="MEMORY.activeSetting = 'ADVANCED'"><div class="icon">&#63701;</div> Erweitert</div>
                     </div>
 
 
 
-                    <div class="popup-content settings-content" v-show="settings.activeSetting == 'GENERAL'">
+                    <div class="popup-content settings-content" v-show="MEMORY.activeSetting == 'GENERAL'">
                         <!-- OPTION LICENSE -->
                         <div class="settings-divider">
                             <div class="settings-label"><div class="icon">&#64305;</div>Nutzername:</div>
@@ -426,13 +430,13 @@
 
 
 
-                    <div class="popup-content settings-content" v-show="settings.activeSetting == 'EDITOR'">
+                    <div class="popup-content settings-content" v-show="MEMORY.activeSetting == 'EDITOR'">
 
                     </div>
 
 
 
-                    <div class="popup-content settings-content" v-show="settings.activeSetting == 'PROXY'">
+                    <div class="popup-content settings-content" v-show="MEMORY.activeSetting == 'PROXY'">
 
                         <!-- OPTION PROXY -->
                         <div class="settings-divider">
@@ -472,11 +476,11 @@
 
 
 
-                    <div class="popup-content settings-content" v-show="settings.activeSetting == 'ADVANCED'">
+                    <div class="popup-content settings-content" v-show="MEMORY.activeSetting == 'ADVANCED'">
 
                         <!-- OPTION DEVMODE -->
                         <div class="settings-divider">
-                            <div class="settings-label"><div class="icon">&#61478;</div>Entwickler Modus ( devMode )
+                            <div class="settings-label"><div class="icon">&#64842;</div>Entwickler Modus
                                 <input type="checkbox" class="checkbox" v-model="i.settings.devMode">
                             </div>
                         </div>
@@ -485,7 +489,7 @@
 
 
 
-                    <div class="popup-content settings-content" v-show="settings.activeSetting == 'CLOUD'">
+                    <div class="popup-content settings-content" v-show="MEMORY.activeSetting == 'CLOUD'">
                     
                         <!-- CLOUD SYNC -->
                     
@@ -493,7 +497,7 @@
 
 
 
-                    <div class="popup-content settings-content" v-show="settings.activeSetting == 'UPDATE'">
+                    <div class="popup-content settings-content" v-show="MEMORY.activeSetting == 'UPDATE'">
                     
                         <!-- UPDATE -->
                     
@@ -501,7 +505,7 @@
 
 
 
-                    <div class="popup-content settings-content" v-show="settings.activeSetting == 'INFO'">
+                    <div class="popup-content settings-content" v-show="MEMORY.activeSetting == 'INFO'">
 
                         <!-- INFO -->
                         <div class="settings-divider">
@@ -529,27 +533,6 @@
 
 
 
-            <div class="popup-bg bu-bg no-select">
-                <div class="popup-holder bu-holder">
-                    <div class="popup-header bu-header">
-                        Backups gefunden
-                        <div class="close-ui" onclick="animPopup('bu','out')">&#61782;</div>
-                    </div>
-                    <div class="popup-content bu-content">
-                        <div v-for="file in backup" class="bu-item">
-                            <div class="bu-filename"> {{file}} </div>
-                        </div>
-                    </div>
-                    <div class="popup-footer bu-footer">
-                        <div class="button">Auswahl löschen</div>
-                        <div class="button" onclick="deleteBackup()">Alle löschen</div>
-                        <div class="button" onclick="animPopup('bu','out')">Ignorieren</div>
-                    </div>
-                </div>
-            </div>
-
-
-
             <form onsubmit="ipUserNext(event)" class="input-popup-bg user-ip-bg">
                 <input type="text" class="input" id="user-ip-value" placeholder="Nutzername eingeben">
                 <button type="submit" class="input-popup-btn">Weiter</button>
@@ -566,15 +549,19 @@
         </div>
     </body>
 
-    <script src="src/js/view.js"></script>
     <script src="src/js/tab.js"></script>
     <script src="src/js/toast.js"></script>
-    <script src="src/js/filemanagement.js"></script>
-    <script src="src/js/appmenuReceiver.js"></script>
     <script src="src/js/settings.js"></script>
     <script src="src/js/animations.js"></script>
     <script src="src/js/theme.js"></script>
     <script src="src/js/misc.js"></script>
 
     <script src="src/js/INIT.js"></script>
+
+    <script>
+    
+        const eventFunctions = require('./src/js/eventFunctions.js')
+        const file = require('./src/js/file.js')
+
+    </script>
 </html>

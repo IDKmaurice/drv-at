@@ -208,15 +208,17 @@ app.on('activate', function () {
 ////////////////////////Request Methods////////////////////////
 ///////////////////////////////////////////////////////////////
 
-function toRenderer(arg) { mainWindow.webContents.send('msgFromMain', arg); }
+function toRenderer(arg) { mainWindow.webContents.send('msgFromMain', arg) }
 
-ipcMain.on('request-main', (event, arg) => {
-    if(arg == 'openedWithFile'){
-        if (process.platform == 'win32' && process.argv.length >= 2) {
-            toRenderer(['startupOpen',process.argv[1]])
-        }
+ipcMain.on('loaded', (event) => {
+    
+    if (process.platform == 'win32' && process.argv.length >= 2) {
+        toRenderer(['startupOpen',process.argv[1]])
     }
+
 })
+
+
 
 ipcMain.on('print-close', () => {
     printWindow.hide()
@@ -227,8 +229,6 @@ ipcMain.on('print-info', (event, arg) => {
     printWindow.webContents.send('print-info-return', arg)
     printWindow.show()
 })
-
-
 
 ipcMain.on('print-request', (event, args) => {
     workerWindow.webContents.send('print-request-return', args)
