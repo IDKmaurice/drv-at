@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, globalShortcut } = require('electron')
 const { autoUpdater } = require('electron-updater')
 const { ipcMain } = require('electron')
 const electron = require('electron')
@@ -24,6 +24,7 @@ function createWindow () {
     mainWindow.maximize()
     mainWindow.setTitle(`Gencestor ${app.getVersion()}`)
     mainWindow.on('closed', function () { mainWindow = null })
+    //mainWindow.webContents.openDevTools()
 
 
 
@@ -126,6 +127,16 @@ app.on('ready', function(){
     ]
 
     mainWindow.setMenu(Menu.buildFromTemplate(template))
+    //mainWindow.setMenu(null)
+
+    // globalShortcut.register('CmdOrCtrl+N',          () => { toRenderer(['new']) })
+    // globalShortcut.register('CmdOrCtrl+O',          () => { toRenderer(['open']) })
+    // globalShortcut.register('CmdOrCtrl+Shift+H',    () => { toRenderer(['home']) })
+    // globalShortcut.register('CmdOrCtrl+S',          () => { toRenderer(['save']) })
+    // globalShortcut.register('CmdOrCtrl+Shift+S',    () => { toRenderer(['saveas']) })
+    // globalShortcut.register('CmdOrCtrl+P',          () => { toRenderer(['print']) })
+    // globalShortcut.register('CmdOrCtrl+Shift+E',    () => { toRenderer(['openSettings']) })
+    // globalShortcut.register('CmdOrCtrl+Shift+I',    () => { mainWindow.webContents.openDevTools() })
 
     mainWindow.on('close', function(e){
         var choice = require('electron').dialog.showMessageBox(this,{

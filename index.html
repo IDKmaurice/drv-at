@@ -3,7 +3,6 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="src/css/main.css">
-        <script src="src/js/vue.min.js"></script>
         <script>
             const $ = require('jquery')
             const tooltip = require('electron-tooltip')
@@ -16,27 +15,25 @@
     <body>
         <div id="app">
 
-            <div class="view start-view" v-show="MEMORY.activeView == 'start'">
+            <div class="view start-view" v-show="MEMORY.activeView == 'START'">
                 <div class="start-holder">
-                    <div class="start-hl">Willkommen zurück!</div>
-                    <div class="start-option-holder no-select">
-                        <div class="start-option-wrapper">
-                            <div class="start-option create" onclick="createFileIfSignedIn()">
-                                <div class="start-option-icon">&#63313;</div>
-                                <span class="start-option-text">Erstellen</span>
-                            </div>
-                            <div class="start-option open" onclick="openFileIfSignedIn()">
-                                <div class="start-option-icon">&#63343;</div>
-                                <span class="start-option-text">Öffnen</span>
-                            </div>
+                    <div class="hl">Willkommen zurück!</div>
+                    <div class="option-holder">
+                        <div class="option create" onclick="createFileIfSignedIn()">
+                            <div class="icon">&#63313;</div>
+                            <span class="text">Erstellen</span>
                         </div>
-                        <div class="start-option database" onclick="databaseIfSignedIn()">
-                                <div class="start-option-icon">&#61880;</div>
-                                <span class="start-option-text">Datenbank</span>
+                        <div class="option open" onclick="openFileIfSignedIn()">
+                            <div class="icon">&#63343;</div>
+                            <span class="text">Öffnen</span>
                         </div>
-                        <div class="start-option layout">
-                            <div class="start-option-icon">&#61501;</div>
-                            <span class="start-option-text">Layout (WIP)</span>
+                        <div class="option database" onclick="databaseIfSignedIn()">
+                            <div class="icon">&#61880;</div>
+                            <span class="text">Datenbank</span>
+                        </div>
+                        <div class="option layout" onclick="layoutIfSignedIn()">
+                            <div class="icon">&#61501;</div>
+                            <span class="text">Layout (WIP)</span>
                         </div>
                     </div>
                 </div>
@@ -48,12 +45,12 @@
 
 
 
-            <div class="view" v-if="MEMORY.activeView == 'edit'">
+            <div class="view" v-if="MEMORY.activeView == 'EDIT'">
                 <div class="edit-view-holder">
 
 
                     <div class="edit-sidebar no-select">
-                        <div class="nav-btn nav-back" onclick="homescreenIfSignedIn()">&#61761;</div>
+                        <div class="nav-btn nav-back" onclick="homescreenIfSignedIn()">&#61517;</div>
 
                         <div class="tab" :class="{'tab-active' : MEMORY.activeTab == 0}">
                             <div class="tab-text" onclick="setTab(0)">
@@ -64,12 +61,19 @@
 
                         <div class="tab-holder">
                             <div class="tab" v-for="(entry, i) in doc.entries" :class="{'tab-active' : MEMORY.activeTab == (i+1)}">
-                                <div class="tab-text" onclick="setTab(i+1)">
-                                    <div class="tab-count">{{i+1}}</div> {{entry.firstname}}
+                                <div class="tab-text" :onclick="'setTab('+(i+1)+')'">
+                                    <div class="tab-count">{{i+1}}</div> {{(entry.firstname) ? entry.firstname : '--Name--'}}
                                 </div>
-                                <div class="tab-btn delete" onclick="removeTab(i+1)" data-tooltip="Tab löschen" data-tooltip-position="right">&#64121;</div>
+                                <div class="tab-btn delete" :onclick="'removeTab('+(i+1)+')'" data-tooltip="Tab löschen" data-tooltip-position="right">&#64121;</div>
+                            </div>
+                            
+                            <div class="tab">
+                                <div class="tab-text" onclick="openPuppyList()">
+                                    <div class="tab-icon overview">&#61960;</div> Übersicht
+                                </div>
                             </div>
                         </div>
+
                     </div>
 
 
@@ -145,52 +149,18 @@
                         </div>
                     </div>
 
-                    <div class="popup-bg pl-bg">
-                        <div class="popup-holder pl-holder">
-                            <div class="popup-header pl-header no-select">
-                                Übersicht
-                                <div class="close-ui" onclick="openPuppyList()">&#61782;</div>
-                            </div>
-                            <div class="popup-content pl-content">
-
-                                <div v-if="doc.entries.length > 0" class="pl-table-name no-select">
-                                    <div class="pl-tn-column">Hunde-Name</div>
-                                    <div class="pl-tn-column">Geschlecht</div>
-                                    <div class="pl-tn-column">Haarfarbe</div>
-                                    <div class="pl-tn-column">Chip-Nr.</div>
-                                    <div class="pl-tn-column">Zuchtbuch-Nr.</div>
-                                </div>
-                                <div v-else class="pl-no-puppies no-select">
-                                    <div class="icon">&#64597;</div>
-                                    Huh! Ganz schön leer.
-                                </div>
-
-                                <div v-for="(entry, i) in doc.entries" class="puppy-list-row">
-                                    <div class="pl-drag">&#61917;</div>
-                                    <div class="pl-column">{{entry.firstname}}</div>
-                                    <div class="pl-column">{{(entry.gender == 'MALE') ? 'Rüde' : 'Hündin'}}</div>
-                                    <div class="pl-column">{{entry.haircolor}}</div>
-                                    <div class="pl-column">{{entry.chip}}</div>
-                                    <div class="pl-column">{{entry.zbn}}</div>
-                                    <div class="pl-delete" data-tooltip="Tab löschen" data-tooltip-position="left" :onclick="'removeTab('+(i+1)+')'">&#64121;</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="nav-fab nav-fab-1 no-select" data-tooltip="Datei speichern" data-tooltip-position="left" onclick="file.save()">&#61843;</div>
                     <div class="nav-fab nav-fab-2 no-select" data-tooltip="Druckvorschau öffnen" data-tooltip-position="left" onclick="sendDataToPrint()">&#62506;</div>
-                    <div class="nav-fab nav-fab-3 no-select" data-tooltip="Übersicht öffnen" data-tooltip-position="left" onclick="openPuppyList()">&#63849;</div>
 
                 </div>
             </div>
 
 
 
-            <div class="view" v-if="MEMORY.activeView == 'database'">
+            <div class="view" v-if="MEMORY.activeView == 'DATABASE'">
                 <div class="db-header">
                     <input type="text" class="input" id="dog-data-search" v-model="i.search_animal_data" placeholder="Nach Hund suchen">
-                    <div class="nav-btn nav-back" onclick="homescreenIfSignedIn()">&#61761;</div>
+                    <div class="nav-btn nav-back" onclick="homescreenIfSignedIn()">&#61517;</div>
                 </div>
 
                 <div class="db-table">
@@ -210,7 +180,18 @@
 
 
 
-            <div class="popup-bg show-animal-bg no-select">
+            <div class="view layout-view" v-if="MEMORY.activeView == 'LAYOUT'">
+                <div class="layout-sidebar left">
+                    <div class="nav-btn nav-back" onclick="homescreenIfSignedIn()">&#61517;</div>
+                </div>
+
+                <div class="layout-sidebar right">
+                </div>
+            </div>
+
+
+
+            <div class="popup-bg show-animal-bg no-select" :class="{'active' : MEMORY.UI.showAnimal}">
                 <div class="popup-holder show-animal-holder">
                     <div class="popup-header show-animal-header">
                         Eintrag-Info
@@ -238,7 +219,7 @@
 
 
 
-            <div class="popup-bg add-animal-bg no-select">
+            <div class="popup-bg add-animal-bg no-select" :class="{'active' : MEMORY.UI.addAnimal}">
                 <div class="popup-holder add-animal-holder">
                     <div class="popup-header add-animal-header">
                         Eintrag hinzufügen
@@ -300,7 +281,7 @@
 
 
 
-            <div class="popup-bg edit-animal-bg no-select">
+            <div class="popup-bg edit-animal-bg no-select" :class="{'active' : MEMORY.UI.editAnimal}">
                 <div class="popup-holder edit-animal-holder">
                     <div class="popup-header edit-animal-header">
                         Eintrag Bearbeiten
@@ -363,7 +344,7 @@
 
 
 
-            <div class="popup-bg delete-animal-bg no-select">
+            <div class="popup-bg delete-animal-bg no-select" :class="{'active' : MEMORY.UI.deleteAnimal}">
                 <div class="popup-holder delete-animal-holder">
                     Möchten sie den Eintrag wirklich löschen?<br><br>
                     <button onclick="closeDeleteAnimal()" class="button ghost-button">Abbrechen</button>
@@ -373,20 +354,56 @@
 
 
 
-            <div class="popup-bg settings-bg no-select">
+            <div class="popup-bg pl-bg" :class="{'active' : MEMORY.UI.puppyList}">
+                <div class="popup-holder pl-holder">
+                    <div class="popup-header pl-header no-select">
+                        Übersicht
+                        <div class="close-ui" onclick="closePuppyList()">&#61782;</div>
+                    </div>
+                    <div class="popup-content pl-content">
+            
+                        <div v-if="doc.entries.length > 0" class="pl-table-name no-select">
+                            <div class="pl-tn-column">Hunde-Name</div>
+                            <div class="pl-tn-column">Geschlecht</div>
+                            <div class="pl-tn-column">Haarfarbe</div>
+                            <div class="pl-tn-column">Chip-Nr.</div>
+                            <div class="pl-tn-column">Zuchtbuch-Nr.</div>
+                        </div>
+                        <div v-else class="pl-no-puppies no-select">
+                            <div class="icon">&#61941;</div>
+                            Huh! Ganz schön leer.
+                        </div>
+            
+                        <div v-for="(entry, i) in doc.entries" class="puppy-list-row">
+                            <div class="pl-drag">&#61917;</div>
+                            <div class="pl-column">{{entry.firstname}}</div>
+                            <div class="pl-column">{{(entry.gender == 'MALE') ? 'Rüde' : 'Hündin'}}</div>
+                            <div class="pl-column">{{entry.haircolor}}</div>
+                            <div class="pl-column">{{entry.chip}}</div>
+                            <div class="pl-column">{{entry.zbn}}</div>
+                            <div class="pl-delete" data-tooltip="Tab löschen" data-tooltip-position="left"
+                                :onclick="'removeTab('+(i+1)+')'">&#64121;</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="popup-bg settings-bg no-select" :class="{'active' : MEMORY.UI.settings}">
                 <div class="popup-holder settings-holder">
                     <div class="popup-header settings-header">
                         Einstellungen
                         <div class="close-ui" onclick="closeSettings()">&#61782;</div>
                     </div>
                     <div class="settings-categories">
-                        <div class="settings-category" :class="{'active' : MEMORY.activeSetting == 'GENERAL'}" @click="MEMORY.activeSetting = 'GENERAL'"><div class="icon">&#63022;</div> Allgemein</div>
-                        <!-- <div class="settings-category" :class="{'active' : MEMORY.activeSetting == 'EDITOR'}" @click="MEMORY.activeSetting = 'EDITOR'"><div class="icon">&#63476;</div> Editor</div>
-                        <div class="settings-category" :class="{'active' : MEMORY.activeSetting == 'PROXY'}" @click="MEMORY.activeSetting = 'PROXY'"><div class="icon">&#62605;</div> Proxy (nur UI)</div>
-                        <div class="settings-category" :class="{'active' : MEMORY.activeSetting == 'CLOUD'}" @click="MEMORY.activeSetting = 'CLOUD'"><div class="icon">&#63039;</div> Cloud Speicherung (nur UI)</div>
-                        <div class="settings-category" :class="{'active' : MEMORY.activeSetting == 'UPDATE'}" @click="MEMORY.activeSetting = 'UPDATE'"><div class="icon">&#63151;</div> Updates</div> -->
-                        <div class="settings-category" :class="{'active' : MEMORY.activeSetting == 'INFO'}" @click="MEMORY.activeSetting = 'INFO'"><div class="icon">&#62205;</div> Info</div>
-                        <div class="settings-category" :class="{'active' : MEMORY.activeSetting == 'ADVANCED'}" @click="MEMORY.activeSetting = 'ADVANCED'"><div class="icon">&#63701;</div> Erweitert</div>
+                        <div class="category" :class="{'active' : MEMORY.activeSetting == 'GENERAL'}" @click="MEMORY.activeSetting = 'GENERAL'"><div class="icon">&#63022;</div> Allgemein</div>
+                        <!-- <div class="category" :class="{'active' : MEMORY.activeSetting == 'EDITOR'}" @click="MEMORY.activeSetting = 'EDITOR'"><div class="icon">&#63476;</div> Editor</div>
+                        <div class="category" :class="{'active' : MEMORY.activeSetting == 'PROXY'}" @click="MEMORY.activeSetting = 'PROXY'"><div class="icon">&#62605;</div> Proxy (nur UI)</div>
+                        <div class="category" :class="{'active' : MEMORY.activeSetting == 'CLOUD'}" @click="MEMORY.activeSetting = 'CLOUD'"><div class="icon">&#63039;</div> Cloud Speicherung (nur UI)</div>
+                        <div class="category" :class="{'active' : MEMORY.activeSetting == 'UPDATE'}" @click="MEMORY.activeSetting = 'UPDATE'"><div class="icon">&#63151;</div> Updates</div> -->
+                        <div class="category" :class="{'active' : MEMORY.activeSetting == 'INFO'}" @click="MEMORY.activeSetting = 'INFO'"><div class="icon">&#62205;</div> Info</div>
+                        <div class="category" :class="{'active' : MEMORY.activeSetting == 'ADVANCED'}" @click="MEMORY.activeSetting = 'ADVANCED'"><div class="icon">&#63701;</div> Erweitert</div>
                     </div>
 
 
@@ -533,12 +550,12 @@
 
 
 
-            <form onsubmit="ipUserNext(event)" class="input-popup-bg user-ip-bg">
+            <form onsubmit="ipUserNext(event)" class="input-popup-bg user-ip-bg" :class="{'active' : MEMORY.UI.inputUser}">
                 <input type="text" class="input" id="user-ip-value" placeholder="Nutzername eingeben">
                 <button type="submit" class="input-popup-btn">Weiter</button>
             </form>
 
-            <form onsubmit="ipPassNext(event)" class="input-popup-bg pass-ip-bg">
+            <form onsubmit="ipPassNext(event)" class="input-popup-bg pass-ip-bg" :class="{'active' : MEMORY.UI.inputPass}">
                 <input type="text" class="input" id="pass-ip-value" placeholder="Passwort eingeben">
                 <button type="submit" class="input-popup-btn">Einloggen</button>
             </form>
@@ -552,16 +569,16 @@
     <script src="src/js/tab.js"></script>
     <script src="src/js/toast.js"></script>
     <script src="src/js/settings.js"></script>
-    <script src="src/js/animations.js"></script>
     <script src="src/js/theme.js"></script>
     <script src="src/js/misc.js"></script>
 
-    <script src="src/js/INIT.js"></script>
-
-    <script>
     
-        const eventFunctions = require('./src/js/eventFunctions.js')
+    <script>
+        
+        const EventFunctions = require('./src/js/eventFunctions.js')
+        const Vue = require('./src/js/vue.min.js')
         const file = require('./src/js/file.js')
-
+        
     </script>
+    <script src="src/js/INIT.js"></script>
 </html>

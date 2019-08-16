@@ -1,7 +1,7 @@
 window.createFileIfSignedIn = ()=>{
     if(app.MEMORY.logged){
         canProceed(()=>{
-            app.MEMORY.activeView = 'edit'
+            app.MEMORY.activeView = 'EDIT'
             app.resetDocument()
         })
     }else{
@@ -13,7 +13,7 @@ window.openFileIfSignedIn = ()=>{
     if(app.MEMORY.logged){
         canProceed(()=>{
             file.open(()=>{
-                app.MEMORY.activeView = 'edit'
+                app.MEMORY.activeView = 'EDIT'
             })
         })
     }else{
@@ -24,7 +24,7 @@ window.openFileIfSignedIn = ()=>{
 window.databaseIfSignedIn = ()=>{
     if(app.MEMORY.logged){
         canProceed(()=>{
-            app.MEMORY.activeView = 'database'
+            app.MEMORY.activeView = 'DATABASE'
             app.resetDocument()
 
             searchAnimalData('')
@@ -34,10 +34,21 @@ window.databaseIfSignedIn = ()=>{
     }
 }
 
+window.layoutIfSignedIn = ()=>{
+    if(app.MEMORY.logged){
+        canProceed(()=>{
+            app.MEMORY.activeView = 'LAYOUT'
+            app.resetDocument()
+        })
+    }else{
+        initLogin()
+    }
+}
+
 window.homescreenIfSignedIn = ()=>{
     if(app.MEMORY.logged){
         canProceed(()=>{
-            app.MEMORY.activeView = 'start'
+            app.MEMORY.activeView = 'START'
             app.resetDocument()
         })
     }else{
@@ -48,21 +59,21 @@ window.homescreenIfSignedIn = ()=>{
 
 
 window.openSettings = ()=>{
-    animPopup('settings','in')
+    app.MEMORY.UI.settings = true
 }
 
 window.closeSettings = ()=>{
-    animPopup('settings','out')
+    app.MEMORY.UI.settings = false
 }
 
 
 
 window.openPuppyList = ()=>{
-    animPopup('pl','in')
+    app.MEMORY.UI.puppyList = true
 }
 
 window.closePuppyList = ()=>{
-    animPopup('pl','out')
+    app.MEMORY.UI.puppyList = false
 }
 
 
@@ -86,21 +97,21 @@ window.closeAutocomplete = ()=>{
 
 window.openAnimalInfo = (i = null)=>{
     if(i != null) app.i.loaded_animal_data = app.animal_data[i]
-    animPopup('show-animal','in')
+    app.MEMORY.UI.showAnimal = true
 }
 
 window.closeAnimalInfo = ()=>{
-    animPopup('show-animal','out')
+    app.MEMORY.UI.showAnimal = false
 }
 
 
 
 window.openCreateAnimal = ()=>{
-    animPopup('add-animal','in')
+    app.MEMORY.UI.addAnimal = true
 }
 
 window.closeCreateAnimal = ()=>{
-    animPopup('add-animal','out')
+    app.MEMORY.UI.addAnimal = false
 }
 
 window.createAnimal = ()=>{
@@ -144,12 +155,12 @@ window.openEditAnimal = (i = null)=>{
         if(DATA[animal.mother]) app.i.create_animal_data.motherName = DATA[animal.mother].firstname
 
         app.$forceUpdate()
-        animPopup('edit-animal','in')
+        app.MEMORY.UI.editAnimal = true
     })
 }
 
 window.closeEditAnimal = ()=>{
-    animPopup('edit-animal','out')
+    app.MEMORY.UI.editAnimal = false
 }
 
 window.editAnimal = ()=>{
@@ -163,7 +174,7 @@ window.editAnimal = ()=>{
 
         if(data.response == 'OK'){
             sendAToast('success','Erfolgreich bearbeitet')
-            animPopup('edit-animal','out')
+            app.MEMORY.UI.editAnimal = false
             app.MEMORY.jwt = data.jwt
             searchAnimalData()
             app.resetCreateAnimalData()
@@ -180,15 +191,15 @@ window.editAnimal = ()=>{
 window.openSelectAndDeleteAnimal = (id, confirmation)=>{
     if(confirmation){
         deleteAnimal(app.i.delete_animal_data)
-        animPopup('delete-animal','out')
+        app.MEMORY.UI.deleteAnimal = false
     } else if(id){
         app.i.delete_animal_data = id
-        animPopup('delete-animal','in')
+        app.MEMORY.UI.deleteAnimal = true
     }
 }
 
 window.closeDeleteAnimal = ()=>{
-    animPopup('delete-animal','out')
+    app.MEMORY.UI.deleteAnimal = false
 }
 
 window.deleteAnimal = (i = null)=>{

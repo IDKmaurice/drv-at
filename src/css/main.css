@@ -2,13 +2,13 @@
 @import 'css-4-fonts/mdi.css';
 @import 'css-4-fonts/matura.css';
 
+@import 'layout_view.min.css';
 @import 'start_view.min.css';
 @import 'edit_view.min.css';
-@import 'settings.min.css';
 @import 'db_view.min.css';
+
+@import 'settings.min.css';
 @import 'input.min.css';
-@import 'anim.min.css';
-@import 'grid.min.css';
 
 :root{
     --accent-color: #0057ff;
@@ -423,6 +423,12 @@ h1,h2,h3,h4,h5,h6{
     z-index: 10000;
     background: rgba(0, 0, 0, 0);
     pointer-events: none;
+    transition: background 400ms ease-in-out;
+}
+
+.popup-bg.active{
+    pointer-events: all;
+    background: rgba(0,0,0,0.6);
 }
 
 .popup-holder{
@@ -435,8 +441,15 @@ h1,h2,h3,h4,h5,h6{
     background: var(--background1);
     overflow: hidden;
     font-size: 0;
+    transform: translateY(50px);
     box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.3);
     opacity: 0;
+    transition: all 300ms ease-in-out;
+}
+
+.popup-bg.active .popup-holder{
+    opacity: 1;
+    transform: translateY(0px);
 }
 
 .popup-header{
@@ -492,10 +505,15 @@ h1,h2,h3,h4,h5,h6{
     filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)));
     border-radius: 7px;
     position: fixed;
-    top: -140px;
+    top: -200px;
     left: 15%;
     z-index: 6000;
     padding: 28px 10px;
+    transition: top 400ms ease-in-out;
+}
+
+.input-popup-bg.active{
+    top: 20px
 }
 
 .input-popup-bg .input{

@@ -4,8 +4,8 @@ function ipUserNext(event){
 
     let value = document.getElementById('user-ip-value').value
     settings.set('user',value)
-    animInputPopup('user-ip-bg','out')
-    animInputPopup('pass-ip-bg','in')
+    app.MEMORY.UI.inputUser = false
+    app.MEMORY.UI.inputPass = true
 }
 
 function ipPassNext(event){
@@ -14,7 +14,7 @@ function ipPassNext(event){
 
     let pass = document.getElementById('pass-ip-value').value
     let user = settings.get('user')
-    animInputPopup('pass-ip-bg','out')
+    app.MEMORY.UI.inputPass = false
 
     app.request('auth', [user, pass], (data, err) => {
 
@@ -41,9 +41,9 @@ function initLogin(){
     } else {
 
         if(settings.get('user') == "" || settings.has('user') !== true) {
-            animInputPopup('user-ip-bg', 'in')
+            app.MEMORY.UI.inputUser = true
         } else {
-            animInputPopup('pass-ip-bg', 'in')
+            app.MEMORY.UI.inputPass = true
         }
 
         app.MEMORY.jwt = null

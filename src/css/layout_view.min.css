@@ -1,0 +1,1 @@
+.layout-view{background:var(--background2)}.layout-sidebar{height:100%;width:300px;padding-top:60px;position:fixed;top:0;z-index:1;text-align:left;background:var(--background1);-webkit-filter:drop-shadow(0 4px 7px rgba(0, 0, 0, var(--so)));filter:drop-shadow(0 4px 7px rgba(0, 0, 0, var(--so)))}.layout-sidebar.left{left:0}.layout-sidebar.right{right:0}

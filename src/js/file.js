@@ -61,7 +61,7 @@ module.exports = {
     openOnStart: (path)=>{
         if (path != "." && path != "" && path !== undefined) {
             app.MEMORY.justLoaded = true
-            app.MEMORY.activeView = 'edit'
+            app.MEMORY.activeView = 'EDIT'
             app.MEMORY.savePath = path
             app.doc = JSON.parse(fs.readFileSync(path, 'utf-8'))
         }

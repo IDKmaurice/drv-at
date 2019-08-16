@@ -14,7 +14,7 @@
     overflow-y: auto
     user-select: none
 
-    .settings-category
+    .category
         background: var(--background1)
         height: 50px
         line-height: 50px
@@ -37,18 +37,18 @@
             margin-left: 6px
             color: inherit
 
-    .settings-category:hover
-        filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)))
+        &:hover
+            filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)))
 
-        .icon
-            color: var(--accent-color)
+            .icon
+                color: var(--accent-color)
 
-    .settings-category.active
-        background: var(--accent-color) !important
-        color: var(--button-color1) !important
+        &.active
+            background: var(--accent-color) !important
+            color: var(--button-color1) !important
 
-        .icon
-            color: inherit !important
+            .icon
+                color: inherit !important
 
 .settings-divider
     width: 100%
