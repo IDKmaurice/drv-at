@@ -174,7 +174,8 @@
                                     <div class="values">
                                         {{main[activePage].tree[0][r].zbn}}<br>
                                         {{main[activePage].tree[0][r].chipnumber}}<br>
-                                        <span v-if="main[activePage].tree[0][r].birthdate != '0001-01-01'">{{main[activePage].tree[0][r].birthdate_}}</span>
+                                        <span
+                                            v-if="main[activePage].tree[0][r].birthdate != '0001-01-01'">{{main[activePage].tree[0][r].birthdate_}}</span>
                                         <span v-else>*****</span><br>
                                         {{main[activePage].tree[0][r].haircolor}}<br>
                                         <span v-if="main[activePage].tree[0][r].size != 0">{{main[activePage].tree[0][r].size}}cm</span><br><br>
@@ -183,9 +184,9 @@
                                 <div class="desc" v-html="main[activePage].tree[0][r].desc"></div>
                             </div>
                         </div>
-                    
-                    
-                    
+                        
+                        
+                        
                         <div class="tree-column">
                             <div class="tree-row c2" v-for="(row, r) in main[activePage].tree[1]">
                                 <div class="name">
@@ -201,21 +202,23 @@
                                 <div class="data">
                                     <div class="title">
                                         {{main[activePage].tree[1][r].zbn}}<br>
-                                        <span v-if="main[activePage].tree[1][r].birthdate != '0001-01-01'">{{main[activePage].tree[1][r].birthdate_}}</span>
-                                        <span v-else>********</span><br>
+                                        {{main[activePage].tree[1][r].haircolor}}<br>
                                     </div>
                                     <div class="values">
-                                        {{main[activePage].tree[1][r].haircolor}}<br>
+                                        <span
+                                            v-if="main[activePage].tree[1][r].birthdate != '0001-01-01'">{{main[activePage].tree[1][r].birthdate_}}</span>
+                                        <span v-else>********</span><br>
                                         {{main[activePage].tree[1][r].chipnumber}}<br>
                                     </div>
                                 </div><br>
-                                <span class="size" v-if="main[activePage].tree[1][r].size != 0">Gr.: {{main[activePage].tree[1][r].size}}cm ; </span>
+                                <span class="size" v-if="main[activePage].tree[1][r].size != 0">Gr.: {{main[activePage].tree[1][r].size}}cm ;
+                                </span>
                                 <div class="desc" v-html="main[activePage].tree[1][r].desc"></div>
                             </div>
                         </div>
-                    
-                    
-                    
+                        
+                        
+                        
                         <div class="tree-column">
                             <div class="tree-row c3" v-for="(row, r) in main[activePage].tree[2]">
                                 <div class="name">
@@ -231,21 +234,23 @@
                                 <div class="data">
                                     <div class="title">
                                         {{main[activePage].tree[2][r].zbn}}<br>
-                                        <span v-if="main[activePage].tree[2][r].birthdate != '0001-01-01'">{{main[activePage].tree[2][r].birthdate_}}</span>
-                                        <span v-else>********</span><br>
+                                        {{main[activePage].tree[2][r].haircolor}}<br>
                                     </div>
                                     <div class="values">
-                                        {{main[activePage].tree[2][r].haircolor}}<br>
+                                        <span
+                                            v-if="main[activePage].tree[2][r].birthdate != '0001-01-01'">{{main[activePage].tree[2][r].birthdate_}}</span>
+                                        <span v-else>********</span><br>
                                         {{main[activePage].tree[2][r].chipnumber}}<br>
                                     </div>
                                 </div><br>
-                                <span class="size" v-if="main[activePage].tree[2][r].size != 0">Gr.: {{main[activePage].tree[2][r].size}}cm ; </span>
+                                <span class="size" v-if="main[activePage].tree[2][r].size != 0">Gr.: {{main[activePage].tree[2][r].size}}cm ;
+                                </span>
                                 <div class="desc" v-html="main[activePage].tree[2][r].desc"></div>
                             </div>
                         </div>
-                    
-                    
-                    
+                        
+                        
+                        
                         <div class="tree-column">
                             <div class="tree-row c4" v-for="(row, r) in main[activePage].tree[3]">
                                 <div class="name">
@@ -260,11 +265,13 @@
                                 </div><br>
                                 <div class="data">
                                     <span class="item">{{main[activePage].tree[3][r].zbn}}</span>
-                                    <span class="item" v-if="main[activePage].tree[3][r].birthdate != '0001-01-01'">{{main[activePage].tree[3][r].birthdate_}}</span>
+                                    <span class="item"
+                                        v-if="main[activePage].tree[3][r].birthdate != '0001-01-01'">{{main[activePage].tree[3][r].birthdate_}}</span>
                                     <span class="item" v-else>*****</span>
                                     <span class="item">{{main[activePage].tree[3][r].haircolor}}</span>
                                 </div><br>
-                                <span class="size" v-if="main[activePage].tree[3][r].size != 0">Gr.: {{main[activePage].tree[3][r].size}}cm ; </span>
+                                <span class="size" v-if="main[activePage].tree[3][r].size != 0">Gr.: {{main[activePage].tree[3][r].size}}cm ;
+                                </span>
                                 <div class="desc" v-html="main[activePage].tree[3][r].desc"></div>
                             </div>
                         </div>

@@ -2,6 +2,7 @@ const { app, BrowserWindow, globalShortcut } = require('electron')
 const { autoUpdater } = require('electron-updater')
 const { ipcMain } = require('electron')
 const electron = require('electron')
+const log = require('electron-log')
 const path = require('path')
 const fs = require('fs')
 const Menu = electron.Menu
@@ -172,7 +173,30 @@ app.on('ready', function(){
         }
     })
 
+})
 
+// Quit when all windows are closed.
+app.on('window-all-closed', function () {
+    if (process.platform !== 'darwin') { app.quit() }
+})
+
+app.on('activate', function () {
+    if (mainWindow === null) { createWindow() }
+})
+
+
+
+///////////////////////////////////////////////////////////////
+////////////////////////Request Methods////////////////////////
+///////////////////////////////////////////////////////////////
+
+function toRenderer(arg) { mainWindow.webContents.send('msgFromMain', arg) }
+
+ipcMain.on('loaded', (event) => {
+    
+    if (process.platform == 'win32' && process.argv.length >= 2) {
+        toRenderer(['startupOpen',process.argv[1]])
+    }
 
     ///////////////////////////////////////////////////////////////
     ////////////////////////Updater Methods////////////////////////
@@ -198,34 +222,13 @@ app.on('ready', function(){
         toRenderer(['update_downloaded'])
     })
 
+    autoUpdater.logger = log
+    autoUpdater.logger.transports.file.level = 'info'
+    log.info('App starting...')
+
     setTimeout(() => {
         autoUpdater.checkForUpdatesAndNotify()
     }, 3000)
-
-})
-
-// Quit when all windows are closed.
-app.on('window-all-closed', function () {
-    if (process.platform !== 'darwin') { app.quit() }
-})
-
-app.on('activate', function () {
-    if (mainWindow === null) { createWindow() }
-})
-
-
-
-///////////////////////////////////////////////////////////////
-////////////////////////Request Methods////////////////////////
-///////////////////////////////////////////////////////////////
-
-function toRenderer(arg) { mainWindow.webContents.send('msgFromMain', arg) }
-
-ipcMain.on('loaded', (event) => {
-    
-    if (process.platform == 'win32' && process.argv.length >= 2) {
-        toRenderer(['startupOpen',process.argv[1]])
-    }
 
 })
 

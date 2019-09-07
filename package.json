@@ -1,6 +1,6 @@
 {
   "name": "gencestor",
-  "version": "0.11.2",
+  "version": "0.11.3",
   "description": "Gencestor is a new and dynamic pedigree tool.",
   "main": "index.js",
   "scripts": {
@@ -50,6 +50,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "animejs": "^3.0.1",
+    "electron-log": "^3.0.7",
     "electron-settings": "^3.2.0",
     "electron-tooltip": "^1.1.5",
     "electron-updater": "^4.1.2",
@@ -59,7 +60,7 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "electron": "^2.0.18",
+    "electron": "^4.2.8",
     "electron-builder": "^21.2.0"
   }
 }
