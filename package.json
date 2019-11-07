@@ -1,6 +1,6 @@
 {
   "name": "gencestor",
-  "version": "0.11.3",
+  "version": "0.11.4",
   "description": "Gencestor is a new and dynamic pedigree tool.",
   "main": "index.js",
   "scripts": {

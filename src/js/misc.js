@@ -94,7 +94,7 @@ function sendDataToPrint() {
                     if(desc.startsWith('<span') == false){ desc = '<span class="black">' + desc}
                     if(desc.endsWith('</span>') == false){ desc = desc + '</span>'}
 
-                    DOC.tree[i][h] = TREE_DATA[DOC.tree[i][h].id]
+                    DOC.tree[i][h] = JSON.parse(JSON.stringify(TREE_DATA[DOC.tree[i][h].id]))
                     DOC.tree[i][h].desc = desc
                     DOC.tree[i][h].birthdate_ = app.formatDate(DOC.tree[i][h].birthdate)
 
