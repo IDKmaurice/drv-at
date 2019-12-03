@@ -268,3 +268,52 @@ ipcMain.on('print-to-pdf', function(event, args) {
         })
     })
 })
+
+
+
+
+
+// const printer = require('node-native-printer')
+// const PDFKit = require('pdfkit')
+
+// const doc = new PDFKit({
+//     margin: 50,
+//     layout: 'landscape',
+//     size: 'A4'
+// })
+
+// const stream = doc.pipe(fs.createWriteStream('output.pdf'))
+
+// doc.fontSize(25)
+//     .text('Some text with an embedded font!', {
+//         align: 'center'
+//     })
+
+// doc.fontSize(20)
+//     .text('Here is some vector graphics...', {
+//         width: 410,
+//         align: 'left'
+//     })
+
+// doc.end()
+
+// stream.on('finish', function() {
+//     console.log('PRINTING')
+
+//     filename = 'output.pdf'
+//     printername = 'Brother MFC-L3770CDW series Printer'
+//     data = fs.readFileSync(filename)
+    
+//     console.log(printer.listPrinters())
+//     console.log(printer.printerOptions(printername))
+    
+//     if( process.platform != 'win32') {
+        
+//     } else {
+//         printer.print(filename, {
+//             "landscape": true,
+//             "paperSize": "A4",
+//             "sides": "two-sided-long-edge"
+//         }, printername)
+//     }
+// })

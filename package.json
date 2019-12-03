@@ -50,17 +50,20 @@
   "license": "UNLICENSED",
   "dependencies": {
     "animejs": "^3.0.1",
-    "electron-log": "^3.0.7",
+    "electron-edge-js": "^12.4.1",
+    "electron-log": "^3.0.9",
     "electron-settings": "^3.2.0",
     "electron-tooltip": "^1.1.5",
-    "electron-updater": "^4.1.2",
-    "glob": "^7.1.4",
+    "electron-updater": "^4.2.0",
+    "glob": "^7.1.6",
     "jquery": "^3.4.1",
     "lodash": "^4.17.15",
-    "path": "^0.12.7"
+    "node-native-printer": "^1.0.0-beta.5",
+    "path": "^0.12.7",
+    "pdfkit": "^0.10.0"
   },
   "devDependencies": {
-    "electron": "^4.2.8",
+    "electron": "^6.1.5",
     "electron-builder": "^21.2.0"
   }
 }
