@@ -1,7 +1,7 @@
 .db-header
     height: 60px
     width: 100%
-    position: fixed
+    position: absolute
     top: 0
     left: 0
     background: var(--background1)
@@ -15,7 +15,7 @@
 .db-table
     height: calc(100% - 60px)
     width: 100%
-    position: fixed
+    position: absolute
     left: 0
     top: 60px
     overflow-y: scroll
@@ -100,40 +100,40 @@
 
 
     .pac-holder
+        width: 100%
+        max-width: 590px
+        background: var(--input-bg)
+        border-radius: 0 0 7px 7px
+        margin-bottom: 5px
+        padding: 5px
+        padding-bottom: 0
+        height: 250px
+        overflow-y: auto
+
+        .pac-item
+            line-height: 20px
             width: 100%
-            max-width: 590px
-            background: var(--input-bg)
-            border-radius: 0 0 7px 7px
+            padding: 7px 10px
+            color: var(--text-color1)
+            background: var(--background1)
+            transition: all 100ms
+            text-align: left
+            font-size: 14px
+            border-radius: 7px
+            cursor: pointer
+            user-select: none
             margin-bottom: 5px
-            padding: 5px
-            padding-bottom: 0
-            height: 250px
-            overflow-y: auto
 
-            .pac-item
-                line-height: 20px
+            .subinfo
+                color: inherit
+                font-size: 12px
+                opacity: 0.6
                 width: 100%
-                padding: 7px 10px
-                color: var(--text-color1)
-                background: var(--background1)
-                transition: all 100ms
                 text-align: left
-                font-size: 14px
-                border-radius: 7px
-                cursor: pointer
-                user-select: none
-                margin-bottom: 5px
 
-                .subinfo
-                    color: inherit
-                    font-size: 12px
-                    opacity: 0.6
-                    width: 100%
-                    text-align: left
-
-            .pac-item:hover
-                color: var(--accent-color)
-                filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)))
+        .pac-item:hover
+            color: var(--accent-color)
+            filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)))
 
 
 .delete-animal-holder

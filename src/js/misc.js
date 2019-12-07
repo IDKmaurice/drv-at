@@ -273,28 +273,32 @@ function canProceed(callback) {
 
         let electron = require('electron').remote
         let dialog = electron.dialog
-        let choice = dialog.showMessageBox(
-            electron.getCurrentWindow(),{
-                type: 'warning',
-                buttons: ['Speichern', 'Verwerfen', 'Abbrechen'],
-                title: 'Ungespeicherter Fortschritt',
-                message: 'Wollen Sie Ihren ungespeicherten Fortschritt speichern?'
-            })
+        
+        dialog.showMessageBox( electron.getCurrentWindow(),{
+            type: 'warning',
+            buttons: ['Speichern', 'Verwerfen', 'Abbrechen'],
+            title: 'Ungespeicherter Fortschritt',
+            message: 'Wollen Sie Ihren ungespeicherten Fortschritt speichern?'
+        }).then((ret)=>{
 
-        if(choice == 0){
+            let choice = ret.response
 
-            file.save()
-            app.MEMORY.savePath = ''
-            app.MEMORY.unsavedProgress = false
-            callback()
+            if(choice == 0)
+            {
+                file.save()
+                app.MEMORY.savePath = ''
+                app.MEMORY.unsavedProgress = false
+                callback()
+            }
+            else if(choice == 1)
+            {
+                app.resetDocument()
+                app.MEMORY.savePath = ''
+                app.MEMORY.unsavedProgress = false
+                callback()
+            }
+        })
+        
 
-        } else if(choice == 1) {
-
-            app.resetDocument()
-            app.MEMORY.savePath = ''
-            app.MEMORY.unsavedProgress = false
-            callback()
-
-        }
     }
 }

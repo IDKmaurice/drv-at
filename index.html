@@ -16,6 +16,36 @@
     <body>
         <div id="app">
 
+            <header class="titlebar">
+                <div class="drag-area">
+                    <div class="window-title">
+                        <div class="window-icon"></div>
+                        Gencestor {{info.versionName}}
+                    </div>
+                    <div class="window-controls">
+                        <div class="tb-button" id="min-button">
+                            <div class="icon">&#62324;</div>
+                        </div>
+                        <div class="tb-button" id="max-button">
+                            <div class="icon">&#61745;</div>
+                        </div>
+                        <div class="tb-button" id="restore-button">
+                            <div class="icon">&#61751;</div>
+                        </div>
+                        <div class="tb-button" id="close-button">
+                            <div class="icon">&#61782;</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div id="preloader">
+                <svg class="spinner" viewBox="0 0 50 50">
+                    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="4"></circle>
+                </svg>
+                <span class="preload-text"><b>Gencestor</b></span>
+            </div>
+
             <div class="view start-view" v-show="MEMORY.activeView == 'START'">
                 <div class="start-holder">
                     <div class="hl">Willkommen zurück!</div>
@@ -29,12 +59,12 @@
                             <span class="text">Öffnen</span>
                         </div>
                         <div class="option database" onclick="databaseIfSignedIn()">
-                            <div class="icon">&#61880;</div>
-                            <span class="text">Datenbank</span>
+                            <div class="icon">&#61799;</div>
+                            <span class="text">Cloud</span>
                         </div>
                         <div class="option layout" onclick="layoutIfSignedIn()">
-                            <div class="icon">&#61501;</div>
-                            <span class="text">Layout (WIP)</span>
+                            <div class="icon">&#62248;</div>
+                            <span class="text">Layout</span>
                         </div>
                     </div>
                 </div>
@@ -160,7 +190,14 @@
 
             <div class="view" v-if="MEMORY.activeView == 'DATABASE'">
                 <div class="db-header">
-                    <input type="text" class="input" id="dog-data-search" v-model="i.search_animal_data" placeholder="Nach Hund suchen">
+                    <input type="text" class="input" id="dog-data-search" v-model="i.search_animal_data" placeholder="Nach Namen suchen">
+                    <!-- <select class="input">
+                        <option value="MALE">Rüde</option>
+                        <option value="FEMALE">Hündin</option>
+                    </select>
+                    <input type="text" class="input" placeholder="Rasse">
+                    <input type="text" class="input" placeholder="Farbe">
+                    <input type="text" class="input" placeholder="Zuchtbuch-Nr."> -->
                     <div class="nav-btn nav-back" onclick="homescreenIfSignedIn()">&#61517;</div>
                 </div>
 
@@ -381,7 +418,7 @@
                     <div class="popup-content pl-content">
             
                         <div v-if="doc.entries.length > 0" class="pl-table-name no-select">
-                            <div class="pl-tn-column">Hunde-Name</div>
+                            <div class="pl-tn-column">Tier-Name</div>
                             <div class="pl-tn-column">Geschlecht</div>
                             <div class="pl-tn-column">Haarfarbe</div>
                             <div class="pl-tn-column">Chip-Nr.</div>
@@ -416,10 +453,10 @@
                     </div>
                     <div class="settings-categories">
                         <div class="category" :class="{'active' : MEMORY.activeSetting == 'GENERAL'}" @click="MEMORY.activeSetting = 'GENERAL'"><div class="icon">&#63022;</div> Allgemein</div>
+                        <div class="category" :class="{'active' : MEMORY.activeSetting == 'ACCOUNT'}" @click="MEMORY.activeSetting = 'ACCOUNT'"><div class="icon">&#64305;</div> Account</div>
                         <!-- <div class="category" :class="{'active' : MEMORY.activeSetting == 'EDITOR'}" @click="MEMORY.activeSetting = 'EDITOR'"><div class="icon">&#63476;</div> Editor</div>
                         <div class="category" :class="{'active' : MEMORY.activeSetting == 'PROXY'}" @click="MEMORY.activeSetting = 'PROXY'"><div class="icon">&#62605;</div> Proxy (nur UI)</div>
-                        <div class="category" :class="{'active' : MEMORY.activeSetting == 'CLOUD'}" @click="MEMORY.activeSetting = 'CLOUD'"><div class="icon">&#63039;</div> Cloud Speicherung (nur UI)</div>
-                        <div class="category" :class="{'active' : MEMORY.activeSetting == 'UPDATE'}" @click="MEMORY.activeSetting = 'UPDATE'"><div class="icon">&#63151;</div> Updates</div> -->
+                        <div class="category" :class="{'active' : MEMORY.activeSetting == 'CLOUD'}" @click="MEMORY.activeSetting = 'CLOUD'"><div class="icon">&#63039;</div> Cloud Speicherung (nur UI)</div> -->
                         <div class="category" :class="{'active' : MEMORY.activeSetting == 'INFO'}" @click="MEMORY.activeSetting = 'INFO'"><div class="icon">&#62205;</div> Info</div>
                         <div class="category" :class="{'active' : MEMORY.activeSetting == 'ADVANCED'}" @click="MEMORY.activeSetting = 'ADVANCED'"><div class="icon">&#63701;</div> Erweitert</div>
                     </div>
@@ -427,12 +464,7 @@
 
 
                     <div class="popup-content settings-content" v-show="MEMORY.activeSetting == 'GENERAL'">
-                        <!-- OPTION LICENSE -->
-                        <div class="settings-divider">
-                            <div class="settings-label"><div class="icon">&#64305;</div>Nutzername:</div>
-                            <input class="settings-input input" v-model="i.settings.user" type="text" placeholder="Nutzername">
-                        </div>
-
+                        
                         <!-- OPTION DATEFORMAT -->
                         <div class="settings-divider">
                             <div class="settings-label"><div class="icon">&#61678;</div>Datumsformatierung:</div>
@@ -515,7 +547,7 @@
 
                         <!-- OPTION DEVMODE -->
                         <div class="settings-divider">
-                            <div class="settings-label"><div class="icon">&#64842;</div>Entwickler Modus
+                            <div class="settings-label"><div class="icon">&#61801;</div>Entwickler Modus
                                 <input type="checkbox" class="checkbox" v-model="i.settings.devMode">
                             </div>
                         </div>
@@ -532,9 +564,12 @@
 
 
 
-                    <div class="popup-content settings-content" v-show="MEMORY.activeSetting == 'UPDATE'">
+                    <div class="popup-content settings-content" v-show="MEMORY.activeSetting == 'ACCOUNT'">
                     
-                        <!-- UPDATE -->
+                        <div class="settings-divider">
+                            <div class="settings-label"><div class="icon">&#64305;</div>Nutzername:</div>
+                            <input class="settings-input input" v-model="i.settings.user" type="text" placeholder="Nutzername">
+                        </div>
                     
                     </div>
 
@@ -546,13 +581,15 @@
                         <div class="settings-divider">
                             <div class="info">
                                 <h3>Informationen zur Software</h3><br>
-                                Version: <div class="box">{{info.version}}</div><br>
+                                Version: <div class="box">{{info.version}}</div><div class="box secondary">{{info.versionName}}</div><br>
                                 API-Version: <div class="box">{{info.apiVersion}}</div><br>
                                 Node-Version: <div class="box">{{info.nodeVersion}}</div><br>
-                                Electron-Version: <div class="box">{{info.electronVersion}}</div><br>
+                                Electron-Version: <div class="box">{{info.electronVersion}}</div><br><br>
+
+                                Release Notes: <div class="button" @click="MEMORY.UI.releaseNote = true">Öffnen</div><br><br>
                                 <h3>Informationen zu dem Entwickler</h3><br>
-                                <h4>Full-Stack Dev</h4><br>
-                                Maurice Freuwört (maurice.freuwoert@live.de)<br>
+                                <b>Lead Dev:</b> Maurice Freuwört<br>
+                                Entwickelt von <i>Maurice Freuwört Software und Design</i>
                             </div>
                         </div>
 
@@ -564,6 +601,29 @@
                         <div class="button ghost-button" onclick="resetSettings()">Zurücksetzen</div>
                         <div class="button" onclick="applySettings()">Übernehmen</div>
                     </div>
+                </div>
+            </div>
+
+
+
+            <div class="popup-bg release-note-bg no-select" :class="{'active' : MEMORY.UI.releaseNote}">
+                <div class="popup-holder release-note-holder">
+                    <div class="release-image">
+                        <span class="title">
+                            {{info.versionName}}
+                            <span class="version">{{info.version}}</span>
+                        </span>
+                    </div>
+                    <span class="headline">Das ist neu:</span>
+                    <div class="release-note-container">
+                        • Der Druck wird nun als kräftiges <b>Schwarz</b> dargestellt<br>
+                        • Namensgebung wurde überarbeitet<br>
+                        • <b>Datenbank</b> heißt jetzt <b>Cloud</b><br>
+                        • Upgrade auf <b>Electron 6.1.5</b><br>
+                        • Weitere Kleinigkeiten
+
+                    </div>
+                    <div class="close-release-note" @click="MEMORY.UI.releaseNote = false">Los geht's!</div>
                 </div>
             </div>
 

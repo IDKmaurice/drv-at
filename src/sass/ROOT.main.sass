@@ -52,18 +52,33 @@ html
     --hover-shadow1: 0 0 0 5px rgba(0, 87, 255, 0.4)
     --hover-shadow2: 0 0 0 3px rgba(0, 87, 255, 0.3)
 
+    --header-height: 30px
+
 body
     width: 100vw
     height: 100%
     font-family: "Open Sans"
     font-size: 0
     text-align: center
-    background: var(--background1)
+    background:  var(--accent-color)
     color: #888
     margin: 0
     display: block
     overflow-x: hidden
     position: relative
+
+    .tb-button
+        &#max-button
+            display: inline-block !important
+        &#restore-button
+            display: none !important
+
+    &.maximized
+        .tb-button
+            &#max-button
+                display: none !important
+            &#restore-button
+                display: inline-block !important
 
 
 style, script, head
@@ -102,17 +117,157 @@ h1,h2,h3,h4,h5,h6
 ::-webkit-input-placeholder
   color: #aaa
 
+#app
+    height: 100%
+    display: block
+    width: 100%
+    position: relative
+    overflow: hidden
+
+    .titlebar
+        position: absolute
+        top: 0
+        left: 0
+        background: var(--background1)
+        z-index: 1000000
+        width: 100%
+        height: var(--header-height)
+
+        .drag-area
+            width: 100%
+            height: 100%
+            -webkit-app-region: drag
+            position: relative
+
+            .window-title
+                position: absolute
+                top: 0
+                left: 0
+                font-weight: 300
+                font-size: 9pt
+                color: var(--text-color0)
+                height: var(--header-height)
+                line-height: var(--header-height)
+
+                .window-icon
+                    height: var(--header-height)
+                    line-height: var(--header-height)
+                    width: var(--header-height)
+                    vertical-align: top
+                    background-size: calc(var(--header-height) - 14px)
+                    background-position: center
+                    background-repeat: no-repeat
+                    background-image: url('../images/icons/logo.png')
+
+            .window-controls
+                height: 100%
+                position: absolute
+                top: 0
+                right: 0
+                -webkit-app-region: no-drag
+                user-select: none
+
+                .tb-button
+                    height: var(--header-height)
+                    line-height: var(--header-height)
+                    text-align: center
+                    width: 50px
+                    font-size: 15pt
+                    color: var(--text-color5)
+                    font-family: 'Material Icons'
+                    vertical-align: top
+                    cursor: pointer
+
+                    .icon
+                        height: var(--header-height)
+                        line-height: var(--header-height)
+                        text-align: center
+                        vertical-align: top
+                        width: 100%
+
+                    &#max-button
+                        font-size: 13pt
+
+                    &#restore-button
+                        font-size: 12pt
+
+                        .icon
+                            transform: rotate(180deg)
+                    &:hover
+                        background: rgba(0,0,0,0.1)
+                        color: var(--text-color2)
+
+                    &#close-button
+                        &:hover
+                            background: var(--red)
+                            color: white
 
 
 
+#preloader
+    background: var(--accent-color)
+    position: absolute
+    top: 0
+    left: 0
+    z-index: 1000000
+    height: 100%
+    width: 100%
+    opacity: 1
+    transition: all 400ms
+
+    &.loaded
+        pointer-events: none
+        opacity: 0
+
+    .spinner
+        animation: rotate 2s linear infinite
+        z-index: 2
+        position: absolute
+        top: calc(50% + 10px)
+        left: calc(50% - 25px)
+        width: 50px
+        height: 50px
+  
+        .path
+            stroke: #ffffff
+            stroke-linecap: round
+            animation: dash 1.5s ease-in-out infinite
+
+    .preload-text
+        font-size: 16pt
+        font-weight: bold
+        text-transform: uppercase
+        letter-spacing: 1px
+        color: white
+        width: 100%
+        text-align: center
+        position: absolute
+        left: 0
+        top: calc(50% - 30px)
+        margin-top: -30px
+
+    @keyframes rotate
+        100%
+            transform: rotate(360deg)
+
+    @keyframes dash
+        0%
+            stroke-dasharray: 1, 150
+            stroke-dashoffset: 0
+        50%
+            stroke-dasharray: 90, 150
+            stroke-dashoffset: -35
+        100%
+            stroke-dasharray: 90, 150
+            stroke-dashoffset: -124
 
 .view
     background: var(--background1)
-    position: fixed
-    top: 0
+    position: absolute
+    top: 30px
     left: 0
     width: 100%
-    height: 100%
+    height: calc(100% - 30px)
     display: grid
 
 
@@ -350,7 +505,7 @@ h1,h2,h3,h4,h5,h6
 
 
 .toast-holder
-    position: fixed
+    position: absolute
     bottom: 0
     left: 0
     width: 100%
@@ -425,7 +580,7 @@ h1,h2,h3,h4,h5,h6
 .popup-bg
     width: 100%
     height: 100%
-    position: fixed
+    position: absolute
     left: 0
     top: 0
     z-index: 10000
@@ -433,76 +588,156 @@ h1,h2,h3,h4,h5,h6
     pointer-events: none
     transition: background 400ms ease-in-out
 
+    .popup-holder
+        width: 80%
+        height: calc(100% - 180px)
+        position: absolute
+        top: 90px
+        left: 10%
+        border-radius: 5px
+        background: var(--background1)
+        overflow: hidden
+        font-size: 0
+        transform: translateY(50px)
+        box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.3)
+        opacity: 0
+        transition: all 300ms ease-in-out
 
-.popup-bg.active
-    pointer-events: all
-    background: rgba(0,0,0,0.6)
+    &.active
+        pointer-events: all
+        background: rgba(0,0,0,0.6)
 
-
-.popup-holder
-    width: 80%
-    height: calc(100% - 180px)
-    position: absolute
-    top: 90px
-    left: 10%
-    border-radius: 5px
-    background: var(--background1)
-    overflow: hidden
-    font-size: 0
-    transform: translateY(50px)
-    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.3)
-    opacity: 0
-    transition: all 300ms ease-in-out
-
-
-.popup-bg.active .popup-holder
-    opacity: 1
-    transform: translateY(0px)
+        .popup-holder
+            opacity: 1
+            transform: translateY(0px)
 
 
-.popup-header
-    height: 60px
-    width: 100%
-    line-height: 60px
-    background: var(--background1)
-    position: absolute
-    border-radius: 7px
-    top: 0
-    left: 0
-    z-index: 1
-    text-align: left
-    font-weight: 500
-    padding-left: 20px
-    color: var(--accent-color)
-    font-size: 18px
-    text-transform: uppercase
-    filter: drop-shadow(0 0px 7px rgba(0,0,0,var(--so)))
+    .popup-header
+        height: 60px
+        width: 100%
+        line-height: 60px
+        background: var(--background1)
+        position: absolute
+        border-radius: 7px
+        top: 0
+        left: 0
+        z-index: 1
+        text-align: left
+        font-weight: 500
+        padding-left: 20px
+        color: var(--accent-color)
+        font-size: 18px
+        text-transform: uppercase
+        filter: drop-shadow(0 0px 7px rgba(0,0,0,var(--so)))
 
 
-.popup-content
-    height: calc(100% - 60px)
-    width: 100%
-    position: absolute
-    left: 0
-    bottom: 0
-    overflow-x: hidden
-    overflow-y: auto
+    .popup-content
+        height: calc(100% - 60px)
+        width: 100%
+        position: absolute
+        left: 0
+        bottom: 0
+        overflow-x: hidden
+        overflow-y: auto
 
 
-.popup-footer
-    height: 50px
-    width: 100%
-    padding: 10px
-    text-align: right
-    position: absolute
-    left: 0
-    bottom: 0
-    border-radius: 7px
-    background: var(--background1)
-    white-space: nowrap
-    opacity: 0
-    filter: drop-shadow(0 0px 7px rgba(0,0,0,var(--so)))
+    .popup-footer
+        height: 50px
+        width: 100%
+        padding: 10px
+        text-align: right
+        position: absolute
+        left: 0
+        bottom: 0
+        border-radius: 7px
+        background: var(--background1)
+        white-space: nowrap
+        opacity: 1
+        filter: drop-shadow(0 0px 7px rgba(0,0,0,var(--so)))
 
+.release-note-bg
+    &.active
+        background: rgba(0,0,0,0.8)
+    .release-note-holder
+        width: calc(100% - 160px)
+        max-width: 700px
+        height: calc(100% - 180px)
+        margin: 90px auto
+        display: block
+        position: initial
+        border-radius: 20px
+        box-shadow: none
+        overflow: unset
+        background: white
+
+        .release-image
+            height: 270px
+            width: calc(100% + 140px)
+            margin: 40px -70px 70px
+            border-radius: 45px
+            background-image: url('../images/release-note/rn_founders_update.png')
+            background-repeat: no-repeat
+            background-position: center
+            background-size: cover
+            filter: drop-shadow(0px 10px 12px rgba(0,0,0,0.4))
+            position: relative
+
+            .title
+                color: white
+                font-weight: 600
+                letter-spacing: 3px
+                line-height: 60px
+                position: absolute
+                top: calc(50% - 30px)
+                left: 0
+                font-size: 50px
+                width: 100%
+                text-align: center
+                filter: drop-shadow(0px 2px 3px rgba(0,0,0,0.3))
+
+                .version
+                    font-size: 30px
+                    height: 50px
+                    vertical-align: top
+                    font-weight: 200
+                    letter-spacing: 0
+                    transform: translate(-10px, -40%)
+        
+        .headline
+            color: black
+            font-weight: 700
+            line-height: 40px
+            font-size: 25px
+            width: 100%
+            text-align: center
+
+        .release-note-container
+            width: calc(100% - 40px)
+            height: calc(100% - 60px - 480px)
+            margin: 20px 40px
+            text-align: left
+            color: #333
+            font-size: 15px
+            line-height: 27px
+            overflow-y: auto
+
+        .close-release-note
+            height: 40px
+            line-height: 40px
+            border-radius: 5px
+            text-align: center
+            color: white
+            background: black
+            width: 200px
+            font-size: 16px
+            display: block
+            margin: 20px auto
+            cursor: pointer
+            user-select: none
+            transition: all 100ms
+
+            &:hover
+                filter: drop-shadow(0px 3px 4px rgba(0,0,0,0.3))
 
 
 .input-popup-bg
@@ -512,7 +747,7 @@ h1,h2,h3,h4,h5,h6
     border-left: 7px solid #46CF35
     filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)))
     border-radius: 7px
-    position: fixed
+    position: absolute
     top: -200px
     left: 15%
     z-index: 6000
@@ -520,35 +755,35 @@ h1,h2,h3,h4,h5,h6
     transition: top 400ms ease-in-out
 
 
-.input-popup-bg.active
-    top: 20px
+    &.active
+        top: calc(20px + var(--header-height))
 
 
-.input-popup-bg .input
-    max-width: calc(100% - 160px)
-    margin: 0
+    .input
+        max-width: calc(100% - 160px)
+        margin: 0
 
 
-.input-popup-btn
-    height: 40px
-    width: 150px
-    border-radius: 7px
-    line-height: 40px
-    color: var(--button-color2)
-    background: var(--background1)
-    text-align: center
-    font-size: 14px
-    font-weight: bold
-    text-transform: uppercase
-    cursor: pointer
-    transition: 100ms
-    margin-left: 10px
-    border: none
-    filter: drop-shadow(0 1px 1px rgba(0,0,0,var(--so)))
+    .input-popup-btn
+        height: 40px
+        width: 150px
+        border-radius: 7px
+        line-height: 40px
+        color: var(--button-color2)
+        background: var(--background1)
+        text-align: center
+        font-size: 14px
+        font-weight: bold
+        text-transform: uppercase
+        cursor: pointer
+        transition: 100ms
+        margin-left: 10px
+        border: none
+        filter: drop-shadow(0 1px 1px rgba(0,0,0,var(--so)))
 
-.input-popup-btn:hover
-    color: var(--accent-color)
-    filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)))
+        &:hover
+            color: var(--accent-color)
+            filter: drop-shadow(0 4px 7px rgba(0,0,0,var(--so)))
 
 
 

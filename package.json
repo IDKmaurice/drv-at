@@ -1,6 +1,6 @@
 {
   "name": "gencestor",
-  "version": "0.11.4",
+  "version": "0.11.6",
   "description": "Gencestor is a new and dynamic pedigree tool.",
   "main": "index.js",
   "scripts": {
@@ -12,13 +12,14 @@
   "build": {
     "appId": "com.gencestor.app",
     "productName": "Gencestor",
+    "npmArgs": "--production",
     "win": {
       "target": "nsis",
       "icon": "build/icon.ico",
       "publish": [
         {
           "provider": "github",
-          "owner": "IDKmaurice",
+          "owner": "freuwoert",
           "repo": "gencestor"
         }
       ]

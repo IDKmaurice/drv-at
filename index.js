@@ -13,8 +13,9 @@ let mainWindow
 
 function createWindow () {
     mainWindow = new BrowserWindow({
-        width: 650,
-        height: 500,
+        width: 1400,
+        height: 800,
+        frame: false,
         icon:'images/icon/logo_white.png',
         webPreferences: {
             nodeIntegration: true
@@ -26,7 +27,6 @@ function createWindow () {
     mainWindow.setTitle(`Gencestor ${app.getVersion()}`)
     mainWindow.on('closed', function () { mainWindow = null })
     //mainWindow.webContents.openDevTools()
-
 
 
     printWindow = new BrowserWindow({
@@ -61,6 +61,12 @@ function createWindow () {
     workerWindow.hide()
     workerWindow.setTitle(`Gencestor ${app.getVersion()} PrintWorker`)
     //workerWindow.webContents.openDevTools()
+
+    // globalShortcut.register('f5', function() {
+	// 	mainWindow.reload()
+	// 	printWindow.reload()
+	// 	workerWindow.reload()
+	// })
 }
 
 app.on('ready', function(){
@@ -140,13 +146,13 @@ app.on('ready', function(){
     // globalShortcut.register('CmdOrCtrl+Shift+I',    () => { mainWindow.webContents.openDevTools() })
 
     mainWindow.on('close', function(e){
-        var choice = require('electron').dialog.showMessageBox(this,{
+        let choice = require('electron').dialog.showMessageBoxSync(this,{
             type: 'warning',
             buttons: ['Schließen', 'Abbrechen'],
             title: 'Programm schließen?',
             message: 'Wollen Sie das Programm schließen?\nEventuell ungespeicherter Fortschritt geht verlohren!'
-        });
-
+        })
+        
         if(choice == 1){
             quit = false
             e.preventDefault()
@@ -156,6 +162,7 @@ app.on('ready', function(){
             printWindow.close()
             workerWindow.close()
         }
+
     })
 
     //can only close when mainWindow is closing
