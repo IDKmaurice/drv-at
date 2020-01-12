@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <script src="src/js/vue.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="src/css/ROOT__MASTER.min.css">
     <link rel="stylesheet" href="src/css/FONT__MASTER.min.css">
     <link rel="stylesheet" href="src/css/PRINT__MASTER.min.css">
@@ -43,7 +44,7 @@
                     vollständig aus und senden ihn unterzeichnet im Original an uns zurück. Vielen Dank!<br>
                     <div class="full center">
                         Mit freundlicher Empfehlung Ihr
-                        <img src="src/images/DRV.png" class="drv-logo-front" width="80"><br>
+                        <img src="src/images/DRV.png" class="drv-logo-front" width="65"><br>
                     </div>
                     <div class="center full">
                         <div class="sub-hl2">Deutscher Rassehunde Verband e.V. (DRV) – Wolfenbüttel</div>
@@ -314,6 +315,8 @@
     ipc.on('print-request-return', (event, args) => {
         app.main = JSON.parse(args[0])
         app.filepath = args[1]
+        app.pageState = 'FRONT'
+        app.activePage = 0
         app.$nextTick(()=>{
             pickNprint(false)
         })

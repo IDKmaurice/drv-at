@@ -1,6 +1,6 @@
 {
   "name": "gencestor",
-  "version": "0.11.6",
+  "version": "0.11.7",
   "description": "Gencestor is a new and dynamic pedigree tool.",
   "main": "index.js",
   "scripts": {
@@ -61,7 +61,8 @@
     "lodash": "^4.17.15",
     "node-native-printer": "^1.0.0-beta.5",
     "path": "^0.12.7",
-    "pdfkit": "^0.10.0"
+    "pdfkit": "^0.10.0",
+    "temp": "^0.9.1"
   },
   "devDependencies": {
     "electron": "^6.1.5",

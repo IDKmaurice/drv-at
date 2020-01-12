@@ -19,6 +19,8 @@ module.exports = {
 
                 if(filepath.endsWith('.atd') == false) filepath += '.atd'
 
+                app.MEMORY.savePath = filepath
+
                 fs.writeFile(filepath, JSON.stringify(app.doc), function (err) {
                     err ? sendAToast("success", "Fehler: "+err) : sendAToast("success", "Erfolgreich gespeichert!")
                 })

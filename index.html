@@ -616,12 +616,8 @@
                     </div>
                     <span class="headline">Das ist neu:</span>
                     <div class="release-note-container">
+                        • Druckproblem wurde gelöst<br>
                         • Der Druck wird nun als kräftiges <b>Schwarz</b> dargestellt<br>
-                        • Namensgebung wurde überarbeitet<br>
-                        • <b>Datenbank</b> heißt jetzt <b>Cloud</b><br>
-                        • Upgrade auf <b>Electron 6.1.5</b><br>
-                        • Weitere Kleinigkeiten
-
                     </div>
                     <div class="close-release-note" @click="MEMORY.UI.releaseNote = false">Los geht's!</div>
                 </div>
@@ -634,10 +630,20 @@
                 <button type="submit" class="input-popup-btn">Weiter</button>
             </form>
 
-            <form onsubmit="ipPassNext(event)" class="input-popup-bg pass-ip-bg" :class="{'active' : MEMORY.UI.inputPass}">
+            <!-- <form onsubmit="ipPassNext(event)" class="input-popup-bg pass-ip-bg" :class="{'active' : MEMORY.UI.inputPass}">
                 <input type="text" class="input" id="pass-ip-value" placeholder="Passwort eingeben">
                 <button type="submit" class="input-popup-btn">Einloggen</button>
-            </form>
+            </form> -->
+
+            <div class="full-window-popup" :class="{'active' : MEMORY.UI.inputPass}">
+                <div class="popup-background"></div>
+                <div class="popup-center">
+                    <form onsubmit="ipPassNext(event)">
+                        <input type="text" class="input" id="pass-ip-value" placeholder="Passwort eingeben">
+                        <button type="submit" class="button">Einloggen</button>
+                    </form>
+                </div>
+            </div>
 
             <!-- HOLDER FOR ALL TOAST NOTIFICATIONS -->
             <div class="toast-holder"></div>
@@ -650,14 +656,16 @@
     <script src="src/js/settings.js"></script>
     <script src="src/js/theme.js"></script>
     <script src="src/js/misc.js"></script>
-
     
     <script>
         
+        const { prepareDocument, printDocument } = require('./src/js/print_parsing/helper.customs.js')
         const EventFunctions = require('./src/js/eventFunctions.js')
         const Vue = require('./src/js/vue.min.js')
         const file = require('./src/js/file.js')
         
     </script>
+    <script src="src/js/print_parsing/controller.print.js"></script>
+    
     <script src="src/js/INIT.js"></script>
 </html>

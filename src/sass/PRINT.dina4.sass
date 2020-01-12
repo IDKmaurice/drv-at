@@ -1,6 +1,6 @@
 .page
-    height: 999px
-    width: 1414px
+    height: 209.5mm
+    width: 296.9mm
     background: var(--background1)
     position: absolute
     top: 0px
@@ -29,21 +29,21 @@
             margin: 0px
             padding: -10px
             text-align: left
-            line-height: 20px
-            font-size: 12pt
+            line-height: 4.3mm
+            font-size: 9.3pt
             vertical-align: top
             border: 30px solid transparent
             position: relative
 
             &.page-left
-                width: calc(50% - 60px)
-                margin-right: 60px
+                width: calc(50% - 12mm)
+                margin-right: 12mm
                 text-align: justify
 
             &.page-right
-                width: calc(50% - 30px)
-                margin-left: 25px
-                margin-right: 5px
+                width: calc(50% - 6.4mm)
+                margin-left: 5mm
+                margin-right: 1.4mm
 
             .page-border
                 position: absolute
@@ -55,23 +55,23 @@
                 border-image: url("../images/border.png") 30 30 repeat
 
             .hl
-                font-size: 60px
-                margin-top: 15px
-                margin-bottom: 30px
+                font-size: 14mm
+                margin-top: 3mm
+                margin-bottom: 7mm
                 width: 100%
                 text-align: center
                 font-family: 'Matura'
 
             .sub-hl
-                font-size: 25px
+                font-size: 5.5mm
                 margin-bottom: 15px
                 width: 100%
                 text-align: center
                 font-family: 'Matura'
 
             .sub-hl2
-                font-size: 15.4pt
-                line-height: 40px
+                font-size: 4mm
+                line-height: 7mm
                 width: 100%
                 text-align: center
                 font-family: 'Matura'
@@ -79,7 +79,7 @@
             .drv-logo-front
                 vertical-align: middle
                 margin: 10px 0
-                margin-left: 80px
+                margin-left: 55px
 
             .comment
                 width: 100%
@@ -99,31 +99,33 @@
             .data-container
                 margin-top: 30px
                 display: grid
-                grid-template-columns: 6fr 7fr 7fr
+                grid-template-columns: 5fr 6fr 6fr
                 grid-template-rows: auto auto auto auto auto auto auto auto
-                grid-row-gap: 45px
+                grid-row-gap: 8mm
                 grid-template-areas: "breed breedIN breedIN" "name nameIN nameIN" "date dateIN amountIN" "gender genderIN ." "color colorIN ." "zbn zbnIN fcm" "chip chipIN fcm" "address addressIN addressIN"
 
                 .row-title
                     span:first-of-type
-                        font-size: 14pt
+                        font-size: 3.7mm
                         display: block
+                        line-height: 5.5mm
 
                     span:last-of-type
-                        font-size: 10pt
+                        font-size: 2.8mm
                         display: block
+                        line-height: 3mm
                 
                 .row-bold1
                     font-weight: 600
-                    font-size: 21pt
-                    line-height: 25pt
-                    margin-top: -7px
+                    font-size: 5.5mm
+                    line-height: 8mm
+                    margin-top: -2mm
 
                 .row-bold2
                     font-weight: 600
-                    font-size: 16pt
-                    line-height: 20pt
-                    margin-top: -3px
+                    font-size: 4.4mm
+                    line-height: 5.5mm
+                    margin-top: 0mm
 
                 .breedIN
                     grid-area: breedIN
@@ -171,13 +173,13 @@
                     text-align: center
 
                     img
-                        height: 120px
+                        height: 23.5mm
 
 
             .bottom-sign
                 width: 100%
                 position: absolute
-                bottom: -15px
+                bottom: -4mm
                 display: grid
                 grid-template-columns: auto 1fr
                 grid-template-rows: auto
@@ -185,36 +187,35 @@
                 grid-template-areas: "title" "line"
 
                 .title
-                    font-size: 10pt
+                    font-size: 2.8mm
                     grid-area: "title"
                     vertical-align: top
                 .line
                     border-top: 1px solid black
-                    font-size: 8pt
-                    line-height: 20pt
+                    font-size: 2.5mm
+                    line-height: 16pt
                     text-align: center
                     grid-area: "line"
                     margin-top: 16px
                     vertical-align: top
 
         .tree-top
-            height: 60px
-            line-height: 40px
-            width: calc(100% - 60px)
-            margin: 0 30px
+            height: 10mm
+            line-height: 7mm
+            width: calc(100% - 16mm)
+            margin: 0 8mm
             text-align: center
             color: #aaa
-            font-size: 17px
             display: flex
             justify-content: space-between
 
             .item
                 color: black
                 white-space: nowrap
-                font-size: 11pt
+                font-size: 3.2mm
 
         .tree-bottom
-            height: calc(100% - 60px)
+            height: calc(100% - 10mm)
             width: 100%
             position: relative
 
@@ -235,7 +236,7 @@
                 width: calc(100% - 60px)
                 margin: 0 30px
                 text-align: center
-                color: #aaa
+                color: #8b8b8b
                 display: flex
                 position: absolute
                 top: 2px
@@ -245,7 +246,7 @@
                 .item
                     flex: 1
                     white-space: nowrap
-                    font-size: 13pt
+                    font-size: 3.6mm
 
             .tree
                 display: flex
@@ -273,7 +274,7 @@
                         &.c1
                             border-right: 1px solid #000
                             border-bottom: 1px solid #000
-                            padding: 6px 7px
+                            padding: 3px 7px
                             padding-bottom: 0
 
                             &:last-child
@@ -281,35 +282,35 @@
 
                             .name
                                 font-weight: bold
-                                font-size: 12pt
+                                font-size: 3.5mm
                                 width: 100%
-                                line-height: 14pt
-                                margin-bottom: 8px
+                                line-height: 13pt
+                                margin-bottom: 1mm
 
                             .data
                                 width: 100%
 
                                 .title
-                                    width: 70px
-                                    font-size: 9pt
-                                    line-height: 11pt
+                                    width: 56px
+                                    font-size: 2.6mm
+                                    line-height: 10pt
                                     vertical-align: top
                                 .values
                                     font-weight: bold
-                                    width: calc(100% - 70px)
-                                    font-size: 9pt
-                                    line-height: 11pt
+                                    width: calc(100% - 56px)
+                                    font-size: 2.6mm
+                                    line-height: 10pt
                                     vertical-align: top
                             
                             .desc
-                                font-size: 9pt
-                                line-height: 11pt
+                                font-size: 2.6mm
+                                line-height: 10pt
                                 font-weight: 500
                             
                         &.c2
                             border-right: 1px solid #000
                             border-bottom: 1px solid #000
-                            padding: 6px 7px
+                            padding: 3px 7px
                             padding-bottom: 0
 
                             &:last-child
@@ -317,44 +318,44 @@
 
                             .name
                                 font-weight: bold
-                                font-size: 12pt
+                                font-size: 3.5mm
                                 width: 100%
-                                line-height: 14pt
-                                margin-bottom: 8px
+                                line-height: 13pt
+                                margin-bottom: 1mm
 
                             .data
                                 width: 100%
-                                margin-bottom: 8px
+                                margin-bottom: 1.5mm
 
                                 .title
-                                    width: 60%
-                                    font-size: 9pt
-                                    line-height: 11pt
+                                    width: 63%
+                                    font-size: 2.6mm
+                                    line-height: 10pt
                                     font-weight: bold
                                     vertical-align: top
                                 .values
                                     font-weight: bold
-                                    width: 40%
-                                    font-size: 9pt
-                                    line-height: 11pt
+                                    width: 37%
+                                    font-size: 2.6mm
+                                    line-height: 10pt
                                     vertical-align: top
 
                             .size
-                                font-size: 9pt
-                                line-height: 11pt
+                                font-size: 2.6mm
+                                line-height: 10pt
                                 font-weight: bold
                                 display: inline
                             
                             .desc
-                                font-size: 9pt
-                                line-height: 11pt
+                                font-size: 2.6mm
+                                line-height: 10pt
                                 font-weight: 500
                                 display: inline
 
                         &.c3
                             border-right: 1px solid #000
                             border-bottom: 1px solid #000
-                            padding: 5px 7px
+                            padding: 3px 7px
                             padding-bottom: 0
 
                             &:last-child
@@ -362,36 +363,36 @@
 
                             .name
                                 font-weight: bold
-                                font-size: 11pt
+                                font-size: 3mm
                                 width: 100%
-                                line-height: 14pt
-                                margin-bottom: 5px
+                                line-height: 13pt
+                                margin-bottom: 0.4mm
 
                             .data
                                 width: 100%
 
                                 .title
                                     width: 60%
-                                    font-size: 9pt
-                                    line-height: 11pt
+                                    font-size: 2.6mm
+                                    line-height: 9pt
                                     font-weight: bold
                                     vertical-align: top
                                 .values
                                     font-weight: bold
                                     width: 40%
-                                    font-size: 9pt
-                                    line-height: 11pt
+                                    font-size: 2.6mm
+                                    line-height: 9pt
                                     vertical-align: top
 
                             .size
-                                font-size: 9pt
-                                line-height: 11pt
+                                font-size: 2.6mm
+                                line-height: 9pt
                                 font-weight: bold
                                 display: inline
                             
                             .desc
-                                font-size: 9pt
-                                line-height: 11pt
+                                font-size: 2.6mm
+                                line-height: 9pt
                                 font-weight: 500
                                 display: inline
 
@@ -405,10 +406,10 @@
 
                             .name
                                 font-weight: bold
-                                font-size: 11pt
+                                font-size: 2.9mm
                                 width: 100%
-                                line-height: 14pt
-                                margin-bottom: 1px
+                                line-height: 13pt
+                                margin-bottom: 0.4mm
 
                             .data
                                 width: 100%
@@ -416,19 +417,19 @@
                                 justify-content: space-between
 
                                 .item
-                                    font-size: 9pt
-                                    line-height: 11pt
+                                    font-size: 2.6mm
+                                    line-height: 5pt
                                     font-weight: bold
                                     vertical-align: top
 
                             .size
-                                font-size: 9pt
-                                line-height: 11pt
+                                font-size: 2.6mm
+                                line-height: 9pt
                                 font-weight: bold
                                 display: inline
                             
                             .desc
-                                font-size: 9pt
-                                line-height: 11pt
+                                font-size: 2.6mm
+                                line-height: 9pt
                                 font-weight: 500
                                 display: inline

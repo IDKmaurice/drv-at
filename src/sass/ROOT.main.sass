@@ -577,6 +577,42 @@ h1,h2,h3,h4,h5,h6
 
 
 
+.full-window-popup
+    width: 100%
+    height: calc(100% - var(--header-height))
+    position: absolute
+    left: 0
+    top: var(--header-height)
+    z-index: 10000
+    display: grid
+    justify-items: center
+    align-items: center
+    opacity: 0
+    pointer-events: none
+    
+    &.active
+        pointer-events: all
+        opacity: 1
+
+    .popup-background
+        background: var(--background1)
+        width: 100%
+        height: 100%
+        position: absolute
+        left: 0
+        top: 0
+
+    .popup-center
+        max-height: 500px
+        max-width: 400px
+        height: calc(100% - 30px)
+        width: calc(100% - 30px)
+        border-radius: 7px
+        background: var(--background1)
+        position: relative
+        z-index: 1
+        filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2))
+
 .popup-bg
     width: 100%
     height: 100%
