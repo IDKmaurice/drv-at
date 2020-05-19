@@ -9,7 +9,7 @@ app = new Vue({
         info: {
             versionName: 'Founders Update',
             version: require('electron').remote.app.getVersion(),
-            apiVersion: '0.11.2',
+            apiVersion: '0.11.8',
             electronVersion: process.versions.electron,
             nodeVersion: process.versions.node,
         },
